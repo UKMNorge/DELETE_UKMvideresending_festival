@@ -1,0 +1,61 @@
+{% extends "layout.twig.html" %}
+
+
+{% block content %}
+	{% if not videresendtil.mottakelig %}
+		<div class="alert alert-info">
+			<h4>Videresending til {{videresendtil.navn}} er lukket</h4>
+			<p>Dvs at du kan ikke endre hvem som skal videresendes, men du kan fortsatt ajourføre informasjon</p>
+		</div>
+	{% endif %}
+	
+	{#
+	<div class="">
+		<label>Vis i listen: </label>
+		<select id="showInList">
+			<option value="alle">Alle innslag</option>
+			<option value="videresendte">Kun videresendte innslag</option>
+			<option value="ikke_videresendte">Kun innslag som ikke er videresendt</option>
+		</select>
+	</div>	
+	#}
+	
+	<div class="col-xs-10">	
+		{% for type, type_alle_innslag in alle_innslag %}
+			<h4>{{type}}</h4>
+			<table class="table">
+				{% for innslag in type_alle_innslag %}
+					{% if innslag.tittellos %}
+						{% for person in innslag.personer %}
+							{% embed "videresend_rad.twig.html" with { 'liste_ID': 'tittellos:true|innslag:' ~ innslag.ID ~ '|person:' ~ person.ID,
+																	   'liste_ID_html': 'tittellos_true_innslag_' ~ innslag.ID ~ '_person_' ~ person.ID,
+																	   'liste_navn': person.navn,
+																	   'liste_tittel': '',
+																	   'liste_videresendt': person.videresendt,
+																	   'liste_template': 'tittellos' } %}
+							{% endembed %}
+						{% endfor %}
+					{% else %}
+						{% for tittel in innslag.titler %}
+							{% embed "videresend_rad.twig.html" with { 'liste_ID': 'tittellos:false|innslag:' ~ innslag.ID ~ '|tittel:' ~ tittel.ID,
+																	   'liste_ID_html': 'tittellos_false_innslag_' ~ innslag.ID ~ '_tittel_' ~ tittel.ID,
+																	   'liste_navn': innslag.navn,
+																	   'liste_tittel': tittel.navn,
+																	   'liste_videresendt': tittel.videresendt,
+																	   'liste_template': 'tittel' } %}
+							{% endembed %}
+						{% else %}
+							<tr class="">
+								<td class="ikon">
+									<input type="checkbox" value="true" disabled="disabled" />
+								</td>
+								<td><strong>{{innslag.navn}}</strong> har ingen titler, og kan derfor ikke videresendes</td>
+								<td class="kommune">{{innslag.kommune}}</td>
+							</tr>
+						{% endfor %}
+					{% endif %}
+				{% endfor %}
+			</table>
+		{% endfor %}
+	</div>
+{% endblock %}

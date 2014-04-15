@@ -1,0 +1,105 @@
+{% extends "layout.twig.html" %}
+
+{% block content %}
+<fieldset class="UKMwidth">
+	<legend>Frist</legend>
+	
+	<p>
+		<strong>Frist for å videresende innslag: {{videresendtil.frist|dato('d.m.Y H:i')}}</strong>
+	</p>
+	<p>Etter fristen kan du ajourføre media og detaljer på videresendingen, men det vil ikke være mulig å endre på hvilke innslag som er videresendt</p>
+	
+</fieldset>
+	
+<fieldset class="UKMwidth">
+	<legend>Kvoter</legend>
+	<p>
+		<strong>Les kvoter nøye!</strong>
+		Listen gir deg kun en oversikt. For full oversikt over kvoter for {{videresendtil.navn}}, les info 1
+	</p>
+		
+	<table class="table">
+		<thead>
+			<tr>
+				<th></th>
+				<th>Du har videresendt</th>
+				<th>Kvoten er</th>
+			</tr>
+		</thead>
+
+		<tr class="danger">
+			<th>Totalt antall deltakere</th>
+			<td>33 personer</td>
+			<td>{{kvote.total.deltakere}} personer</td>
+		</tr>
+
+		<tr class="danger">
+			<th>Antall ledere</th>
+			<td>3 ledere</td>
+			<td>{{kvote.total.ledere}} ledere</td>
+		</tr>
+		<tr class="danger">
+			<th>Antall deltakere per leder</th>
+			<td>6,6 deltakere</td>
+			<td>{{kvote.total.deltakere_per_leder}} deltakere per leder</td>
+		</tr>
+		
+
+		<tr class="">
+			<th>Antall sceneinnslag</th>
+			<td>{{videresendt.scene.antall}}</td>
+			<td>{{kvote.scene.antall}} innslag</td>
+		</tr>
+		<tr class="">
+			<th>Varighet sceneinnslag</th>
+			<td>{{videresendt.scene.tid}}</td>
+			<td>{{kvote.scene.tid}} minutter</td>
+		</tr>
+		
+		
+		
+		<tr class="">
+			<th>Antall filmer</th>
+			<td>{{videresendt.film.antall}}</td>
+			<td>{{kvote.film.antall}} film{{kvote.film.antall > 1 ? 'er' : ''}}</td>
+		</tr>
+		<tr class="">
+			<th>Varighet filmer</th>
+			<td>{{videresendt.film.tid}}</td>
+			<td>{{kvote.film.tid}} minutter</td>
+		</tr>
+		
+		<tr class="">
+			<th>Antall kunstverk</th>
+			<td>{{videresendt.kunst.antall}}</td>
+			<td>{{kvote.kunst.antall}} kunstverk</td>
+		</tr>
+		<tr class="">
+			<th>Antall kunstnere</th>
+			<td>{{videresendt.kunst.personer}}</td>
+			<td>{{kvote.kunst.antall}} person{{kvote.kunst.antall > 1 ? 'er' : ''}}</td>
+		</tr>
+
+		<tr class="">
+			<th>Antall nettredaksjon</th>
+			<td>{{videresendt.nettred.antall}}</td>
+			<td>{{kvote.nettred.antall}} person{{kvote.nettred.antall > 1 ? 'er' : ''}}</td>
+		</tr>
+		<tr class="">
+			<th>Antall arrangor</th>
+			<td>{{videresendt.arrangor.antall}}</td>
+			<td>{{kvote.arrangor.antall}} person{{kvote.arrangor.antall > 1 ? 'er' : ''}}</td>
+		</tr>
+		<tr class="">
+			<th>Antall konferansierer</th>
+			<td>{{videresendt.konferansier.antall}}</td>
+			<td>{{kvote.konferansier.antall}} person{{kvote.konferansier.antall > 1 ? 'er' : ''}}</td>
+		</tr>
+
+	</table>
+	
+<fieldset class="UKMwidth">
+	<legend>Media</legend>
+	<p>Følgende innslag mangler media	</p>
+</fieldset>
+{% endblock %}

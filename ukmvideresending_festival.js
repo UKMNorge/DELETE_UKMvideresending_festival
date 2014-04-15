@@ -1,0 +1,174 @@
+jQuery(document).ready(function(){
+	jQuery('.videresend_item').each(function(){
+		if( jQuery(this).attr('data-videresendt') == 'true' ) {
+			load_kontroll( jQuery(this).attr('data-id'), jQuery(this).attr('id') );
+		}
+	});
+});
+
+jQuery(document).on('click', 'input.videresend', function() {
+	var innslag = jQuery(this).parents('tr.videresend_item');
+	var detaljer = innslag.find('.videresend_detaljer');
+		
+	jQuery(this).attr('disabled',true);
+	
+	if( jQuery(this).is(':checked') ) {
+		innslag.addClass('alert info');
+		detaljer.html('Vent, videresender innslag...').slideDown();
+		innslag.attr('data-status', 'videresender');
+		
+		videresend( innslag.attr('data-id'), innslag.attr('id') );
+	} else {
+		avmeld( innslag.attr('data-id'), innslag.attr('id') );
+	}
+});
+
+jQuery(document).on('click', 'input.videresend_person', function(){
+	var person = jQuery(this).parents('tr.person');
+
+	jQuery(this).attr('disabled', true);
+	if( jQuery(this).is(':checked') ) {
+		person.find('.person_navn').html('Vent, videresender...');
+		videresend_person( person.attr('data-id'), person.attr('id') );
+	} else {
+		person.find('.person_navn').html('Vent, melder av...');
+		avmeld_person( person.attr('data-id'), person.attr('id') );
+	}
+});
+
+function avmeld( ID, IDselector ) {
+	var data = {
+		action: 'UKMvideresending_festival_ajax',
+		subaction: 'avmeld',
+		id: ID,
+		selector: IDselector
+	};
+
+	var innslag = jQuery('#' + IDselector);
+	var detaljer = innslag.find('.videresend_detaljer');
+		
+	innslag.find('input.videresend').attr('disabled',true);
+	detaljer.html('Vent, melder av...');
+
+	// since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
+	jQuery.post(ajaxurl, data, function(response) {
+		var data = jQuery.parseJSON( response );
+		var innslag = jQuery('#'+ data.selector);
+
+		if( data.success ) {
+			display_avmeld( data.selector );
+		} else {
+			alert('Kunne ikke avmelde!');
+			detaljer.html('Vent, laster detaljer');
+			load_kontroll( data.selectorID, data.selector)
+			innslag.find('input.videresend').attr('checked', true);
+		}
+		innslag.find('input.videresend').attr('disabled', false)
+	});
+
+}
+
+function videresend( ID, IDselector) {
+	var data = {
+		action: 'UKMvideresending_festival_ajax',
+		subaction: 'videresend',
+		id: ID,
+		selector: IDselector
+	};
+
+	// since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
+	jQuery.post(ajaxurl, data, function(response) {
+		handleVideresendToggle( response );
+	});
+}
+
+function load_kontroll( ID, IDselector ) {
+	var data = {
+		action: 'UKMvideresending_festival_ajax',
+		subaction: 'load_kontroll',
+		id: ID,
+		selector: IDselector
+	};
+
+	// since 2.8 ajaxurl is always defined in the admin header and points to admin-ajax.php
+	jQuery.post(ajaxurl, data, function(response) {
+		data = jQuery.parseJSON( response );
+		jQuery('#'+data.selector).find('.videresend_detaljer').html( twigJSkontrollertittel.render( data ) );
+	});
+}
+
+function videresend_person( ID, IDselector ) {	
+	var data = {
+		action: 'UKMvideresending_festival_ajax',
+		subaction: 'videresend_person',
+		id: ID,
+		selector: IDselector
+	};
+
+	jQuery.post(ajaxurl, data, function(response) {
+		data = jQuery.parseJSON( response );
+		var person = jQuery( '#' + data.selector );
+
+		if( data.success ) {
+			person.addClass('success');
+		} else {
+			alert('Kunne ikke videresende person!');
+			person.removeClass('success');
+			person.find('input.videresend_person').attr('checked', false);
+		}
+		person.find('input.videresend_person').attr('disabled', false);
+		person.find('.person_navn').html( person.find('.person_navn').attr('data-navn') );
+	});
+}
+
+function avmeld_person( ID, IDselector ) {	
+	var data = {
+		action: 'UKMvideresending_festival_ajax',
+		subaction: 'avmeld_person',
+		id: ID,
+		selector: IDselector
+	};
+
+	jQuery.post(ajaxurl, data, function(response) {
+		data = jQuery.parseJSON( response );
+		var person = jQuery( '#' + data.selector );
+
+		if( data.success ) {
+			person.removeClass('success');
+		} else {
+			alert('Kunne ikke avmelde person!');
+			person.addClass('success');
+			person.find('input.videresend_person').attr('checked', true);
+		}
+		person.find('input.videresend_person').attr('disabled', false);
+		person.find('.person_navn').html( person.find('.person_navn').attr('data-navn') );
+	});
+}
+function handleVideresendToggle( response ) {
+	data = jQuery.parseJSON( response );
+	var innslag = jQuery( '#' + data.selector );
+	var detaljer = innslag.find('.videresend_detaljer');
+	var checkbox = innslag.find('input.videresend');
+
+	if( !data.videresendt ) {
+		alert('Kunne ikke videresende!');
+		display_avmeld( data.selector );
+	} else {
+		innslag.addClass('success').removeClass('info').attr('data-status', 'videresendt');
+		detaljer.html('Innslag videresendt, last kontrolliste!');
+		detaljer.html( twigJSkontrollertittel.render( data ) );
+		checkbox.attr('disabled',false);
+	}
+}
+
+function display_avmeld( selector ) {
+	var innslag = jQuery( '#' + selector );
+	innslag.removeClass('success').removeClass('info').attr('data-status', 'ikke_videresendt');
+	innslag.find('.videresend_detaljer').slideUp();
+	innslag.find('input.videresend').attr('disabled',false).attr('checked',false);
+}
+
+/*jQuery(document).ready(function(){
+//    twigJShelloworld.render({world: 'cupcake'})
+});
+*/

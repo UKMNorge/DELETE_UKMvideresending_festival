@@ -1,0 +1,32 @@
+<h2>Videresending til {{videresendtil.navn}}</h2>
+
+{% if not videresendtil.registrert %}
+	<p>Mønstringen er ikke registrert, og videresending er derfor ikke mulig. Ta kontakt med arrangøren</p>
+{% else %}
+	<div class="wrap" id="tvadmin_wrap">
+	
+		<div class="clearfix"></div>
+	</div>
+	
+	
+	<div class="UKM_tabs UKM_tabs_5">
+		{% for tab in tabs %}
+		<a href="?page=UKMvideresending_festival&action={{tab.link}}" {{ tab_active == tab.link ? 'class="active"' : ''}}>
+			<div>
+				<span class="tab_header">{{tab.header}}</span>
+				<img src="http://ico.ukm.no/{{tab.icon}}.png" width="25"  border="0" /><br />
+				<span class="tab_description">{{tab.description}}</span>
+			</div>
+		</a>
+		{% endfor %}
+	</div>
+	
+	<div class="UKM_tabs_desc">
+		<span></span>
+	</div>
+	<div class="UKM_content_wrapper">
+		{% block content %}
+		{% endblock %}
+		<div class="clearfix"></div>
+	</div>
+{% endif %}

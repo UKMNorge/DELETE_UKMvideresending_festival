@@ -1,0 +1,105 @@
+<form class="videresendt_kontroll_tittel" id="kontroller_{{selector}}">
+	<fieldset>
+		<legend>Info om innslaget</legend>
+			<div class="form-group">
+				<label for="kontroller_{{selector}}_tittel">Tittel</label>
+				<input type="text" id="kontroller_{{selector}}_tittel" class="form-control" value="{{tittel.tittel}}">
+			</div>
+			
+			{% if titteltabell == 'smartukm_titles_scene' or titteltabell == 'smartukm_titles_other' %}
+				<div class="form-group">
+					<label for="kontroller_{{selector}}_tekniske">Tekniske behov</label>
+					<textarea id="kontroller_{{selector}}_tekniske" class="form-control">{{tekniske_behov}}</textarea>
+				</div>
+		
+				<div class="form-group">
+					<label for="kontroller_{{selector}}_tekniske">Varighet</label>
+					<select id="kontroller_{{selector}}_varighet_min">
+						{% for m in varighet.min %}
+						<option value="{{m}}" {% if m == tittel.varighet.min %}selected="selected"{% endif %}>{{m}}</option>
+						{% endfor %}
+					</select> min
+					
+					<select id="kontroller_{{selector}}_varighet_sek">
+						{% for s in varighet.sek %}
+						<option value="{{s}}" {% if s == tittel.varighet.sek %}selected="selected"{% endif %}>{{s}}</option>
+						{% endfor %}
+					</select>
+				</div>
+			{% elseif titteltabell == 'smartukm_titles_exhibition' %}
+				<div class="form-group">
+					<label for="kontroller_{{selector}}_beskrivelse">Beskrivelse</label>
+					<textarea id="kontroller_{{selector}}_beskrivelse" class="form-control">{{tittel.beskrivelse}}</textarea>
+				</div>
+				<div class="">
+					<div class="form-group col-xs-4">
+						<label for="kontroller_{{selector}}_type">Type</label>
+						<input type="text" id="kontroller_{{selector}}_type" class="form-control" value="{{tittel.type}}">
+					</div>
+					
+					<div class="form-group col-xs-4">
+						<label for="kontroller_{{selector}}_teknikk">Teknikk</label>
+						<input type="text" id="kontroller_{{selector}}_teknikk" class="form-control" value="{{tittel.teknikk}}">
+					</div>
+					
+					<div class="form-group col-xs-4">
+						<label for="kontroller_{{selector}}_format">Format</label>
+						<input type="text" id="kontroller_{{selector}}_format" class="form-control" value="{{tittel.format}}">
+					</div>
+				</div>
+				
+			{% endif %}
+	</fieldset>
+	
+	<fieldset>
+		<legend>Info om personer</legend>
+		
+		{% if alle_personer %}
+		<p>
+			<strong>Alle personer følger automatisk innslaget videre</strong>
+		</p>
+		{% else %}
+			<div class="alert alert-warning">
+				<h4>Hvem følger innslaget?</h4>
+				<p>Husk å velge fra listen nedenfor hvem som følger innslaget videre!</p>
+			</div>
+		{% endif %}
+		
+		<table class="table">
+			<thead>
+			<tr>
+				<td></td>
+				<th>Navn</th>
+				<th>Mobil</th>
+				<th>Alder</th>
+				<th>Instrument/rolle</th>
+			</tr>
+			</thead>
+		{% for p in personer %}
+			<tr class="person" id="{{selector}}_person_{{p.ID}}" data-id="{{selectorID}}|person:{{p.ID}}">
+				<td>
+					{% if alle_personer %}
+					<input type="checkbox" checked="checked" disabled="disabled" />
+					{% else %}
+					<input type="checkbox" class="videresend_person" />
+					{% endif %}
+				</td>
+				<th class="person_navn" data-navn="{{p.navn}}">{{p.navn}}</th>
+				<td><input type="tel" value="{{p.mobil}}" /></td>
+				<td>
+					<select>
+					{% for i in 10..25 %}
+						<option value="{{i}}" {% if i == p.alder %}selected="selected"{% endif %}>{{i}} år</option>
+					{% endfor %}
+					<option value="0" {% if p.alder < 10 or p.alder > 25 %}selected="selected"{% endif %}>Over 25</option>
+					</select>
+				</td>
+				<td><input type="text" value="{{p.instrument}}" /></td>
+			</tr>
+		{% endfor %}
+		</table>
+		
+		<button type="submit" class="btn btn-default">Lagre endringer i informasjon</button>
+
+	</fieldset>
+</form>
