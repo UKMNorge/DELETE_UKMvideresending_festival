@@ -8,6 +8,8 @@ foreach( $whoami as $iam ) {
 	$ID[ $who[0] ] = $who[1];
 }
 
+$person = new person( $ID['person'], $ID['innslag'] );
+$person->videresend( $m->g('pl_id'), $videresendtil->ID, $ID['tittel']);
 
 $data->selector = $_POST['selector'];
 $data->success = true;

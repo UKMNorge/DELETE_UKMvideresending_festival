@@ -9,12 +9,10 @@ function load_kontroll_data( $m, $videresendtil ) {
 		$who = explode( ':', $iam );
 		$ID[ $who[0] ] = $who[1];
 	}
+
+	$data = load_innslag_kontroll_data( $ID, $m, $videresendtil );
 	
-	if( $ID['tittellos'] == 'true' ) {
-		$data->tittellos = true;
-	} else {
-		$data = load_innslag_kontroll_data( $ID, $m, $videresendtil );
-	}
+	$data->tittellos = $ID['tittellos'] == 'true';
 	
 	$data->varighet = new stdClass();
 	$data->varighet->min = array(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20);
@@ -31,7 +29,7 @@ function load_innslag_stdclass( $i, $m, $videresendtil ) {
 	$innslag->ID 			= $i->g('b_id');
 	$innslag->navn			= $i->g('b_name');
 	$innslag->tittellos		= $i->tittellos();
-	$innslag->alle_personer	= $i->g('bt_form') == 'smartukm_titles_scene';
+	$innslag->alle_personer	= $innslag->tittellos ? true : ($i->g('bt_form') == 'smartukm_titles_scene');
 	$innslag->beskrivelse	= $i->g('b_description');
 	$innslag->tekniske_behov= $i->g('td_demand');
 	$innslag->konferansier	= $i->g('td_konferansier');
@@ -70,15 +68,22 @@ function load_innslag_kontroll_data( $ID, $m, $videresendtil ) {
 	$i = new innslag($ID['innslag']);
 	$i->loadGEO();
 	
-	$data = load_innslag_stdclass( $i, $m, $videresendtil );
+	$innslag = load_innslag_stdclass( $i, $m, $videresendtil );
 	
-	$data->tittel = new tittel( $ID['tittel'], $i->g('bt_form') );
+	$innslag->tittel = new tittel( $ID['tittel'], $i->g('bt_form') );
 
-	$varighet = $data->tittel->varighet;
-	$data->tittel->varighet = new stdClass();
-	$data->tittel->varighet->total = $varighet;
-	$data->tittel->varighet->min = (int) ($varighet / 60);
-	$data->tittel->varighet->sek = (int) ($varighet % 60);
+	$innslag->tittel->personer = array();
+	foreach( $innslag->personer as $person ) {
+		$p = new person( $person->ID, $innslag->ID );
+		$tittelID = $innslag->tittellos ? 'notitle' : $innslag->tittel->t_id;
+		$innslag->tittel->personer[ $p->g('p_id') ] = $p->videresendt( $videresendtil->ID, $tittelID );
+	}
 
-	return $data;
+	$varighet = $innslag->tittel->varighet;
+	$innslag->tittel->varighet = new stdClass();
+	$innslag->tittel->varighet->total = $varighet;
+	$innslag->tittel->varighet->min = (int) ($varighet / 60);
+	$innslag->tittel->varighet->sek = (int) ($varighet % 60);
+
+	return $innslag;
 }
