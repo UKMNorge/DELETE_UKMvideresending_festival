@@ -1,0 +1,22 @@
+{% extends "layout.twig.html" %}
+
+{% block content %}
+	<form class="videresendt_kontroll_tittel" method="post" action="?page=UKMvideresending_festival&action=statistikk">
+		<div class="form-group">
+			<label for="publikum">Publikum på fylkesmønstringen</label>
+			<input name="pl_public" id="publikum" type="number" class="form-control col-xs-2" value="{{statistikk.publikum}}">
+			<input name="log_current_value_pl_public" id="publikum_log" type="hidden" value="{{statistikk.publikum}}">
+			<p>Hvor mange var totalt publikum på fylkesmønstringen?</p>
+		</div>
+					
+		<div class="form-group">
+			<label for="missing">Uregistrerte deltakere på fylkesmønstringen</label>
+			<input name="pl_missing" id="missing" type="number" class="form-control col-xs-2" value="{{statistikk.missing}}">
+			<input name="log_current_value_pl_missing" id="missing_log" type="hidden" value="{{statistikk.missing}}">
+
+			<p>Hvor mange deltakere på fylkesmønstringen var ikke registrert i arrangørsystemet?</p>
+		</div>
+	
+		<button type="submit" class="btn btn-default">Lagre</button>
+	</form>
+{% endblock %}
