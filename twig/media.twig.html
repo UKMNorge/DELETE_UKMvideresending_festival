@@ -1,0 +1,47 @@
+{% extends "layout.twig.html" %}
+{% block content %}
+<div class="col-xs-12 col-md-10" id="pageAlertContainer" style="display:none">
+	Vennligst vent...
+</div>
+<div class="col-xs-12 col-md-10" id="pageContainer">
+	<h2>Tilse at alle innslag har nødvendig media</h2>
+
+	<h3>Scene</h3>
+	<table class="table table-media">
+		<thead>
+			<tr>
+				<th>Innslag</th>
+				<th>Bilde</th>
+				<th>Film</th>
+				<th>Playback</th>
+			</tr>
+		</thead>
+		{% for innslag in videresendte.scene %}
+		<tr data-bid="{{innslag.ID}}" data-tid="{{innslag.tittel.ID}}" id="bid_{{innslag.ID}}_tid_{{innslag.tittel.ID}}" data-navn="{{innslag.navn}}">
+			<td>{{innslag.navn}}</td>
+			{% if innslag.media.image == 'none_uploaded' %}
+				<td class="alert alert-danger col-xs-2">
+					Ingen bilder funnet
+					<br />
+					<a href="#" class="alertImageUpload btn btn-default">Last opp bilde(r)</a>
+				</td>
+			{% elseif innslag.media.image == 'none_selected' %}
+				<td class="imageSelect alert alert-danger col-xs-2">
+					Hvilket bilde skal brukes?
+					<br />
+					<a href="#" class="imageSelector btn btn-default">Velg bilde</a>
+				</td>
+			{% else %}
+				<td class="imageSelect alert alert-success col-xs-2">
+					<img src="{{innslag.media.image.src}}" id="rel_{{innslag.media.image.ID}}" />
+					<br />
+					<a href="#" class="imageSelector btn btn-default  btn-xs">Velg annet bilde</a>
+				</td>
+			{% endif %}
+			<td class="alert alert-danger col-xs-2">Ikke valgt</td>
+			<td class="alert alert-warning col-xs-2">Ikke lastet opp playback</td>
+		</tr>
+		{% endfor %}
+	</table>
+</div>
+{% endblock %}

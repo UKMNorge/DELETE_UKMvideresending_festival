@@ -6,6 +6,86 @@ jQuery(document).ready(function(){
 	});
 });
 
+// INFORMASJON OM HVORDAN LASTE OPP BILDER
+jQuery(document).on('click', '.alertImageUpload', function( e ) {
+	e.preventDefault();
+	jQuery('#pageContainer').slideUp();
+	jQuery('#pageAlertContainer').html( twigJSalertimageupload.render() ).slideDown();
+});
+
+// SKJUL INFORMASJON, VIS OVERSIKT I STEDET
+jQuery(document).on('click', '.cancelAlert', function() {
+	jQuery('#pageAlertContainer').html( 'Vennligst vent..' ).slideUp();
+	jQuery('#pageContainer').slideDown();
+});
+
+// VELG (OG FORHÅNDVSVIS) ET BILDE
+jQuery(document).on('click', '.image_selector_thumb', function(){
+	var selected = jQuery('#image_selected_container');
+	var image = jQuery('#image_selector_big');
+	var select = jQuery(this).find('img');
+	selected.slideDown();
+	image.attr('data-id', select.attr('data-id') );
+	image.attr('data-full', select.attr('data-full') );
+	image.attr('data-thumb', select.attr('src') );
+	image.attr('src', select.attr('data-full') );
+});
+
+// VELG (OG LAGRE) BILDE FOR GITT INNSLAG
+jQuery(document).on('click', '#image_selector_select', function(){
+	var selected = jQuery('#image_selector_big');
+	
+	var data = {
+				action:			'UKMvideresending_festival_ajax',
+				subaction:		'image_selector_set',
+				rel_id:			selected.attr('data-id'),
+				b_id:			jQuery(this).attr('data-bid'),
+				t_id:			jQuery(this).attr('data-tid'),
+				selector:		jQuery(this).attr('data-selector'),
+				image_full:		selected.attr('data-full'),
+				image_thumb:	selected.attr('data-thumb')
+			};
+
+
+	jQuery('#pageAlertContainer').html('Vent, lagrer...');
+
+	jQuery.post(ajaxurl, data, function( response ) {
+		var innslag = jQuery('#' + data.selector );
+		var imageCont = innslag.find('td.imageSelect');
+		var image = jQuery('<img />').attr('src', data.image_thumb); 
+		var button = jQuery('<a />').attr('href','#').addClass('imageSelector btn btn-default btn-xs').html('Velg annet bilde');
+		
+		imageCont.removeClass('alert-danger').addClass('alert-success').html( image ).append('<br />').append( button );
+		
+		jQuery('#pageAlertContainer').slideUp().html( 'Vennligst vent..' );
+		jQuery('#pageContainer').slideDown();
+	});
+});
+
+// LAST INN BILDER AV GITT INNSLAG
+jQuery(document).on('click', '.imageSelector', function( e ) {
+	var innslag = jQuery(this).parents('tr');
+	
+	var data = {
+		action: 'UKMvideresending_festival_ajax',
+		subaction: 'image_selector_list', 
+		b_id: innslag.attr('data-bid'),
+		t_id: innslag.attr('data-tid'),
+		selector: innslag.attr('id')
+	};
+
+	jQuery('#pageContainer').slideUp();
+	jQuery('#pageAlertContainer').html( twigJSimageselectorload.render( {navn: innslag.attr('data-navn') }) ).slideDown();
+
+	
+	jQuery.post(ajaxurl, data, function(response) {
+		var data = jQuery.parseJSON( response );
+		
+		jQuery('#pageAlertContainer').html( twigJSimageselectorshow.render( data ) );
+	});
+});
+
+
 jQuery(document).on('click', 'input.videresend', function() {
 	var innslag = jQuery(this).parents('tr.videresend_item');
 	var detaljer = innslag.find('.videresend_detaljer');

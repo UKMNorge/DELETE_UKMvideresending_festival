@@ -1,0 +1,15 @@
+<h3>Velg hvilket bilde som skal brukes av {{innslag.navn}}</h3>
+
+<div class="col-xs-12 col-sm-6 col-sm-offset-3 well" id="image_selected_container" style="display:none" align="center">
+	<img src="" id="image_selector_big" style="max-height: 420px; max-width: 420px;" />
+	<p class="clearfix"></p>
+	<a href="#" id="image_selector_select" data-bid="{{innslag.ID}}" data-tid="{{t_id}}" data-selector="{{selector}}" class="btn btn-primary">Bruk dette bildet</a>
+</div>
+
+<div class="col-xs-12 col-sm-10">
+	{% for bilde in bilder %}
+		<a href="#" class="thumbnail image_selector_thumb col-xs-6 col-sm-3">
+			<img src="{{bilde.baseUrl}}{{bilde.thumb}}" data-full="{{bilde.baseUrl}}{{bilde.full}}" data-id="{{bilde.ID}}" />
+		</a>
+	{% endfor %}
+</div>
