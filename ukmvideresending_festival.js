@@ -35,6 +35,30 @@ jQuery(document).on('click', '.cancelAlert', function() {
 
 // IMAGESELECTOR
 
+// LAST INN BILDER AV GITT INNSLAG
+jQuery(document).on('click', '.imageSelector', function( e ) {
+	var innslag = jQuery(this).parents('tr');
+	
+	var data = {
+		action: 'UKMvideresending_festival_ajax',
+		subaction: 'image_selector_list', 
+		b_id: innslag.attr('data-bid'),
+		t_id: innslag.attr('data-tid'),
+		selector: innslag.attr('id'),
+		kunstner: jQuery(this).attr('data-kunstner')=='true'
+	};
+
+	jQuery('#pageContainer').slideUp();
+	jQuery('#pageAlertContainer').html( twigJSimageselectorload.render( {navn: innslag.attr('data-navn') }) ).slideDown();
+
+	
+	jQuery.post(ajaxurl, data, function(response) {
+		var data = jQuery.parseJSON( response );
+		
+		jQuery('#pageAlertContainer').html( twigJSimageselectorshow.render( data ) );
+	});
+});
+
 // VELG (OG FORHÅNDVSVIS) ET BILDE
 jQuery(document).on('click', '.image_selector_thumb', function(){
 	var selected = jQuery('#image_selected_container');
@@ -59,47 +83,37 @@ jQuery(document).on('click', '#image_selector_select', function(){
 				t_id:			jQuery(this).attr('data-tid'),
 				selector:		jQuery(this).attr('data-selector'),
 				image_full:		selected.attr('data-full'),
-				image_thumb:	selected.attr('data-thumb')
+				image_thumb:	selected.attr('data-thumb'),
+				kunstner:		jQuery(this).attr('data-kunstner')=='true'
 			};
 
 
 	jQuery('#pageAlertContainer').html('Vent, lagrer...');
 
 	jQuery.post(ajaxurl, data, function( response ) {
-		var innslag = jQuery('#' + data.selector );
-		var imageCont = innslag.find('td.imageSelect');
-		var image = jQuery('<img />').attr('src', data.image_thumb); 
-		var button = jQuery('<a />').attr('href','#').addClass('imageSelector btn btn-default btn-xs').html('Velg annet bilde');
-		
-		imageCont.removeClass('alert-danger').addClass('alert-success').html( image ).append('<br />').append( button );
+		var data = jQuery.parseJSON(response);
+
+		if( data.kunstner == 'true') {
+			var kunstner = jQuery('td.kunstner_'+data.b_id);
+			kunstner.each(function(){
+				var image = jQuery('<img />').attr('src', data.image_thumb); 
+				var button = jQuery('<a />').attr('href','#').attr('data-kunstner','true').addClass('imageSelector btn btn-default btn-xs').html('Velg annet bilde');
+				jQuery(this).removeClass('alert-danger').addClass('alert-success').html( image ).append('<br />').append( button );
+			});
+		} else {
+			var innslag = jQuery('#' + data.selector );
+			var image = jQuery('<img />').attr('src', data.image_thumb); 
+			var button = jQuery('<a />').attr('href','#').addClass('imageSelector btn btn-default btn-xs').html('Velg annet bilde');
+			var imageCont = innslag.find('td.imageSelect:not(.kunstner)');
+			imageCont.removeClass('alert-danger').addClass('alert-success').html( image ).append('<br />').append( button );
+		}
 		
 		jQuery('#pageAlertContainer').slideUp().html( 'Vennligst vent..' );
 		jQuery('#pageContainer').slideDown();
 	});
 });
 
-// LAST INN BILDER AV GITT INNSLAG
-jQuery(document).on('click', '.imageSelector', function( e ) {
-	var innslag = jQuery(this).parents('tr');
-	
-	var data = {
-		action: 'UKMvideresending_festival_ajax',
-		subaction: 'image_selector_list', 
-		b_id: innslag.attr('data-bid'),
-		t_id: innslag.attr('data-tid'),
-		selector: innslag.attr('id')
-	};
 
-	jQuery('#pageContainer').slideUp();
-	jQuery('#pageAlertContainer').html( twigJSimageselectorload.render( {navn: innslag.attr('data-navn') }) ).slideDown();
-
-	
-	jQuery.post(ajaxurl, data, function(response) {
-		var data = jQuery.parseJSON( response );
-		
-		jQuery('#pageAlertContainer').html( twigJSimageselectorshow.render( data ) );
-	});
-});
 
 // FILM"SELECTOR"
 // LIST OPP ALLE FILMER I UKM-TV FOR GITT INNSLAG

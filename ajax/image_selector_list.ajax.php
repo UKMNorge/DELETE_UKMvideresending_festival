@@ -36,5 +36,5 @@ $data['selector']	= $_POST['selector'];
 $data['innslag']	= $innslag;
 $data['b_id']		= $_POST['b_id'];
 $data['t_id']		= $_POST['t_id'];
-
+$data['kunstner']	= $_POST['kunstner']=='true';
 die( json_encode( $data ) );

@@ -1,5 +1,6 @@
 <?php
 require_once('UKM/innslag.class.php');
+require_once('UKM/tittel.class.php');
 
 $videresendte = $m->videresendte();
 
@@ -26,6 +27,26 @@ foreach( $videresendte as $inn ) {
 			break;
 		case 'smartukm_titles_exhibition':
 			$sort = 'kunst';
+			
+			if( sizeof( $related_media['image'] ) == 0 ) {
+				$innslag->media->kunstner = 'none_uploaded';
+			} else {
+				$innslag->media->kunstner = image_selected( $innslag, 0, 'bilde_kunstner' );
+			}
+			
+			$titler = $i->titler( $m->g('pl_id'), $videresendtil->ID );
+			
+			if( is_array( $titler ) ) {
+				foreach( $titler as $tittel ) {
+					if( sizeof( $related_media['image'] ) == 0 ) {
+						$tittel->media->image = 'none_uploaded';
+					} else {
+						$tittel->media->image = image_selected( $innslag, $tittel->t_id );
+					}
+					$innslag->titler[] = $tittel;
+				}
+			}
+
 			break;
 		default:
 			$sort = 'scene';
@@ -50,10 +71,6 @@ foreach( $videresendte as $inn ) {
 
 			break;
 	}	
-/*
-	$titler = new titleInfo( $i->g('b_id'), $i->g('bt_form'), 'land', $m->videresendTil());
-	$titler = $titler->getTitleArray();
-*/
 	
 	$TWIG['videresendte'][$sort][] = $innslag;
 }

@@ -111,5 +111,65 @@
 		{% endfor %}
 	</table>
 
+
+	<h3>Utstilling</h3>
+	<table class="table table-media">
+		<thead>
+			<tr>
+				<th>Innslag</th>
+				<th>Bilde</th>
+				<th>Bilde av kunstner</th>
+			</tr>
+		</thead>
+		{% for innslag in videresendte.kunst %}
+			{% for tittel in innslag.titler %}
+				<tr data-bid="{{innslag.ID}}" data-tid="{{tittel.t_id}}" id="bid_{{innslag.ID}}_tid_{{tittel.t_id}}" data-navn="{{innslag.navn}}">
+					<td>{{innslag.navn}} - {{tittel.tittel}}</td>
+					{% if tittel.media.image == 'none_uploaded' %}
+						<td class="alert alert-danger col-xs-2">
+							Ingen bilder funnet
+							<br />
+							<a href="#" class="alertImageUpload btn btn-block btn-default">Last opp bilde(r)</a>
+						</td>
+					{% elseif tittel.media.image == 'none_selected' %}
+						<td class="imageSelect alert alert-danger col-xs-2">
+							Hvilket bilde skal brukes?
+							<br />
+							<a href="#" class="imageSelector btn btn-block btn-default">Velg bilde</a>
+						</td>
+					{% else %}
+						<td class="imageSelect alert alert-success col-xs-2">
+							<img src="{{tittel.media.image.src}}" id="rel_{{tittel.media.image.ID}}" />
+							<br />
+							<a href="#" class="imageSelector btn btn-block btn-default  btn-xs">Velg annet bilde</a>
+						</td>
+					{% endif %}
+					
+					
+					
+					{% if innslag.media.kunstner == 'none_uploaded' %}
+						<td class="alert alert-danger col-xs-2">
+							Ingen bilder funnet
+							<br />
+							<a href="#" class="alertImageUpload btn btn-block btn-default">Last opp bilde(r)</a>
+						</td>
+					{% elseif innslag.media.kunstner == 'none_selected' %}
+						<td class="imageSelect kunstner kunstner_{{innslag.ID}} alert alert-danger col-xs-2">
+							Hvilket bilde skal brukes?
+							<br />
+							<a href="#" class="imageSelector btn btn-block btn-default" data-kunstner="true">Velg bilde</a>
+						</td>
+					{% else %}
+						<td class="imageSelect kunstner kunstner_{{innslag.ID}} alert alert-success col-xs-2">
+							<img src="{{innslag.media.kunstner.src}}" id="rel_{{innslag.media.kunstner.ID}}" />
+							<br />
+							<a href="#" class="imageSelector btn btn-block btn-default btn-xs" data-kunstner="true">Velg annet bilde</a>
+						</td>
+					{% endif %}
+
+				</tr>
+			{% endfor %}
+		{% endfor %}
+	</table>
 </div>
 {% endblock %}
