@@ -70,5 +70,46 @@
 		</tr>
 		{% endfor %}
 	</table>
+	
+	
+	
+	
+	
+	
+	
+	<h3>Film</h3>
+	<div class="alert alert-warning">
+		<h4>Kvalitetskrav</h4>
+		<p>
+			Vi gjør vårt beste for at filmdeltakerne skal få en god opplevelse, og trenger derfor at du laster opp filmen i den høyeste kvaliteten tilgjengelig.
+		</p>
+	</div>
+	<table class="table table-media">
+		<thead>
+			<tr>
+				<th>Innslag</th>
+				<th>Film</th>
+			</tr>
+		</thead>
+		{% for innslag in videresendte.film %}
+		<tr data-bid="{{innslag.ID}}" data-tid="{{innslag.tittel.ID}}" id="bid_{{innslag.ID}}_tid_{{innslag.tittel.ID}}" data-navn="{{innslag.navn}}">
+			<td>{{innslag.navn}}</td>
+			{% if innslag.media.film == 'none_related' %}
+				<td class="alert alert-danger col-xs-2">
+					Ingen filmer funnet i UKM-TV
+					<br />
+					<a href="#" class="alertVideoUpload btn btn-block btn-default">Last opp film(er)</a>
+				</td>
+			{% else %}
+				<td class="alert alert-success col-xs-2">
+					Film lastet opp
+					<br />
+					<a href="#" class="videoCheck btn btn-block btn-default">Vis film(er)</a>
+				</td>
+			{% endif %}
+		</tr>
+		{% endfor %}
+	</table>
+
 </div>
 {% endblock %}

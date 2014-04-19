@@ -18,6 +18,11 @@ foreach( $videresendte as $inn ) {
 	switch( $i->g('bt_form') ) {
 		case 'smartukm_titles_video':
 			$sort = 'film';
+			if( sizeof( $related_media['tv'] ) == 0 ) {
+				$innslag->media->film = 'none_related';
+			} else {
+				$innslag->media->film = $related_media['tv'];
+			}
 			break;
 		case 'smartukm_titles_exhibition':
 			$sort = 'kunst';

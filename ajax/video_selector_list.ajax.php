@@ -10,8 +10,10 @@ $innslag->navn		= $i->g('b_name');
 
 $filmer = $related_items['tv'];
 
-foreach( $filmer as $film ) {
-	$film->full_embed_code = $film->embedcode();
+if( is_array( $filmer ) ) {
+	foreach( $filmer as $film ) {
+		$film->full_embed_code = $film->embedcode();
+	}
 }
 
 

@@ -14,4 +14,11 @@
 		<div class="clearfix"></div>
 	</div>
 	<div class="clearfix"></div>
+{% else %}
+	<div class="alert alert-danger">
+		<h4>Ingen filmer funnet!</h4>
+		<p>
+			Vi kan ikke se at det er lastet opp noen film til {{innslag.navn}}
+		</p>
+	</div>
 {% endfor %}
