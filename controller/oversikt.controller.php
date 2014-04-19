@@ -13,3 +13,5 @@ $kvoter->total	= (object) array('deltakere' => 30,
 								 'ledere'	 => 3,
 								 'deltakere_per_leder' => 10);
 $TWIG['kvote']			= $kvoter;
+
+require_once('oversikt_statistikk.controller.php');
