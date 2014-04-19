@@ -36,6 +36,13 @@ foreach( $videresendte as $inn ) {
 			} else {
 				$innslag->media->film = $related_media['tv'];
 			}
+			
+			if( $i->har_playback() ) {
+				$innslag->playback = $i->playback();
+			} else {
+				$innslag->playback = false;
+			}
+
 			break;
 	}	
 /*

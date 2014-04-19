@@ -5,6 +5,13 @@ jQuery(document).ready(function(){
 		}
 	});
 });
+// INFORMASJON OM HVORDAN LASTE OPP PLAYBACK
+jQuery(document).on('click', '.alertPlayback', function( e ) {
+	e.preventDefault();
+	jQuery('#pageContainer').slideUp();
+	jQuery('#pageAlertContainer').html( twigJSalertplayback.render() ).slideDown();
+});
+
 // INFORMASJON OM HVORDAN LASTE OPP FILMER
 jQuery(document).on('click', '.alertVideoUpload', function( e ) {
 	e.preventDefault();
@@ -24,6 +31,9 @@ jQuery(document).on('click', '.cancelAlert', function() {
 	jQuery('#pageAlertContainer').html( 'Vennligst vent..' ).slideUp();
 	jQuery('#pageContainer').slideDown();
 });
+
+
+// IMAGESELECTOR
 
 // VELG (OG FORHÅNDVSVIS) ET BILDE
 jQuery(document).on('click', '.image_selector_thumb', function(){
@@ -91,7 +101,7 @@ jQuery(document).on('click', '.imageSelector', function( e ) {
 	});
 });
 
-
+// FILM"SELECTOR"
 // LIST OPP ALLE FILMER I UKM-TV FOR GITT INNSLAG
 jQuery(document).on('click', '.videoCheck', function( e ) {
 	var innslag = jQuery(this).parents('tr');
@@ -113,9 +123,34 @@ jQuery(document).on('click', '.videoCheck', function( e ) {
 		
 		jQuery('#pageAlertContainer').html( twigJSvideoselectorlist.render( data ) );
 	});
+});
+
+// PLAYBACK"SELECTOR"
+// LIST OPP ALLE FILER I PLAYBACKMODULEN FOR GITT INNSLAG
+jQuery(document).on('click', '.playbackCheck', function( e ) {
+	var innslag = jQuery(this).parents('tr');
+
+	var data = {
+		action: 'UKMvideresending_festival_ajax',
+		subaction: 'playback_selector_list', 
+		b_id: innslag.attr('data-bid'),
+		t_id: innslag.attr('data-tid'),
+		selector: innslag.attr('id')
+	};
+
+	jQuery('#pageContainer').slideUp();
+	jQuery('#pageAlertContainer').html( twigJSplaybackselectorload.render( {navn: innslag.attr('data-navn') }) ).slideDown();
+
+	
+	jQuery.post(ajaxurl, data, function(response) {
+		var data = jQuery.parseJSON( response );
+		jQuery('#pageAlertContainer').html( twigJSplaybackselectorlist.render( data ) );
+	});
 	
 });
 
+
+// VIDERESEND INNSLAG
 
 jQuery(document).on('click', 'input.videresend', function() {
 	var innslag = jQuery(this).parents('tr.videresend_item');

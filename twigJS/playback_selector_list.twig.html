@@ -1,0 +1,26 @@
+<h3>Alle playbackfiler for {{innslag.navn}}</h3>
+
+<a href="#" class="cancelAlert btn btn-success btn-sm">Tilbake til media-oversikten</a>
+
+<p>&nbsp;</p>
+
+<div class="clearfix"></div>
+
+<table class="table table-striped">
+{% for pb in playback %}
+	<tr>
+		<td class="col-xs-4">
+			<strong>{{pb.name}}</strong>
+			<br />
+			<small>{{pb.file}}</small>
+		</td>
+		<td class="col-xs-4">{{pb.description}}</td>
+		<td class="col-xs-2">
+			<a href="//playback.ukm.no/{{pb.pl_id}}/{{pb.id}}/" target="_blank">
+				<img src="//ico.ukm.no/download-32.png" width="25" />
+				<small>Last ned</small>
+			</a>
+		</td>
+	</tr>
+{% endfor %}
+</table>

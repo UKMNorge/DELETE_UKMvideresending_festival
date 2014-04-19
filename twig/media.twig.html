@@ -48,18 +48,25 @@
 				</td>
 			{% else %}
 				<td class="alert alert-success col-xs-2">
-					Film lastet opp og tilknyttet
+					Film lastet opp
 					<br />
 					<a href="#" class="videoCheck btn btn-block btn-default">Vis film(er)</a>
 				</td>
 			{% endif %}
 			
-			
-			<td class="alert alert-warning col-xs-2">
-				Ikke lastet opp playback
-				<br />
-				<a href="#" class="alertPlayback btn btn-block btn-default">Info</a>
-			</td>
+			{% if not innslag.playback %}
+				<td class="alert alert-warning col-xs-2">
+					Ikke lastet opp playback
+					<br />
+					<a href="#" class="alertPlayback btn btn-block btn-default">Info</a>
+				</td>
+			{% else %}
+				<td class="alert alert-success col-xs-2">
+					Playback lastet opp
+					<br />
+					<a href="#" class="playbackCheck btn btn-block btn-default">Vis fil(er)</a>
+				</td>		
+			{% endif %}
 		</tr>
 		{% endfor %}
 	</table>
