@@ -1,0 +1,17 @@
+<h3>Alle filmer av {{innslag.navn}} i UKM-TV</h3>
+
+<a href="#" class="cancelAlert btn btn-success btn-sm">Tilbake til media-oversikten</a>
+
+<p>&nbsp;</p>
+
+<div class="clearfix"></div>
+
+{% for film in filmer %}
+	<div class="col-xs-12 col-sm-10 well">
+		{{ film.full_embed_code|raw }}
+		<div class="clearfix"></div>
+		<a href="{{film.full_url}}" target="_blank">Vis i UKM-TV</a>
+		<div class="clearfix"></div>
+	</div>
+	<div class="clearfix"></div>
+{% endfor %}

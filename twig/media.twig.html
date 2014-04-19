@@ -23,23 +23,43 @@
 				<td class="alert alert-danger col-xs-2">
 					Ingen bilder funnet
 					<br />
-					<a href="#" class="alertImageUpload btn btn-default">Last opp bilde(r)</a>
+					<a href="#" class="alertImageUpload btn btn-block btn-default">Last opp bilde(r)</a>
 				</td>
 			{% elseif innslag.media.image == 'none_selected' %}
 				<td class="imageSelect alert alert-danger col-xs-2">
 					Hvilket bilde skal brukes?
 					<br />
-					<a href="#" class="imageSelector btn btn-default">Velg bilde</a>
+					<a href="#" class="imageSelector btn btn-block btn-default">Velg bilde</a>
 				</td>
 			{% else %}
 				<td class="imageSelect alert alert-success col-xs-2">
 					<img src="{{innslag.media.image.src}}" id="rel_{{innslag.media.image.ID}}" />
 					<br />
-					<a href="#" class="imageSelector btn btn-default  btn-xs">Velg annet bilde</a>
+					<a href="#" class="imageSelector btn btn-block btn-default  btn-xs">Velg annet bilde</a>
 				</td>
 			{% endif %}
-			<td class="alert alert-danger col-xs-2">Ikke valgt</td>
-			<td class="alert alert-warning col-xs-2">Ikke lastet opp playback</td>
+			
+			
+			{% if innslag.media.film == 'none_related' %}
+				<td class="alert alert-danger col-xs-2">
+					Ingen filmer funnet i UKM-TV
+					<br />
+					<a href="#" class="alertVideoUpload btn btn-block btn-default">Last opp film(er)</a>
+				</td>
+			{% else %}
+				<td class="alert alert-success col-xs-2">
+					Film lastet opp og tilknyttet
+					<br />
+					<a href="#" class="videoCheck btn btn-block btn-default">Vis film(er)</a>
+				</td>
+			{% endif %}
+			
+			
+			<td class="alert alert-warning col-xs-2">
+				Ikke lastet opp playback
+				<br />
+				<a href="#" class="alertPlayback btn btn-block btn-default">Info</a>
+			</td>
 		</tr>
 		{% endfor %}
 	</table>

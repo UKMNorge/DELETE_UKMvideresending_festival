@@ -30,29 +30,17 @@ foreach( $videresendte as $inn ) {
 			} else {
 				$innslag->media->image = image_selected( $innslag );
 			}
+			
+			if( sizeof( $related_media['tv'] ) == 0 ) {
+				$innslag->media->film = 'none_related';
+			} else {
+				$innslag->media->film = $related_media['tv'];
+			}
 			break;
-	}
-	
+	}	
+/*
 	$titler = new titleInfo( $i->g('b_id'), $i->g('bt_form'), 'land', $m->videresendTil());
 	$titler = $titler->getTitleArray();
-
-/*
-	foreach( $titler as $tittel ) {
-		$valgtBilde = new SQL("SELECT `media`.`rel_id`
-						  FROM `smartukm_videresending_media` AS `media`
-						  JOIN `ukmno_wp_related` ON (`ukmno_wp_related`.`rel_id` = `media`.`rel_id`)
-						  WHERE `media`.`b_id` = '#bid'
-						  AND `m_type` = 'bilde'
-  						  AND (`t_id` = '0' OR `t_id` = '#tid' OR `t_id` IS NULL)",
-						  array('bid'=>$innslag->ID,'tid'=>$tittel['t_id']));
-		$valgtBilde = $valgtBilde->run('field','rel_id');
-		
-		if( $valgtBilde == null ) {
-			if( $sort == 'scene') {
-				$innslag->media->bilde = 'not_selected';
-			}
-		}
-	}
 */
 	
 	$TWIG['videresendte'][$sort][] = $innslag;

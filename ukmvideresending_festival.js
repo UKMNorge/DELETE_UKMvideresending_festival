@@ -5,6 +5,12 @@ jQuery(document).ready(function(){
 		}
 	});
 });
+// INFORMASJON OM HVORDAN LASTE OPP FILMER
+jQuery(document).on('click', '.alertVideoUpload', function( e ) {
+	e.preventDefault();
+	jQuery('#pageContainer').slideUp();
+	jQuery('#pageAlertContainer').html( twigJSalertvideoupload.render() ).slideDown();
+});
 
 // INFORMASJON OM HVORDAN LASTE OPP BILDER
 jQuery(document).on('click', '.alertImageUpload', function( e ) {
@@ -83,6 +89,31 @@ jQuery(document).on('click', '.imageSelector', function( e ) {
 		
 		jQuery('#pageAlertContainer').html( twigJSimageselectorshow.render( data ) );
 	});
+});
+
+
+// LIST OPP ALLE FILMER I UKM-TV FOR GITT INNSLAG
+jQuery(document).on('click', '.videoCheck', function( e ) {
+	var innslag = jQuery(this).parents('tr');
+
+	var data = {
+		action: 'UKMvideresending_festival_ajax',
+		subaction: 'video_selector_list', 
+		b_id: innslag.attr('data-bid'),
+		t_id: innslag.attr('data-tid'),
+		selector: innslag.attr('id')
+	};
+
+	jQuery('#pageContainer').slideUp();
+	jQuery('#pageAlertContainer').html( twigJSvideoselectorload.render( {navn: innslag.attr('data-navn') }) ).slideDown();
+
+	
+	jQuery.post(ajaxurl, data, function(response) {
+		var data = jQuery.parseJSON( response );
+		
+		jQuery('#pageAlertContainer').html( twigJSvideoselectorlist.render( data ) );
+	});
+	
 });
 
 
