@@ -328,7 +328,22 @@ function display_avmeld( selector ) {
 	innslag.find('input.videresend').attr('disabled',false).attr('checked',false);
 }
 
-/*jQuery(document).ready(function(){
-//    twigJShelloworld.render({world: 'cupcake'})
-});
-*/
+jQuery.datepicker.regional['no'] = {
+	closeText: 'Lukk',
+    prevText: '&laquo;Forrige',
+	nextText: 'Neste&raquo;',
+	currentText: 'I dag',
+    monthNames: ['Januar','Februar','Mars','April','Mai','Juni',
+    'Juli','August','September','Oktober','November','Desember'],
+    monthNamesShort: ['Jan','Feb','Mar','Apr','Mai','Jun',
+    'Jul','Aug','Sep','Okt','Nov','Des'],
+	dayNamesShort: ['S&oslash;n','Man','Tir','Ons','Tor','Fre','L&oslash;r'],
+	dayNames: ['S&oslash;ndag','Mandag','Tirsdag','Onsdag','Torsdag','Fredag','L&oslash;rdag'],
+	dayNamesMin: ['S&oslash;','Ma','Ti','On','To','Fr','L&oslash;'],
+	weekHeader: 'Uke',
+    dateFormat: 'yy-mm-dd',
+	firstDay: 1,
+	isRTL: false,
+	showMonthAfterYear: false,
+	yearSuffix: ''};
+jQuery.datepicker.setDefaults(jQuery.datepicker.regional['no']);

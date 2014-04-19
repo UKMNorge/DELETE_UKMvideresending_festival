@@ -2,6 +2,9 @@
 require_once('UKM/monstring.class.php');
 
 $m = new monstring( get_option('pl_id') );
+$m->season = $m->g('season');
+$m->pl_start 	= $m->g('pl_start');
+$m->pl_stop		= $m->g('pl_stop');
 
 $videresendtil = new stdClass();
 $vt = $m->videresendtil(true);
@@ -10,6 +13,8 @@ $videresendtil->navn 	= $vt->g('pl_name');
 $videresendtil->frist 	= $vt->g('pl_deadline');
 $videresendtil->registrert = $vt->registered();
 $videresendtil->mottakelig = true;#DEBUG $vt->subscribable();
+$videresendtil->pl_start	= $vt->g('pl_start');
+$videresendtil->pl_stop		= $vt->g('pl_stop');
 
 $TWIG['videresendtil'] 	= $videresendtil;
 
@@ -30,14 +35,28 @@ $tabs[] = (object) array( 'link' 		=> 'media',
 						  'icon'		=> 'video-256',
 						  'description'	=> 'Last opp / endre');
 						  
+$tabs[] = (object) array( 'link' 		=> 'ledere',
+						  'header' 		=> 'Ledere',
+						  'icon'		=> 'user-business-256',
+						  'description'	=> 'Ledere og overnatting');
+						  
 $tabs[] = (object) array( 'link' 		=> 'reiseinfo',
 						  'header' 		=> 'Reiseinfo',
 						  'icon'		=> 'buss-256',
 						  'description'	=> 'Reise- og lederskjema');
-						  
-$tabs[] = (object) array( 'link' 		=> 'statistikk',
-						  'header' 		=> 'Statistikk',
-						  'icon'		=> 'graph-menu',
-						  'description'	=> 'Publikum og uregistrerte');
+
 
 $TWIG['tabs'] = $tabs;
+
+$TWIG['m'] = $m;
+
+
+$TWIG['overnatting'] = new stdClass();
+$TWIG['overnatting']->deltakere = 'Spektrum';
+$TWIG['overnatting']->ledere	= 'Bakeriet Hotell';
+
+
+$TWIG['ledermaltid']	= new stdClass();
+$TWIG['ledermaltid']->sted	= 'Clarion Brattøra';
+$TWIG['ledermaltid']->dag	= 'Lørdag';
+$TWIG['ledermaltid']->tid	= 'kl xx:xx';

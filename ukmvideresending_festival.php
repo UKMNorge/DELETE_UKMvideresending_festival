@@ -45,6 +45,7 @@ function UKMvideresending_festival_script() {
 	wp_enqueue_style('WPbootstrap3_css');
 	wp_enqueue_style( 'UKMvideresending_festival_style', plugin_dir_url( __FILE__ ) .'ukmvideresending_festival.css');
 	wp_enqueue_script( 'UKMvideresending_festival_script', plugin_dir_url( __FILE__ ) .'ukmvideresending_festival.js');
+	
 }
 
 ## SHOW STATS OF PLACES

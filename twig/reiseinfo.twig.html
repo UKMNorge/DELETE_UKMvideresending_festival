@@ -1,1 +1,30 @@
 {% extends "layout.twig.html" %}
+
+{% block content %}
+<script>
+jQuery(document).ready(function(){
+	jQuery( ".datepicker" ).datepicker( 
+								{
+									minDate: new Date({{videresendtil.pl_start|date('Y')}}, {{videresendtil.pl_start|date('m')-1}}, {{videresendtil.pl_start|date('d')-1}}),
+									maxDate: new Date({{videresendtil.pl_stop|date('Y')}}, {{videresendtil.pl_stop|date('m')-1}}, {{videresendtil.pl_stop|date('d')+1}}),
+									dateFormat: 'dd.mm.yy'});
+});
+</script>
+
+<div class="col-xs-12 col-lg-10">
+	<form method="post" action="?page=UKMvideresending_festival&action=reiseinfo">
+		{% embed "reiseinfo_ankomstavreise.twig.html" %}{% endembed %}
+		<p>&nbsp;</p>
+	
+		{% embed "reiseinfo_matogallergier.twig.html" %}{% endembed %}
+		<p>&nbsp;</p>
+	
+		{% embed "reiseinfo_tilrettelegging.twig.html" %}{% endembed %}
+		<p>&nbsp;</p>
+			
+		<div class="clearfix"></div>
+		<button type="submit" class="btn btn-success">Lagre</button>
+	</form>
+</div>
+	
+{% endblock %}
