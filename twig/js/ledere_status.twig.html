@@ -1,0 +1,30 @@
+<h4>Varsler</h4>
+<table class="table">
+	{% if ledere_for_lite|length == 0 %}
+		<tr class="alert alert-success">
+			<td>Du har nok ledere i {{overnatting_deltakere}}</td>
+		</tr>
+	{% else %}
+		<tr class="alert alert-danger">
+			<td>
+				Du har for lite ledere i {{overnatting_deltakere}}
+				{% for natt in ledere_for_lite %}
+					{{natt.human}} {{natt.dag}}.{{ loop.last ? '':', '}}
+				{% endfor %}
+			</td>
+		</tr>
+	{% endif %}
+	
+	{% for leder in ledere if leder.mangler_overnatting|length > 0 %}
+	<tr class="alert alert-danger">
+		<td>
+			{{leder.navn}} mangler overnatting {{ leder.mangler_overnatting|length == 1 ? '1 natt' : leder.mangler_overnatting|length ~ ' netter'}}
+		</td>
+	</tr>
+	{% endfor %}
+	
+	<tr class="alert alert-warning">
+		<td>Du bestiller nå {{hotelldogn}} hotelldøgn á kr. {{pris_hotelldogn}},- til totalt kr. {{pris_hotelldogn*hotelldogn}},-</td>
+	</tr>
+
+</div>

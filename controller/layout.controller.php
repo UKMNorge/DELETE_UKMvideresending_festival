@@ -50,6 +50,7 @@ $TWIG['tabs'] = $tabs;
 
 $TWIG['m'] = $m;
 
+$TWIG['overnatting_pris_hotell']	= 895;
 
 $TWIG['overnatting']['deltakere']	= 'Spektrum';
 $TWIG['overnatting']['hotell']		= 'Bakeriet Hotell';

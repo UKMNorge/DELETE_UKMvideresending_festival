@@ -40,3 +40,7 @@ $res = $ledere->run();
 while( $r = mysql_fetch_assoc( $res ) ) {
 	$TWIG['ledere'][] = new leder( $r['l_id'] );
 }
+
+$TWIG['sove'] = new stdClass();
+$TWIG['sove']->system_deltakere = 32;
+$TWIG['sove']->deltakere = 30;
