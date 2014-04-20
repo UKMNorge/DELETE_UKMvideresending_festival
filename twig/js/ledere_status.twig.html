@@ -18,7 +18,12 @@
 	{% for leder in ledere if leder.mangler_overnatting|length > 0 %}
 	<tr class="alert alert-danger">
 		<td>
-			{{leder.navn}} mangler overnatting {{ leder.mangler_overnatting|length == 1 ? '1 natt' : leder.mangler_overnatting|length ~ ' netter'}}
+			{% if leder.navn is empty %}
+				{{leder.type}}leder uten navn
+			{% else %}
+				{{leder.navn}}
+			{% endif %}
+			mangler overnatting {{ leder.mangler_overnatting|length == 1 ? '1 natt' : leder.mangler_overnatting|length ~ ' netter'}}
 		</td>
 	</tr>
 	{% endfor %}

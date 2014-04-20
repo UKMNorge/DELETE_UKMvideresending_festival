@@ -374,7 +374,8 @@ jQuery(document).on('click','button.leder_save', function(){
 			jQuery('#'+data.selector).find('.leder_save').html('Lagre').removeClass('btn-info').addClass('btn-success');
 		} else {
 			jQuery('#'+data.selector).find('.leder_save').html('Lagret!').removeClass('btn-info').addClass('btn-success');
-			
+			jQuery(document).trigger('rekalkuler_overnatting');
+
 			setTimeout(function() {
 				console.log('reset leder save button');
 				jQuery('button.leder_save').html('Lagre');
@@ -398,6 +399,7 @@ jQuery(document).on('click', '.addLeder', function(){
 		ledere.append( twigJSledereleder.render( data ) );
 		jQuery('#ledere_modal').slideUp().html('Vennligst vent, laster inn..');
 		jQuery('#ledere_content').slideDown();
+		jQuery(document).trigger('rekalkuler_overnatting');
 	})
 });
 // Slett leder
@@ -487,7 +489,8 @@ jQuery(document).on('rekalkuler_overnatting', function() {
 		var leder = jQuery(this);
 		var lederen = {id: leder.attr('id'),
 						navn: leder.find('input.leder_navn').val(),
-						mangler_overnatting: []
+						mangler_overnatting: [],
+						type: leder.find('.leder_type').val()
 					};
 		console.log('Reset overnattinger for '+ lederen.navn);
 		ledere[ lederen.id ] = lederen;
