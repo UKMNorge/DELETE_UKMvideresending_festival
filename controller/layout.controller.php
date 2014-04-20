@@ -51,10 +51,9 @@ $TWIG['tabs'] = $tabs;
 $TWIG['m'] = $m;
 
 
-$TWIG['overnatting'] = new stdClass();
-$TWIG['overnatting']->deltakere = 'Spektrum';
-$TWIG['overnatting']->ledere	= 'Bakeriet Hotell';
-
+$TWIG['overnatting']['deltakere']	= 'Spektrum';
+$TWIG['overnatting']['hotell']		= 'Bakeriet Hotell';
+$TWIG['overnatting']['privat']		= 'Privat/annet';
 
 $TWIG['ledermaltid']	= new stdClass();
 $TWIG['ledermaltid']->sted	= 'Clarion Brattøra';

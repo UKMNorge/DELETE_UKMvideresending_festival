@@ -1,0 +1,26 @@
+{% extends "layout.twig.html" %}
+
+{% block content %}
+<div class="col-xs-12 col-lg-10">
+	<table class="table">
+		<thead>
+			<tr>
+				<th width="60"></th>
+				<th>Lederinfo</th>
+				<th>Overnattingssted</th>
+				{% for dato in dager %}
+					<th width="40">
+						{{dato.timestamp|dato('D')}}
+						<small>{{dato.dag}}.{{dato.mnd}}</small>
+					</th>
+				{% endfor %}
+			</tr>
+		</thead>
+		<tbody>
+		{% for leder in ledere %}
+			{% embed "js/ledere_leder.twig.html" %}{% endembed %}
+		{% endfor %}
+		</tbody>
+	</table>
+</div>
+{% endblock %}

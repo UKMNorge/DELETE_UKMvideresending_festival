@@ -1,0 +1,82 @@
+<tr id="{{leder.ID}}">
+	<td rowspan="{{overnatting|length+1}}">
+	{#
+		<p>
+			<a href="#" class="leder_do_edit">
+				<img src="http://ico.ukm.no/pencil-256.png" width="20" />
+			</a>
+		</p>
+	#}
+	</td>
+	<td rowspan="{{overnatting|length+1}}">
+		<div class="leder_edit">
+			<form class="leder_edit_form">
+				<input class="form-control input-lg" type="text" placeholder="Skriv navn på leder" value="{{leder.l_navn}}" />
+				<p>
+					{% if leder.l_type == 'hoved' %}
+						<strong>Hovedleder</strong>
+					{% elseif leder.l_type == 'utstilling' %}
+						<strong>Utstillingsleder</strong>
+					{% else %}
+						<select name="ledertype">
+							<option value="reise" {{leder.l_type=='reise'?'selected="selected"':''}}>Reiseleder</option>
+							<option value="ledsager" {{leder.l_type=='ledsager'?'selected="selected"':''}}>Ledsager</option>
+							<option value="turist" {{leder.l_type=='turist'?'selected="selected"':''}}>Turist</option>
+						</select>
+					{% endif %}
+					<br />
+					<div>
+						<input class="form-control input-sm" type="tel" placeholder="Mobilnummer" value="{{leder.l_mobil}}" />
+					</div>
+					<div>
+						<input class="form-control input-sm" type="email" placeholder="E-postadresse" value="{{leder.e-postadresse}}" />
+					</div>
+					<div class="clearfix"></div>
+					<p>
+						<button class="leder_save btn btn-sm btn-success">Lagre</button>
+						<button class="leder_delete btn btn-sm btn-danger">Slett</button>
+						{# &nbsp; &nbsp; <a href="#" class="leder_edit_cancel">avbryt</a> #}
+					</p>
+				</p>
+			</form>
+		</div>
+{#		<div class="leder_view" style="display:none;">
+			<h4>{{leder.l_navn}}</h4>
+			<p>	
+				<strong>
+					{% if leder.l_type == 'hoved' %}
+						Hovedleder
+					{% elseif leder.l_type == 'utstilling' %}
+						Utstillingsleder
+					{% elseif leder.l_type == 'turist' %}
+						Turist
+					{% elseif leder.l_type == 'ledsager' %}
+						Ledsager
+					{% else %}
+						{{leder.l_type}}leder
+					{% endif %}
+				</strong>
+				<br />
+				{{leder.l_mobil}}
+				<br />
+				{{leder.l_e-postadresse}}
+			</p>
+		</div>
+#}
+	</td>
+</tr>
+
+{% for nicename, sted in overnatting %}
+	<tr>
+		<th>{{sted}}</th>
+		{% for dato in dager %}
+		<th width="40">
+			<input type="radio" name="leder_{{leder.ID}}_dato_{{dato.dag}}.{{dato.mnd}}" value="{{nicename}}" />
+		</th>
+		{% endfor %}
+	</tr>
+{% endfor %}
+
+	<tr>
+		<th colspan="{{ 3 + dager|length }}" style="background: #F3F2F2;"></th>
+	</tr>

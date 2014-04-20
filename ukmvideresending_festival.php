@@ -20,6 +20,8 @@ if(is_admin()) {
 
 		add_action('wp_ajax_UKMvideresending_festival_ajax', 'UKMvideresending_festival_ajax');
 	}
+	
+	define('PLUGIN_DIR_PATH', dirname(__FILE__).'/');
 }
 
 function UKMvideresending_festival_ajax() {
