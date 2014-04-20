@@ -50,6 +50,17 @@ class leder {
 		return $this->_load();
 	}
 	
+	public function delete( $pl_from ) {
+		$sql = new SQLdel('smartukm_videresending_ledere_ny', array('l_id' => $this->ID, 'pl_id_from' => $pl_from ));
+		$res = $sql->run();
+		
+		if( $res != -1 ) {
+			$sql = new SQLdel('smartukm_videresending_ledere_natt', array('l_id' => $this->ID));
+			return $sql->run() != -1;
+		}
+		return false;
+	}
+	
 	private function _add_sql_values( $sql ) {
 		foreach( $this->table as $key ) {
 			if( $key == 'l_mobilnummer')

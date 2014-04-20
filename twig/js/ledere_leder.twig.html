@@ -54,7 +54,7 @@
 						<th>{{sted}}</th>
 						{% for dato in dager %}
 						<th width="40">
-							<input type="radio" name="leder_{{leder.ID}}_dato_{{dato.dag}}.{{dato.mnd}}" value="{{nicename}}" />
+							<input type="radio" class="fordeling_overnatting" data-sted="{{nicename}}" data-dato="{{dato.dag}}_{{dato.mnd}}" name="leder_{{leder.ID}}_dato_{{dato.dag}}_{{dato.mnd}}" value="{{nicename}}" />
 						</th>
 						{% endfor %}
 					</tr>
