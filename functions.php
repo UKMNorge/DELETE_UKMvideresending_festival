@@ -87,3 +87,30 @@ function load_innslag_kontroll_data( $ID, $m, $videresendtil ) {
 
 	return $innslag;
 }
+
+function netter( $videresendtil ) {
+	$netter = array();
+	
+	$start = (int)$videresendtil->pl_start;
+	$stop  = (int)$videresendtil->pl_stop;
+	
+	$num_dager = floor( ($stop - $start) /(60*60*24));
+	
+	
+	$crnt = new stdClass();
+	$crnt->dag = (int)date('d', $start);
+	$crnt->mnd= (int)date('m', $start);
+	$crnt->ar  = (int)date('Y', $start);
+	
+	for( $i=0; $i < $num_dager+1; $i++ ) {	
+		if( $crnt->dag > cal_days_in_month( CAL_GREGORIAN, $crnt->mnd, $crnt->ar ) ) {
+			$crnt->dag = 1;
+			$crnt->mnd++;
+		}
+		$crnt->timestamp = strtotime( $crnt->dag.'-'.$crnt->mnd.'-'.$crnt->ar );
+		$netter[] = clone $crnt;
+	
+		$crnt->dag++;
+	}
+	return $netter;
+}

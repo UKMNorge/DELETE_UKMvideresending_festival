@@ -1,27 +1,6 @@
 <?php
 require_once( PLUGIN_DIR_PATH.'class/leder.class.php' );
-
-$start = (int)$videresendtil->pl_start;
-$stop  = (int)$videresendtil->pl_stop;
-
-$num_dager = floor( ($stop - $start) /(60*60*24));
-
-
-$crnt = new stdClass();
-$crnt->dag = (int)date('d', $start);
-$crnt->mnd= (int)date('m', $start);
-$crnt->ar  = (int)date('Y', $start);
-
-for( $i=0; $i < $num_dager+1; $i++ ) {	
-	if( $crnt->dag > cal_days_in_month( CAL_GREGORIAN, $crnt->mnd, $crnt->ar ) ) {
-		$crnt->dag = 1;
-		$crnt->mnd++;
-	}
-	$crnt->timestamp = strtotime( $crnt->dag.'-'.$crnt->mnd.'-'.$crnt->ar );
-	$TWIG['dager'][] = clone $crnt;
-
-	$crnt->dag++;
-}
+$TWIG['dager'] = netter( $videresendtil );
 
 // Last inn eller opprett hoved- og utstillingsleder
 // HOVEDLEDER
@@ -44,8 +23,20 @@ for( $i=0; $i < $num_dager+1; $i++ ) {
 
 $TWIG['ledere'][] = $hovedleder;
 $TWIG['ledere'][] = $utstillingleder;
-/*
-$TWIG['overnatting'][] = 'deltakere';
-$TWIG['overnatting'][] = 'hotell';
-$TWIG['overnatting'][] = 'privat';
-*/
+
+$ledere = new SQL("SELECT `l_id`
+					FROM `smartukm_videresending_ledere_ny`
+					WHERE `pl_id_from` = '#pl_from'
+					AND `pl_id_to` = '#pl_to'
+					AND `season` = '#season'
+					AND (`l_type` != 'utstilling' AND `l_type` != 'hoved')",
+				array(	'pl_from' => $m->g('pl_id'),
+						'pl_to' => $videresendtil->ID,
+						'season' => get_option('season'),
+					)
+				);
+$res = $ledere->run();
+
+while( $r = mysql_fetch_assoc( $res ) ) {
+	$TWIG['ledere'][] = new leder( $r['l_id'] );
+}

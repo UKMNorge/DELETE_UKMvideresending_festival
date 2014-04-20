@@ -347,3 +347,56 @@ jQuery.datepicker.regional['no'] = {
 	showMonthAfterYear: false,
 	yearSuffix: ''};
 jQuery.datepicker.setDefaults(jQuery.datepicker.regional['no']);
+
+// LEDERE
+// Lagre leder
+jQuery(document).on('click','button.leder_save', function(){
+	jQuery(this).html('Lagrer...').removeClass('btn-success').addClass('btn-info');
+	
+	var leder = jQuery(this).parents('tr.leder');
+	var form = leder.find('form.leder_edit_form');
+	
+	var data = {	action:			'UKMvideresending_festival_ajax',
+					subaction:		'leder_save',
+					selector: leder.attr('id'),
+					ID: leder.attr('data-id'),
+					navn: form.find('input.leder_navn').val(),
+					mobil: form.find('input.leder_mobil').val(),
+					epost: form.find('input.leder_epost').val(),
+					type: form.find('.leder_type').val()
+				};
+	
+	jQuery.post(ajaxurl, data, function( response) {
+		data = jQuery.parseJSON( response );
+		
+		if( !data.success ) {
+			alert('En feil har oppstått ved lagring, og dine endringer ble derfor ikke lagret!');
+			jQuery('#'+data.selector).find('.leder_save').html('Lagre').removeClass('btn-info').addClass('btn-success');
+		} else {
+			jQuery('#'+data.selector).find('.leder_save').html('Lagret!').removeClass('btn-info').addClass('btn-success');
+			
+			setTimeout(function() {
+				console.log('reset leder save button');
+				jQuery('button.leder_save').html('Lagre');
+			}, 2000);
+		}
+	});
+});
+
+// Legg til leder
+jQuery(document).on('click', '.addLeder', function(){
+	jQuery('#ledere_content').hide();
+	jQuery('#ledere_modal').html('Vent, legger til leder...').slideDown();
+	
+	var data = { action: 'UKMvideresending_festival_ajax',
+				subaction: 'leder_leggtil'
+				};
+	
+	jQuery.post(ajaxurl, data, function(response) {
+		var data = jQuery.parseJSON(response);
+		var ledere = jQuery('table#ledere');
+		ledere.append( twigJSledereleder.render( data ) );
+		jQuery('#ledere_modal').slideUp().html('Vennligst vent, laster inn..');
+		jQuery('#ledere_content').slideDown();
+	})
+});

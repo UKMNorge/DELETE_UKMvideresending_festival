@@ -1,82 +1,66 @@
-<tr id="{{leder.ID}}">
-	<td rowspan="{{overnatting|length+1}}">
-	{#
-		<p>
-			<a href="#" class="leder_do_edit">
-				<img src="http://ico.ukm.no/pencil-256.png" width="20" />
-			</a>
-		</p>
-	#}
-	</td>
-	<td rowspan="{{overnatting|length+1}}">
-		<div class="leder_edit">
+<tr class="leder" id="leder_{{leder.ID}}" data-id="{{leder.ID}}">
+	<td>
+		<div class="col-xs-12 col-md-6">
 			<form class="leder_edit_form">
-				<input class="form-control input-lg" type="text" placeholder="Skriv navn på leder" value="{{leder.l_navn}}" />
 				<p>
 					{% if leder.l_type == 'hoved' %}
 						<strong>Hovedleder</strong>
+						<input type="hidden" class="leder_type" value="hoved" />
 					{% elseif leder.l_type == 'utstilling' %}
 						<strong>Utstillingsleder</strong>
+						<input type="hidden" class="leder_type" value="utstilling" />
 					{% else %}
-						<select name="ledertype">
+						<select class="leder_type" name="ledertype">
 							<option value="reise" {{leder.l_type=='reise'?'selected="selected"':''}}>Reiseleder</option>
 							<option value="ledsager" {{leder.l_type=='ledsager'?'selected="selected"':''}}>Ledsager</option>
 							<option value="turist" {{leder.l_type=='turist'?'selected="selected"':''}}>Turist</option>
 						</select>
 					{% endif %}
-					<br />
+				</p>
+					<input class="leder_navn form-control input-lg" type="text" placeholder="Skriv navn på leder" value="{{leder.l_navn}}" />
+
 					<div>
-						<input class="form-control input-sm" type="tel" placeholder="Mobilnummer" value="{{leder.l_mobil}}" />
+						<input class="leder_mobil form-control input-sm" type="tel" placeholder="Mobilnummer" value="{{leder.l_mobilnummer is empty or leder.l_mobilnummer == 0 ? '' : leder.l_mobilnummer}}" />
 					</div>
 					<div>
-						<input class="form-control input-sm" type="email" placeholder="E-postadresse" value="{{leder.e-postadresse}}" />
+						<input class="leder_epost form-control input-sm" type="email" placeholder="E-postadresse" value="{{leder.l_epost is empty ? '' : leder.l_epost}}" />
 					</div>
 					<div class="clearfix"></div>
 					<p>
-						<button class="leder_save btn btn-sm btn-success">Lagre</button>
-						<button class="leder_delete btn btn-sm btn-danger">Slett</button>
-						{# &nbsp; &nbsp; <a href="#" class="leder_edit_cancel">avbryt</a> #}
+						<button type="button" class="leder_save btn btn-sm btn-success">Lagre</button>
+						{% if leder.l_type != 'hoved' and leder.l_type != 'utstilling' %}
+						<button type="button" class="leder_delete btn btn-sm btn-danger">Slett</button>
+						{% endif %}
 					</p>
 				</p>
 			</form>
 		</div>
-{#		<div class="leder_view" style="display:none;">
-			<h4>{{leder.l_navn}}</h4>
-			<p>	
-				<strong>
-					{% if leder.l_type == 'hoved' %}
-						Hovedleder
-					{% elseif leder.l_type == 'utstilling' %}
-						Utstillingsleder
-					{% elseif leder.l_type == 'turist' %}
-						Turist
-					{% elseif leder.l_type == 'ledsager' %}
-						Ledsager
-					{% else %}
-						{{leder.l_type}}leder
-					{% endif %}
-				</strong>
-				<br />
-				{{leder.l_mobil}}
-				<br />
-				{{leder.l_e-postadresse}}
-			</p>
+		<div class="col-xs-12 col-md-6">
+			<table class="table-condensed" style="width:99%">
+				<thead>
+					<tr>
+						<th width="*%">Overnattingssted</th>
+						{% for dato in dager %}
+							<th width="40">
+								{{dato.timestamp|dato('D')}}
+								<small>{{dato.dag}}.{{dato.mnd}}</small>
+							</th>
+						{% endfor %}
+					</tr>
+				</thead>
+				<tbody>
+				{% for nicename, sted in overnatting %}
+					<tr>
+						<th>{{sted}}</th>
+						{% for dato in dager %}
+						<th width="40">
+							<input type="radio" name="leder_{{leder.ID}}_dato_{{dato.dag}}.{{dato.mnd}}" value="{{nicename}}" />
+						</th>
+						{% endfor %}
+					</tr>
+				{% endfor %}
+				</tbody>
+			</table>
 		</div>
-#}
 	</td>
 </tr>
-
-{% for nicename, sted in overnatting %}
-	<tr>
-		<th>{{sted}}</th>
-		{% for dato in dager %}
-		<th width="40">
-			<input type="radio" name="leder_{{leder.ID}}_dato_{{dato.dag}}.{{dato.mnd}}" value="{{nicename}}" />
-		</th>
-		{% endfor %}
-	</tr>
-{% endfor %}
-
-	<tr>
-		<th colspan="{{ 3 + dager|length }}" style="background: #F3F2F2;"></th>
-	</tr>

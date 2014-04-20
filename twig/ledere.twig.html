@@ -1,26 +1,18 @@
 {% extends "layout.twig.html" %}
 
 {% block content %}
-<div class="col-xs-12 col-lg-10">
-	<table class="table">
-		<thead>
-			<tr>
-				<th width="60"></th>
-				<th>Lederinfo</th>
-				<th>Overnattingssted</th>
-				{% for dato in dager %}
-					<th width="40">
-						{{dato.timestamp|dato('D')}}
-						<small>{{dato.dag}}.{{dato.mnd}}</small>
-					</th>
-				{% endfor %}
-			</tr>
-		</thead>
+<div class="col-xs-12 col-lg-10" id="ledere_modal" style="display:none;">
+	Vennligst vent, laster inn...
+</div>
+<div class="col-xs-12 col-lg-10" id="ledere_content">
+	<table class="table table-striped" id="ledere">
 		<tbody>
 		{% for leder in ledere %}
 			{% embed "js/ledere_leder.twig.html" %}{% endembed %}
 		{% endfor %}
 		</tbody>
 	</table>
+	
+	<a href="#" class="btn btn-primary btn-md addLeder">Legg til leder</a>
 </div>
 {% endblock %}

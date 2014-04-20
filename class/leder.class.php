@@ -1,7 +1,7 @@
 <?php
 
 class leder {
-	var $table = array('l_navn','l_e-post','l_mobilnummer','l_type');
+	var $table = array('l_navn','l_epost','l_mobilnummer','l_type');
 	
 	public function __construct( $id=false ) {
 		$this->ID = $id;
@@ -18,7 +18,8 @@ class leder {
 	public function update() {
 		$sql = new SQLins('smartukm_videresending_ledere_ny', array('l_id' => $this->ID));
 		$this->_add_sql_values( $sql );
-		return $sql->run();
+		$res = $sql->run();
+		return $res != -1;
 	}
 	
 	public function create( $pl_from, $pl_to, $season ) {
@@ -79,6 +80,9 @@ class leder {
 		foreach( $row as $key => $val ) {
 			$this->$key = $val;
 		}
+		
+		$this->pl_to = $this->pl_id_to;
+		$this->pl_from = $this->pl_id_from;
 		
 		return true;
 	}
