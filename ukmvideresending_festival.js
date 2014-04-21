@@ -377,7 +377,7 @@ jQuery(document).on('click','button.leder_save', function(){
 			jQuery(document).trigger('rekalkuler_overnatting');
 
 			setTimeout(function() {
-				console.log('reset leder save button');
+				//console.log('reset leder save button');
 				jQuery('button.leder_save').html('Lagre');
 			}, 2000);
 		}
@@ -450,12 +450,31 @@ jQuery(document).ready(function(){
 
 // Kalkuler overnattinger
 jQuery(document).on('click', '.fordeling_overnatting', function(){
-	console.warn('LAGRE!');
+	var selector = 'input[name="'+ jQuery(this).attr('name') +'"]:checked';
+	var data = { action: 'UKMvideresending_festival_ajax',
+				subaction: 'leder_natt_save',
+				dato: jQuery(this).attr('data-dato'),
+				sted: jQuery( selector ).val(),
+				leder: jQuery(this).parents('tr.leder').attr('data-ID'),
+				selector: selector
+				};
+	
+	jQuery.post(ajaxurl, data, function(response) {
+		var data = jQuery.parseJSON( response );
+		
+		if( !data.success ) {
+			alert(	'En feil oppsto ved lagring av overnatting. Vennligst prøv igjen, eller kontakt UKM Norge om feilen vedvarer' + 
+					"\r\n" +
+					data.leder.l_navn +' '+ data.natt.dag +'.'+ data.natt.mnd +' ble ikke lagret');
+			jQuery( data.selector ).attr('checked',false);
+		}
+	});
+	
 	jQuery(document).trigger('rekalkuler_overnatting');
 });
 
 jQuery(document).on('rekalkuler_advarsel', function(e, ledere, hotelldogn){
-	console.group('REDRAW ADVARSEL');
+	//console.group('REDRAW ADVARSEL');
 	
 	var ledere_for_lite = [];
 	jQuery('.overnatting_deltakere').each(function(){
@@ -473,15 +492,15 @@ jQuery(document).on('rekalkuler_advarsel', function(e, ledere, hotelldogn){
 				'ledere_for_lite': ledere_for_lite,
 				'overnatting_deltakere': jQuery('#overnatting_deltakere').val()
 				};
-	console.log(data);
+	//console.log(data);
 	jQuery('#ledere_advarsler').html( twigJSlederestatus.render( data ) );
-	console.groupEnd();
+	//console.groupEnd();
 });
 
 jQuery(document).on('rekalkuler_overnatting', function() {
-	console.group('REKALKULER OVERNATTING');
+	//console.group('REKALKULER OVERNATTING');
 
-	console.group('Reset');
+	//console.group('Reset');
 	var fordeling = {};
 	var ledere = {};
 	var hotelldogn = 0;
@@ -492,7 +511,7 @@ jQuery(document).on('rekalkuler_overnatting', function() {
 						mangler_overnatting: [],
 						type: leder.find('.leder_type').val()
 					};
-		console.log('Reset overnattinger for '+ lederen.navn);
+		//console.log('Reset overnattinger for '+ lederen.navn);
 		ledere[ lederen.id ] = lederen;
 	});
 
@@ -501,22 +520,22 @@ jQuery(document).on('rekalkuler_overnatting', function() {
 		var sted = {id: jQuery(this).attr('id'),
 					navn: jQuery(this).html()
 					};
-		console.log('Reset ' + sted.id);
+		//console.log('Reset ' + sted.id);
 		jQuery('.overnattingsdager').each(function(){
 			var id = jQuery(this).attr('id');
 			sted[id] = 0;
-			console.log('Reset ' + sted.id + ':' + id);
+			//console.log('Reset ' + sted.id + ':' + id);
 		});
 		fordeling[sted.id] = sted;
 	});
-	console.log('Reset fullført');
-	console.warn( fordeling );
-	console.groupEnd();
+	//console.log('Reset fullført');
+	//console.warn( fordeling );
+	//console.groupEnd();
 	
-	console.group('Tell opp');
+	//console.group('Tell opp');
 	jQuery('tr.leder').each(function(){
 		var leder = jQuery(this);
-		console.group('Tell opp: ' + leder.find('input.leder_navn').val() );
+		//console.group('Tell opp: ' + leder.find('input.leder_navn').val() );
 
 		jQuery('.overnattingsdager').each(function(){
 			var id = jQuery(this).attr('id');
@@ -532,31 +551,31 @@ jQuery(document).on('rekalkuler_overnatting', function() {
 				ledere[ leder.attr('id') ]['mangler_overnatting'].push( jQuery(this).attr('data-human') +' '+ jQuery(this).attr('data-dag') +'.' );
 				sted = 'ikke valgt';
 			}
-			console.log('Natt ' + id + ': ' + sted);
+			//console.log('Natt ' + id + ': ' + sted);
 		});
-		console.groupEnd();
+		//console.groupEnd();
 	});
-	console.log('Opptelling fullført');
-	console.groupEnd();
-	console.warn( fordeling );
+	//console.log('Opptelling fullført');
+	//console.groupEnd();
+	//console.warn( fordeling );
 
-	console.group('Manglende overnattinger');
-	console.warn( ledere );
-	console.groupEnd();
+	//console.group('Manglende overnattinger');
+	//console.warn( ledere );
+	//console.groupEnd();
 	
-	console.group('Antall hotelldøgn');
-	console.warn( hotelldogn );
-	console.groupEnd();
+	//console.group('Antall hotelldøgn');
+	//console.warn( hotelldogn );
+	//console.groupEnd();
 	
 	
 	
-	console.group('Distribuer til bruker');
+	//console.group('Distribuer til bruker');
 	for (var sted in fordeling) {
 		if (fordeling.hasOwnProperty(sted)) {
 			for( var dag in fordeling[sted] ) {
 				var antall = fordeling[sted][dag];
 				
-				console.log('fordeling_'+ sted +'_'+ dag +' => '+ fordeling[sted][dag]);
+				//console.log('fordeling_'+ sted +'_'+ dag +' => '+ fordeling[sted][dag]);
 				if( sted == 'deltakere') {
 					var css = antall >= parseInt(jQuery('#num_ledere_deltakerovernatting').html()) ? 'success' : 'danger';			
 					jQuery('#' + 'fordeling_'+ sted +'_'+ dag).removeClass('alert-success alert-danger').addClass('alert-'+css);
@@ -565,9 +584,9 @@ jQuery(document).on('rekalkuler_overnatting', function() {
 			}
 		}
 	}
-	console.groupEnd();	
+	//console.groupEnd();	
 
-	console.groupEnd();
+	//console.groupEnd();
 	
 	jQuery(document).trigger('rekalkuler_advarsel', [ledere, hotelldogn]);
 });

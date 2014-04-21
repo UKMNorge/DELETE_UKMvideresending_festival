@@ -61,6 +61,75 @@ class leder {
 		return false;
 	}
 	
+	public function netter() {
+		$sql = new SQL("SELECT *
+						FROM `smartukm_videresending_ledere_natt`
+						WHERE `l_id` = '#leder'",
+					array(	'leder' => $this->ID,
+						)
+					);
+		$res = $sql->run();
+		
+		while( $r = mysql_fetch_assoc( $res ) ) {
+			$this->natt[ $r['dato'] ] = $this->_natt( $r );
+		}
+		
+		return $this->natt;
+	}
+	
+	public function natt( $dato=false, $sted=false ) {
+		$sql = new SQL("SELECT *
+						FROM `smartukm_videresending_ledere_natt`
+						WHERE `l_id` = '#leder'
+						AND `dato` = '#dato'",
+					array(	'leder' => $this->ID,
+							'dato' => $dato 
+						)
+					);
+		$res = $sql->run();
+		
+		if( mysql_num_rows( $res ) == 1 ) {
+			$r = mysql_fetch_assoc( $res );
+			
+			$natt = $this->_natt( $r );
+			
+			$this->natt[ $r['dato'] ] = $natt;
+
+			if( !$dato && !$sted )
+				return $natt;
+				
+			if( $natt->sted != $sted ) {
+				$natt->sted = $sted;
+				
+				$SQLupd = new SQLins('smartukm_videresending_ledere_natt', array('l_id'=>$this->ID, 'dato'=>$natt->dato));
+				$SQLupd->add('sted', $natt->sted);
+				$res = $SQLupd->run();
+				
+				return $res != -1 ? $natt : false;
+			}
+			return $natt;
+		} else {
+			$SQLins = new SQLins('smartukm_videresending_ledere_natt');
+			$SQLins->add('l_id', $this->ID);
+			$SQLins->add('dato', $dato);
+			$SQLins->add('sted', $sted);
+			$res = $SQLins->run();
+			
+			return $res != -1 ? $this->_natt( array('dato'=>$dato, 'sted'=>$sted ) ) : false; 
+		}
+	}
+	
+	private function _natt( $r ) {
+		$natt = new stdClass();
+		$natt->dato = $r['dato'];
+		$natt->sted = $r['sted'];
+		
+		$dato = explode('_', $r['dato']);
+		$natt->dag = $dato[0];
+		$natt->mnd = $dato[1];
+		return $natt;
+	}
+	
 	private function _add_sql_values( $sql ) {
 		foreach( $this->table as $key ) {
 			if( $key == 'l_mobilnummer')
@@ -94,6 +163,8 @@ class leder {
 		
 		$this->pl_to = $this->pl_id_to;
 		$this->pl_from = $this->pl_id_from;
+		
+		$this->netter();
 		
 		return true;
 	}

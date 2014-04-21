@@ -54,7 +54,7 @@
 						<th>{{sted}}</th>
 						{% for dato in dager %}
 						<th width="40">
-							<input type="radio" class="fordeling_overnatting" data-sted="{{nicename}}" data-dato="{{dato.dag}}_{{dato.mnd}}" name="leder_{{leder.ID}}_dato_{{dato.dag}}_{{dato.mnd}}" value="{{nicename}}" />
+							<input type="radio" class="fordeling_overnatting" data-sted="{{nicename}}" data-dato="{{dato.dag}}_{{dato.mnd}}" name="leder_{{leder.ID}}_dato_{{dato.dag}}_{{dato.mnd}}" value="{{nicename}}"{% if leder.natt[dato.dag~'_'~dato.mnd] is defined and leder.natt[dato.dag~'_'~dato.mnd].sted is defined and leder.natt[dato.dag~'_'~dato.mnd].sted==nicename %}checked="checked"{% endif %}  />
 						</th>
 						{% endfor %}
 					</tr>
