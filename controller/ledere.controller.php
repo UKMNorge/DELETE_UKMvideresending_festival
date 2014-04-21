@@ -41,6 +41,24 @@ while( $r = mysql_fetch_assoc( $res ) ) {
 	$TWIG['ledere'][] = new leder( $r['l_id'] );
 }
 
+
 $TWIG['sove'] = new stdClass();
-$TWIG['sove']->system_deltakere = 32;
-$TWIG['sove']->deltakere = 30;
+$sql = new SQL("SELECT `systemet_overnatting_spektrumdeltakere`,
+						`avvik_overnatting_spektrumdeltakere`,
+						`overnatting_spektrumdeltakere`
+				FROM `smartukm_videresending_infoskjema`
+				WHERE `pl_id` = '#pl_to'
+				AND `pl_id_from` = '#pl_from'",
+			array( 'pl_to' => $videresendtil->ID,
+					'pl_from' => $m->g('pl_id')
+				)
+			);
+$res = $sql->run();
+if( $res && mysql_num_rows( $res ) > 0 ) {
+	$r = mysql_fetch_assoc( $res );
+	$TWIG['sove']->system_deltakere = $r['systemet_overnatting_spektrumdeltakere'];
+	$TWIG['sove']->deltakere = $r['overnatting_spektrumdeltakere'];
+} else {
+	$TWIG['sove']->system_deltakere = 0;
+	$TWIG['sove']->deltakere = 0;
+}

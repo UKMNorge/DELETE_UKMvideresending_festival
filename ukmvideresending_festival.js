@@ -592,7 +592,25 @@ jQuery(document).on('rekalkuler_overnatting', function() {
 });
 
 
-
+jQuery(document).on('click','#sove_korriger', function(){
+	jQuery(this).html('Lagrer...').addClass('btn-info').removeClass('btn-success');
+	var data = { action: 'UKMvideresending_festival_ajax',
+				subaction: 'leder_overnatting_spektrum',
+				antall: jQuery('#sove_korrigert').val()
+			};
+	jQuery.post(ajaxurl, data, function(response){
+		var data = jQuery.parseJSON( response );
+		
+		if( data.success ) {
+			jQuery('#sove_korriger').html('Lagret!');
+			
+			setTimeout(function(){jQuery('#sove_korriger').html('Lagre')},2000);
+		} else {
+			alert('En feil oppsto ved lagring! Vennligst prøv igjen, evt kontakt UKM Norge om feilen vedvarer');
+		}
+		jQuery('#sove_korriger').removeClass('btn-info').addClass('btn-success');
+	});
+});
 
 
 
