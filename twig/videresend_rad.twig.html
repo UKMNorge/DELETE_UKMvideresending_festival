@@ -3,7 +3,7 @@
 		<input type="checkbox" class="videresend" value="true" {{liste_videresendt ? 'checked="checked"' : ''}} />
 	</td>
 	<td class="navn">
-		<strong>{{liste_navn}}</strong> {{liste_tittel is not empty ? ' - ' ~ liste_tittel : ''}}
+		<strong>{{liste_navn}}</strong> <span class="tittel">{{liste_tittel is not empty ? ' - ' ~ liste_tittel : ''}}</span>
 		<div class="videresend_detaljer" {{liste_videresendt ? '' : 'style="display:none;"' }}>Laster inn detaljer...</div>
 	</td>
 	<td class="kommune">{{innslag.kommune}}</td>

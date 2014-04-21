@@ -646,3 +646,40 @@ jQuery(document).on('middagsgjester_save', function() {
 		jQuery('#middagsgjester_save').addClass('btn-success').removeClass('btn-info');	
 	});
 });
+
+
+// SEND INN KONTROLLSKJEMA FOR INNSLAG
+jQuery(document).on('click', '.submitKontroll', function(){
+	jQuery(this).html('Lagrer...').addClass('btn-info').removeClass('btn-default');
+	var form = jQuery(this).parents('form');
+	var innslag = form.parents('tr.videresend_item');
+	var data = { 	'action': 'UKMvideresending_festival_ajax',
+					'subaction':'kontrollskjema',
+					'selector': innslag.attr('id'),
+					'ID': innslag.attr('data-id')
+				};
+				
+	form.find('input, textarea, select, radio').each(function(){
+		data[ jQuery(this).attr('name') ] = jQuery(this).val();
+	});
+	
+	jQuery.post(ajaxurl, data, function(response){
+		var data = jQuery.parseJSON( response );
+		var innslag = jQuery('#'+data.selector);
+		var button = innslag.find('.submitKontroll');
+
+		if( data.success ) {
+			button.html('Lagret!');
+			
+			if( innslag.attr('data-template') == 'tittel' ) {
+				innslag.find('span.tittel').html( data.tittel_tittel );
+			}
+			setTimeout(function(){button.html('Lagre endringer i informasjon')},2000);
+		} else {
+			alert('En feil oppsto ved lagring. Prøv igjen, evt kontakt UKM Norge om problemet vedvarer');
+			button.html('Lagre endringer i informasjon');
+		}
+		button.addClass('btn-default').removeClass('btn-info');	
+	});
+});
+

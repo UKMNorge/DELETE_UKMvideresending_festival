@@ -9,24 +9,24 @@
 			<legend>Info om innslaget</legend>
 				<div class="form-group">
 					<label for="kontroller_{{selector}}_tittel">Tittel</label>
-					<input type="text" id="kontroller_{{selector}}_tittel" class="form-control" value="{{tittel.tittel}}">
+					<input name="tittel_tittel" type="text" id="kontroller_{{selector}}_tittel" class="form-control" value="{{tittel.tittel}}">
 				</div>
 				
 				{% if titteltabell == 'smartukm_titles_scene' or titteltabell == 'smartukm_titles_other' %}
 					<div class="form-group">
 						<label for="kontroller_{{selector}}_tekniske">Tekniske behov</label>
-						<textarea id="kontroller_{{selector}}_tekniske" class="form-control">{{tekniske_behov}}</textarea>
+						<textarea name="innslag_tekniske_behov" id="kontroller_{{selector}}_tekniske" class="form-control">{{tekniske_behov}}</textarea>
 					</div>
 			
 					<div class="form-group">
 						<label for="kontroller_{{selector}}_tekniske">Varighet</label>
-						<select id="kontroller_{{selector}}_varighet_min">
+						<select name="tittel_varighet_min" id="kontroller_{{selector}}_varighet_min">
 							{% for m in varighet.min %}
 							<option value="{{m}}" {% if m == tittel.varighet.min %}selected="selected"{% endif %}>{{m}}</option>
 							{% endfor %}
 						</select> min
 						
-						<select id="kontroller_{{selector}}_varighet_sek">
+						<select name="tittel_varighet_sek" id="kontroller_{{selector}}_varighet_sek">
 							{% for s in varighet.sek %}
 							<option value="{{s}}" {% if s == tittel.varighet.sek %}selected="selected"{% endif %}>{{s}}</option>
 							{% endfor %}
@@ -35,22 +35,22 @@
 				{% elseif titteltabell == 'smartukm_titles_exhibition' %}
 					<div class="form-group">
 						<label for="kontroller_{{selector}}_beskrivelse">Beskrivelse</label>
-						<textarea id="kontroller_{{selector}}_beskrivelse" class="form-control">{{tittel.beskrivelse}}</textarea>
+						<textarea name="tittel_beskrivelse" id="kontroller_{{selector}}_beskrivelse" class="form-control">{{tittel.beskrivelse}}</textarea>
 					</div>
 					<div class="">
 						<div class="form-group col-xs-4">
 							<label for="kontroller_{{selector}}_type">Type</label>
-							<input type="text" id="kontroller_{{selector}}_type" class="form-control" value="{{tittel.type}}">
+							<input name="tittel_type" type="text" id="kontroller_{{selector}}_type" class="form-control" value="{{tittel.type}}">
 						</div>
 						
 						<div class="form-group col-xs-4">
 							<label for="kontroller_{{selector}}_teknikk">Teknikk</label>
-							<input type="text" id="kontroller_{{selector}}_teknikk" class="form-control" value="{{tittel.teknikk}}">
+							<input name="tittel_teknikk" type="text" id="kontroller_{{selector}}_teknikk" class="form-control" value="{{tittel.teknikk}}">
 						</div>
 						
 						<div class="form-group col-xs-4">
 							<label for="kontroller_{{selector}}_format">Format</label>
-							<input type="text" id="kontroller_{{selector}}_format" class="form-control" value="{{tittel.format}}">
+							<input name="tittel_format" type="text" id="kontroller_{{selector}}_format" class="form-control" value="{{tittel.format}}">
 						</div>
 					</div>
 				{% endif %}
@@ -94,19 +94,19 @@
 					{% endif %}
 				</td>
 				<th class="person_navn" data-navn="{{p.navn}}">{{p.navn}}</th>
-				<td><input type="tel" value="{{p.mobil}}" /></td>
+				<td><input name="person[{{p.ID}}][mobil]" type="tel" value="{{p.mobil}}" /></td>
 				<td>
-					<select name="">
+					<select name="person[{{p.ID}}][alder]">
 					{% for i in 10..25 %}
 						<option value="{{i}}" {% if i == p.alder %}selected="selected"{% endif %}>{{i}} år</option>
 					{% endfor %}
 					<option value="0" {% if p.alder<10 or p.alder>25 %}selected="selected"{% endif %}>Over 25</option>
 					</select>
 				</td>
-				<td><input type="text" value="{{p.instrument}}" /></td>
+				<td><input name="person[{{p.ID}}][instrument]" type="text" value="{{p.instrument}}" /></td>
 			</tr>
 		{% endfor %}
 		</table>
 	</fieldset>
-	<button type="button" class="btn btn-default">Lagre endringer i informasjon</button>
+	<button type="button" class="submitKontroll btn btn-default">Lagre endringer i informasjon</button>
 </form>
