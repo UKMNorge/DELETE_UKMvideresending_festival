@@ -62,3 +62,8 @@ if( $res && mysql_num_rows( $res ) > 0 ) {
 	$TWIG['sove']->system_deltakere = 0;
 	$TWIG['sove']->deltakere = 0;
 }
+
+
+
+// LEDERMIDDAG
+$TWIG['middagsgjester'] = middagsgjester( $videresendtil, $m );

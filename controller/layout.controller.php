@@ -57,6 +57,7 @@ $TWIG['overnatting']['hotell']		= 'Bakeriet Hotell';
 $TWIG['overnatting']['privat']		= 'Privat/annet';
 
 $TWIG['ledermaltid']	= new stdClass();
+$TWIG['ledermaltid']->tittel= 'Ledermiddag';
 $TWIG['ledermaltid']->sted	= 'Clarion Brattøra';
 $TWIG['ledermaltid']->dag	= 'Lørdag';
 $TWIG['ledermaltid']->tid	= 'kl xx:xx';

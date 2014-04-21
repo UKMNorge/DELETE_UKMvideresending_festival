@@ -375,7 +375,7 @@ jQuery(document).on('click','button.leder_save', function(){
 		} else {
 			jQuery('#'+data.selector).find('.leder_save').html('Lagret!').removeClass('btn-info').addClass('btn-success');
 			jQuery(document).trigger('rekalkuler_overnatting');
-
+			jQuery(document).trigger('middagsgjester_save');
 			setTimeout(function() {
 				//console.log('reset leder save button');
 				jQuery('button.leder_save').html('Lagre');
@@ -400,6 +400,7 @@ jQuery(document).on('click', '.addLeder', function(){
 		jQuery('#ledere_modal').slideUp().html('Vennligst vent, laster inn..');
 		jQuery('#ledere_content').slideDown();
 		jQuery(document).trigger('rekalkuler_overnatting');
+		jQuery(document).trigger('middagsgjester_save');
 	})
 });
 // Slett leder
@@ -425,6 +426,7 @@ jQuery(document).on('click','.leder_delete', function(e){
 			} else {
 				jQuery('#'+data.selector).slideUp().remove();
 				jQuery(document).trigger('rekalkuler_overnatting');
+				jQuery(document).trigger('middagsgjester_save');
 			}
 		});
 	} else {
@@ -591,7 +593,7 @@ jQuery(document).on('rekalkuler_overnatting', function() {
 	jQuery(document).trigger('rekalkuler_advarsel', [ledere, hotelldogn]);
 });
 
-
+// Lagre antall som sover i Spektrum
 jQuery(document).on('click','#sove_korriger', function(){
 	jQuery(this).html('Lagrer...').addClass('btn-info').removeClass('btn-success');
 	var data = { action: 'UKMvideresending_festival_ajax',
@@ -612,9 +614,35 @@ jQuery(document).on('click','#sove_korriger', function(){
 	});
 });
 
+jQuery(document).on('click', '#middagsgjester_save', function(e){
+	e.preventDefault();
+	jQuery(document).trigger('middagsgjester_save');
+});
 
-
-
-
-
-
+// Lagre middagsgjester
+jQuery(document).on('middagsgjester_save', function() {
+	jQuery('#middagsgjester_save').html('Lagrer...').addClass('btn-info').removeClass('btn-success');
+	
+	var data = { 	action: 'UKMvideresending_festival_ajax',
+					subaction: 'leder_middagsgjester',
+					gjest_ukm: jQuery('#ledermaltid_1').val(),
+					gjest_fylke1: jQuery('#ledermaltid_2').val(),
+					gjest_fylke2: jQuery('#ledermaltid_3').val()
+				};
+	
+	jQuery.post(ajaxurl, data, function(response){
+		var data = jQuery.parseJSON(response);
+		
+		if( data.success ) {
+			jQuery('#middagsgjester_save').html('Lagret!');
+			setTimeout(function(){jQuery('#middagsgjester_save').html('Lagre')}, 2000);
+			jQuery('#ledermaltid_1').html( twigJSlederemaltid.render( {ledere: data.ledere, maltid_selected: data.gjester.ukm} ) );
+			jQuery('#ledermaltid_2').html( twigJSlederemaltid.render( {ledere: data.ledere, maltid_selected: data.gjester.fylke1} ) );
+			jQuery('#ledermaltid_3').html( twigJSlederemaltid.render( {ledere: data.ledere, maltid_selected: data.gjester.fylke2} ) );
+		} else {
+			alert('En feil oppsto ved lagring. Prøv igjen, evt kontakt UKM Norge om problemet vedvarer');
+			jQuery('#middagsgjester_save').html('Lagre');
+		}
+		jQuery('#middagsgjester_save').addClass('btn-success').removeClass('btn-info');	
+	});
+});

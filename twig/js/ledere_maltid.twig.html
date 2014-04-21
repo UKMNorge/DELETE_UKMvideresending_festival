@@ -1,0 +1,10 @@
+<option value="0" {% if 0 == maltid_selected %}selected="selected"{% endif %}>Ingen valgt</option>
+{% for leder in ledere %}
+	<option value="{{leder.l_id}}" {% if leder.l_id == maltid_selected %}selected="selected"{% endif %}>
+		{% if leder.l_navn is not defined or leder.l_navn is empty %}
+			{{leder.l_type}}leder uten navn
+		{% else %}
+			{{leder.l_navn}}
+		{% endif %}
+	</option>
+{% endfor %}

@@ -114,3 +114,24 @@ function netter( $videresendtil ) {
 	}
 	return $netter;
 }
+function middagsgjester( $videresendtil, $m ) { 
+	$sql = new SQL("SELECT `ledermiddag_ukm`,
+							`ledermiddag_fylke1`,
+							`ledermiddag_fylke2`
+					FROM `smartukm_videresending_ledere_middag`
+					WHERE `pl_to` = '#pl_to'
+					AND `pl_from` = '#pl_from'",
+				array( 'pl_to' => $videresendtil->ID,
+						'pl_from' => $m->g('pl_id')
+					)
+				);
+	$res = $sql->run();
+	
+	if( $res && mysql_num_rows( $res ) > 0 ) {
+		$r = mysql_fetch_assoc( $res );
+		$middagsgjester['ukm'] = $r['ledermiddag_ukm'];
+		$middagsgjester['fylke1'] = $r['ledermiddag_fylke1'];
+		$middagsgjester['fylke2'] = $r['ledermiddag_fylke2'];
+	}
+	return $middagsgjester;
+}
