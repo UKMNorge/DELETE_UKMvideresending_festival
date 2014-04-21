@@ -118,7 +118,7 @@ function image_selected( $innslag, $tittel = false, $type = 'bilde' ) {
 		$src = $post_meta['file'];
 	}
 	
-	$src = 'http://'. $_SERVER['HTTP_HOST'].'/wp-content/uploads/sites/'. str_replace('1151','17',$bilde['blog_id']).'/' . $src;
+	$src = 'http://'. $_SERVER['HTTP_HOST'].'/wp-content/uploads/sites/'. $bilde['blog_id'].'/' . $src;
 
 	
 	$vb = new stdClass();
