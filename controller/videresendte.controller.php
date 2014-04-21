@@ -10,12 +10,23 @@ foreach($PLvideresendTilTillatt as $i => $bt) {
 }	
 
 
+if( !$videresendtil->mottakelig ) {
+	$alle_videresendte = $m->videresendte();
+	$de_videresendte = array();
+	foreach( $alle_videresendte as $innslag ) {
+		$de_videresendte[] = $innslag['b_id'];
+	}
+}
+
 $alle_innslag = $m->innslag_alpha();
 if(is_array($alle_innslag)) {
 	foreach($alle_innslag as $inn) {
 		$i = new innslag($inn['b_id']);
 		
 		if(!in_array($i->g('bt_id'),$tillattForVideresending))
+			continue;
+
+		if( !$videresendtil->mottakelig && !in_array($i->g('b_id'), $de_videresendte))
 			continue;
 		
 		$i->loadGEO();

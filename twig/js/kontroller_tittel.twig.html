@@ -90,7 +90,7 @@
 					{% if alle_personer %}
 					<input type="checkbox" checked="checked" disabled="disabled" />
 					{% else %}
-					<input type="checkbox" {% if tittel.personer[ p.ID ] %}checked="checked"{% endif %} class="videresend_person" />
+					<input type="checkbox" {% if tittel.personer[ p.ID ] %}checked="checked"{% endif %} {% if videresendtil.mottakelig == false %}disabled="disabled"{% endif %} class="videresend_person" />
 					{% endif %}
 				</td>
 				<th class="person_navn" data-navn="{{p.navn}}">{{p.navn}}</th>
