@@ -22,4 +22,6 @@ $data->selector = $_POST['selector'];
 $data->selectorID = $_POST['id'];
 $data->success = true;
 
+rekalkuler_videresendte_personer($m->g('pl_id'), $videresendtil->ID);
+
 die(json_encode($data));

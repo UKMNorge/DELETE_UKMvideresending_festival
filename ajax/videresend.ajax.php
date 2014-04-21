@@ -20,4 +20,6 @@ if( $data->tittellos ) {
 	$data->videresendt = $innslag->videresend( $m->g('pl_id'), $videresendtil->ID, $data->tittel->t_id );
 }
 
+rekalkuler_videresendte_personer($m->g('pl_id'), $videresendtil->ID);
+
 die( json_encode( $data ) );

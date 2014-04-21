@@ -4,6 +4,8 @@ require_once('UKM/tittel.class.php');
 
 $videresendte = $m->videresendte();
 
+$media_ok = true;
+
 foreach( $videresendte as $inn ) {
 	$i = new innslag( $inn['b_id'] );
 	
@@ -21,6 +23,7 @@ foreach( $videresendte as $inn ) {
 			$sort = 'film';
 			if( sizeof( $related_media['tv'] ) == 0 ) {
 				$innslag->media->film = 'none_related';
+				$media_ok = false;
 			} else {
 				$innslag->media->film = $related_media['tv'];
 			}
@@ -30,8 +33,12 @@ foreach( $videresendte as $inn ) {
 			
 			if( sizeof( $related_media['image'] ) == 0 ) {
 				$innslag->media->kunstner = 'none_uploaded';
+				$media_ok = false;
 			} else {
 				$innslag->media->kunstner = image_selected( $innslag, 0, 'bilde_kunstner' );
+				if( $innslag->media->kunstner == 'none_selected' ) {
+					$media_ok = false;
+				}
 			}
 			
 			$titler = $i->titler( $m->g('pl_id'), $videresendtil->ID );
@@ -40,8 +47,12 @@ foreach( $videresendte as $inn ) {
 				foreach( $titler as $tittel ) {
 					if( sizeof( $related_media['image'] ) == 0 ) {
 						$tittel->media->image = 'none_uploaded';
+						$media_ok = false;
 					} else {
 						$tittel->media->image = image_selected( $innslag, $tittel->t_id );
+						if( $tittel->media->image == 'none_selected' ) {
+							$media_ok = false;
+						}
 					}
 					$innslag->titler[] = $tittel;
 				}
@@ -53,12 +64,17 @@ foreach( $videresendte as $inn ) {
 			
 			if( sizeof( $related_media['image'] ) == 0 ) {
 				$innslag->media->image = 'none_uploaded';
+				$media_ok = false;
 			} else {
 				$innslag->media->image = image_selected( $innslag );
+				if( $innslag->media->image == 'none_selected' ) {
+					$media_ok = false;
+				}
 			}
 			
 			if( sizeof( $related_media['tv'] ) == 0 ) {
 				$innslag->media->film = 'none_related';
+				$media_ok = false;
 			} else {
 				$innslag->media->film = $related_media['tv'];
 			}
@@ -74,6 +90,8 @@ foreach( $videresendte as $inn ) {
 	
 	$TWIG['videresendte'][$sort][] = $innslag;
 }
+
+update_option('UKMvideresending_festival_mediaOK', $media_ok );
 
 
 function image_selected( $innslag, $tittel = false, $type = 'bilde' ) {

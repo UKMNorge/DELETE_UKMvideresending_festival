@@ -101,10 +101,10 @@ foreach( $kvote_param as $param ) {
 	$videresendte[ $param->id ] = 0;
 }
 
-$videresendte = $m->videresendte();
+$videresendte_innslag = $m->videresendte();
 $unike_personer = array();
 
-foreach( $videresendte as $inn ) {
+foreach( $videresendte_innslag as $inn ) {
 	$i = new innslag($inn['b_id']);
 	$i->videresendte( $videresendtil->ID );
 	
@@ -138,21 +138,31 @@ foreach( $videresendte as $inn ) {
 			break;
 		case 4:
 			$videresendte['konferansier_antall']++;
-			$videresendte['total_personer']++;
+			
+			$personer = $i->personer();
+			foreach( $personer as $pers )
+				$unike_personer['tittellose'][ $pers['p_id'] ] = $pers;
+
 			break;
 		case 5:
 		case 10:
 			$videresendte['nettredaksjon_antall']++;
-			$videresendte['total_personer']++;
+			$personer = $i->personer();
+			foreach( $personer as $pers )
+				$unike_personer['tittellose'][ $pers['p_id'] ] = $pers;
 			break;
 		case 6:
 			$videresendte['matkultur']++;
-			$videresendte['total_personer']++;
+			$personer = $i->personer();
+			foreach( $personer as $pers )
+				$unike_personer['tittellose'][ $pers['p_id'] ] = $pers;
 			break;
 		case 8:
 		case 9:
 			$videresendte['arrangor_antall']++;
-			$videresendte['total_personer']++;
+			$personer = $i->personer();
+			foreach( $personer as $pers )
+				$unike_personer['tittellose'][ $pers['p_id'] ] = $pers;
 			break;
 	}
 }
@@ -161,7 +171,7 @@ $videresendte['kunst_personer'] = sizeof( $unike_personer['kunst'] );
 $videresendte['film_personer'] = sizeof( $unike_personer['film'] );
 $videresendte['scene_personer'] = sizeof( $unike_personer['scene'] );
 
-$videresendte['total_personer'] += $videresendte['kunst_personer'] + $videresendte['film_personer'] + $videresendte['scene_personer']; 
+$videresendte['total_personer'] = sizeof($unike_personer['tittellose']) + $videresendte['kunst_personer'] + $videresendte['film_personer'] + $videresendte['scene_personer']; 
 
 $videresendte['scene_tid'] = sec_to_min( $videresendte['scene_varighet']);
 $videresendte['film_tid'] = sec_to_min( $videresendte['film_varighet']);
@@ -195,5 +205,9 @@ $videresendte['total_ledere'] = $ledere->run('field','num_ledere');
 $videresendte['total_deltakere_per_leder'] = ceil( $videresendte['total_personer'] / $videresendte['total_ledere'] );
 
 $TWIG['videresendt'] = $videresendte;
+
+$TWIG['mediaOK'] = get_option('UKMvideresending_festival_mediaOK');
+
+update_infoskjema_field( $m->g('pl_id'), $videresendtil->ID, 'systemet_overnatting_spektrumdeltakere', $videresendte['total_personer']);
 
 require_once('oversikt_statistikk.controller.php');

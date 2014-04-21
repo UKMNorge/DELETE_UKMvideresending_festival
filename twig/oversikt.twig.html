@@ -53,7 +53,13 @@
 	
 <fieldset class="UKMwidth">
 	<legend>Media</legend>
-	<p>Følgende innslag mangler media	</p>
+	{% if mediaOK %}
+		<p class="lead">All nødvendig media er lastet opp. Husk å sjekke playback.</p>
+	{% else %}
+		<div class="alert alert-danger">
+		En eller flere media-filer mangler! Se media-fanen for detaljer og opplasting.
+		</div>
+	{% endif %}
 </fieldset>
 
 

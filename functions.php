@@ -135,3 +135,41 @@ function middagsgjester( $videresendtil, $m ) {
 	}
 	return $middagsgjester;
 }
+
+function update_infoskjema_field( $pl_from, $pl_to, $field, $value ) {
+	$sql = new SQL("SELECT `#field`
+					FROM `smartukm_videresending_infoskjema`
+					WHERE `pl_id` = '#pl_to'
+					AND `pl_id_from` = '#pl_from'",
+				array( 'pl_to' => $pl_to,
+						'pl_from' => $pl_from,
+						'field' => $field
+					)
+				);
+	$res = $sql->run('field', $field );
+	
+	if( $res == $value )
+		return true;
+
+	$SQLins = new SQLins('smartukm_videresending_infoskjema', array('pl_id'=>$pl_to, 'pl_id_from'=>$pl_from));
+	$SQLins->add($field, $value);
+	$res = $SQLins->run();
+	return $res != -1;
+}
+
+function rekalkuler_videresendte_personer($pl_from, $pl_to) {
+	$m = new monstring( $pl_from );
+	$videresendte_innslag = $m->videresendte();
+	$unike_personer = array();
+	
+	foreach( $videresendte_innslag as $inn ) {
+		$i = new innslag($inn['b_id']);
+		$i->videresendte( $pl_to );
+		
+		$personer = $i->personer();
+		foreach( $personer as $pers )
+			$unike_personer[ $pers['p_id'] ] = $pers;
+	}
+
+	return update_infoskjema_field( $pl_from, $pl_to, 'systemet_overnatting_spektrumdeltakere', sizeof($unike_personer));
+}
