@@ -30,6 +30,9 @@ jQuery(document).on('click', '.alertImageUpload', function( e ) {
 jQuery(document).on('click', '.cancelAlert', function() {
 	jQuery('#pageAlertContainer').html( 'Vennligst vent..' ).slideUp();
 	jQuery('#pageContainer').slideDown();
+	jQuery('#ledere_modal').html( 'Vennligst vent..' ).slideUp();
+	jQuery('#ledere_content').slideDown();
+
 });
 
 
@@ -684,3 +687,8 @@ jQuery(document).on('click', '.submitKontroll', function(){
 	});
 });
 
+jQuery(document).on('click', '#hvaErUnike', function(e){
+	e.preventDefault();
+	jQuery('#ledere_content').slideUp();
+	jQuery('#ledere_modal').html( twigJSalertunikepersoner.render() ).slideDown();
+});
