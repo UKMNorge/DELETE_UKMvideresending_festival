@@ -17,7 +17,6 @@ if(is_admin()) {
 	if($blog_id != 1) {
 		add_action('UKM_admin_menu', 'UKMvideresending_festival_menu');
 
-
 		add_action('wp_ajax_UKMvideresending_festival_ajax', 'UKMvideresending_festival_ajax');
 	}
 	
@@ -33,9 +32,10 @@ function UKMvideresending_festival_ajax() {
 ## CREATE A MENU
 function UKMvideresending_festival_menu() {
 	global $UKMN;
-	UKM_add_menu_page('monstring', 'Videresending', 'Videresending', 'editor', 'UKMvideresending_festival', 'UKMvideresending_festival', 'http://ico.ukm.no/paper-airplane-20.png',20);
-	UKM_add_scripts_and_styles( 'UKMvideresending_festival', 'UKMvideresending_festival_script' );
-
+	if( get_option('site_type') == 'fylke' ) {
+		UKM_add_menu_page('monstring', 'Videresending', 'Videresending', 'administrator', 'UKMvideresending_festival', 'UKMvideresending_festival', 'http://ico.ukm.no/paper-airplane-20.png',20);
+		UKM_add_scripts_and_styles( 'UKMvideresending_festival', 'UKMvideresending_festival_script' );
+	}
 }
 
 ## INCLUDE SCRIPTS
