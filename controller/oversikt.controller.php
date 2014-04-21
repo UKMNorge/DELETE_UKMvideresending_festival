@@ -202,7 +202,10 @@ $ledere = new SQL("SELECT COUNT(`l_id`) AS `num_ledere`
 					)
 				);
 $videresendte['total_ledere'] = $ledere->run('field','num_ledere');
-$videresendte['total_deltakere_per_leder'] = ceil( $videresendte['total_personer'] / $videresendte['total_ledere'] );
+if( $videresendte['total_personer'] > 0 && $videresendte['total_ledere'] > 0)
+	$videresendte['total_deltakere_per_leder'] = ceil( $videresendte['total_personer'] / $videresendte['total_ledere'] );
+else 
+	$videresendte['total_deltakere_per_leder'] = 0;
 
 $TWIG['videresendt'] = $videresendte;
 
