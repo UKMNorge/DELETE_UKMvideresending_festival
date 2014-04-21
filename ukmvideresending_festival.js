@@ -399,6 +399,7 @@ jQuery(document).on('click', '.addLeder', function(){
 		ledere.append( twigJSledereleder.render( data ) );
 		jQuery('#ledere_modal').slideUp().html('Vennligst vent, laster inn..');
 		jQuery('#ledere_content').slideDown();
+		jQuery('html, body').animate({scrollTop:jQuery(document).height()}, 'slow');
 		jQuery(document).trigger('rekalkuler_overnatting');
 		jQuery(document).trigger('middagsgjester_save');
 	})
