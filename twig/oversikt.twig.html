@@ -28,11 +28,25 @@
 		</thead>
 		<tbody>
 			{% for kvote in kvoter %}
-				<tr class="{% if videresendt[kvote.id].verdi > kvote.verdi %}danger{% endif %}">
-					<th>{{kvote.tittel}}</th>
-					<td>{{videresendt[kvote.id]}} {{kvote.enhet}}{{kvote.flertall}}</td>
-					<td>{{kvote.verdi}} {{kvote.enhet}}{{kvote.flertall}}</td>
-				</tr>
+				{% if kvote.id == 'scene_varighet' %}
+					<tr class="{% if videresendt.scene_varighet > kvote.verdi*60 %}alert alert-danger{% endif %}">
+						<th>{{kvote.tittel}}</th>
+						<td>{{videresendt.scene_tid}}</td>
+						<td>{{kvote.verdi}} {{kvote.enhet}}{{kvote.flertall}}</td>
+					</tr>
+				{% elseif kvote.id == 'film_varighet' %}
+					<tr class="{% if videresendt.film_varighet > kvote.verdi*60 %}alert alert-danger{% endif %}">
+						<th>{{kvote.tittel}}</th>
+						<td>{{videresendt.film_tid}}</td>
+						<td>{{kvote.verdi}} {{kvote.enhet}}{{kvote.flertall}}</td>
+					</tr>
+				{% else %}
+					<tr class="{% if videresendt[kvote.id] > kvote.verdi %}alert alert-danger{% endif %}">
+						<th>{{kvote.tittel}}</th>
+						<td>{{videresendt[kvote.id]}} {{kvote.enhet}}{{kvote.flertall}}</td>
+						<td>{{kvote.verdi}} {{kvote.enhet}}{{kvote.flertall}}</td>
+					</tr>
+				{% endif %}
 			{% endfor %}
 		</tbody>
 	</table>
