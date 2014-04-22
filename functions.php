@@ -151,8 +151,14 @@ function update_infoskjema_field( $pl_from, $pl_to, $field, $value ) {
 	
 	if( $res == $value )
 		return true;
-
-	$SQLins = new SQLins('smartukm_videresending_infoskjema', array('pl_id'=>$pl_to, 'pl_id_from'=>$pl_from));
+	
+	if( mysql_num_rows( $res ) == 0 ) {
+		$SQLins = new SQLins('smartukm_videresending_infoskjema');
+		$SQLins->add('pl_id',$pl_to);
+		$SQLins->add('pl_id_from',$pl_from);
+	} else {
+		$SQLins = new SQLins('smartukm_videresending_infoskjema', array('pl_id'=>$pl_to, 'pl_id_from'=>$pl_from));
+	}
 	$SQLins->add($field, $value);
 	$res = $SQLins->run();
 	echo $SQLins->debug();
