@@ -46,6 +46,7 @@ foreach( $videresendte as $inn ) {
 			
 			if( is_array( $titler ) ) {
 				foreach( $titler as $tittel ) {
+					$tittel->media = new stdClass()
 					if( sizeof( $related_media['image'] ) == 0 ) {
 						$tittel->media->image = 'none_uploaded';
 						$media_ok = false;
