@@ -18,8 +18,6 @@ $videresendtil->pl_stop		= $vt->g('pl_stop');
 
 $TWIG['videresendtil'] 	= $videresendtil;
 
-
-var_dump( $TWIG['videresendtil'] );
 $tabs = array();
 
 $tabs[] = (object) array( 'link' 		=> 'oversikt',
