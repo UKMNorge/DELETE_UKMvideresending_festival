@@ -155,6 +155,7 @@ function update_infoskjema_field( $pl_from, $pl_to, $field, $value ) {
 	$SQLins = new SQLins('smartukm_videresending_infoskjema', array('pl_id'=>$pl_to, 'pl_id_from'=>$pl_from));
 	$SQLins->add($field, $value);
 	$res = $SQLins->run();
+	echo $SQLins->debug();
 	return $res != -1;
 }
 
