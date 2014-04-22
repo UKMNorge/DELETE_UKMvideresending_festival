@@ -1,0 +1,13 @@
+<fieldset>
+	<legend>Her registrerer du alle dine ledere, og hvor de overnatter de ulike nettene</legend>
+	
+	<table class="table table-striped" id="ledere">
+		<tbody>
+		{% for leder in ledere %}
+			{% embed "js/ledere_leder.twig.html" %}{% endembed %}
+		{% endfor %}
+		</tbody>
+	</table>
+	
+	<a href="#" class="btn btn-primary btn-md addLeder">Legg til leder</a>
+</fieldset>

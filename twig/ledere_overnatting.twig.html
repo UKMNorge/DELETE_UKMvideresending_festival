@@ -1,0 +1,56 @@
+<fieldset>
+	<legend>Behov for ledere i {{overnatting.deltakere}}</legend>
+	<p class="lead">
+		Systemet har regnet ut at {{sove.system_deltakere}} deltakere skal sove i {{overnatting.deltakere}}.
+	</p>
+	<p>
+		Hvis noen deltakere ikke skal sove i {{sove.system_deltakere}} kan du spesifisere dette her, etter avtale med arrangøren.
+		<br />
+		Fylket vil motta faktura på deltakeravgift for alle {{sove.system_deltakere}} deltakere..
+	</p>
+	
+
+	<div class="col-xs-8 col-sm-6 col-md-4">
+		<label for="sove_korrigert">Evt. kommentarer ang overnatting</label>
+		<textarea type="number" id="sove_korrigert" class="form-control">{{sove.kommentar}}</textarea>
+		<button type="button" id="sove_korriger" class="btn btn-success btn-md">Lagre</button>
+	</div>
+	
+	<p class="clearfix">&nbsp;</p>
+
+	<p class="lead">
+		Det er krav om minst 1 leder per 10 deltakere i {{overnatting.deltakere}} hver natt. 
+		Dvs <span id="num_ledere_deltakerovernatting"></span> ledere per natt.
+	</p>
+	
+	<div class="col-xs-12 col-md-6 col-md-offset-3">
+		<table class="table-condensed">
+			<thead>
+				<tr>
+					<th width="*%">Overnattingssted</th>
+					{% for dato in dager %}
+						<th class="overnattingsdager" id="{{dato.dag}}_{{dato.mnd}}" data-human="{{dato.timestamp|dato('D')}}" data-dag="{{dato.dag}}" data-mnd="{{dato.mnd}}" width="40">
+							{{dato.timestamp|dato('D')}}
+							<small>{{dato.dag}}.{{dato.mnd}}</small>
+						</th>
+					{% endfor %}
+				</tr>
+			</thead>
+			<tbody>
+			{% for nicename, sted in overnatting %}
+				<tr>
+					<td class="overnattingssted" id="{{nicename}}">{{sted}}</td>
+					{% for dato in dager %}
+						<td width="40" class="overnatting_{{nicename}}" data-human="{{dato.timestamp|dato('D')}}" data-dag="{{dato.dag}}" data-mnd="{{dato.mnd}}" align="center" id="fordeling_{{nicename}}_{{dato.dag}}_{{dato.mnd}}">0</td>
+					{% endfor %}
+				</tr>
+			{% endfor %}
+			</tbody>
+		</table>
+	</div>
+	
+	<div class="clearfix"></div>
+	
+	<div class="col-xs-12" id="ledere_advarsler"></div>
+
+</fieldset>

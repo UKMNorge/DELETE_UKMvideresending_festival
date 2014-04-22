@@ -8,118 +8,14 @@
 </div>
 <div class="col-xs-12 col-lg-10" id="ledere_content">
 	
-	<fieldset>
-		<legend>Ledere</legend>
-		<p class="lead">Her registrerer du alle dine ledere, og hvor de overnatter de ulike nettene</p>
-		
-		<table class="table table-striped" id="ledere">
-			<tbody>
-			{% for leder in ledere %}
-				{% embed "js/ledere_leder.twig.html" %}{% endembed %}
-			{% endfor %}
-			</tbody>
-		</table>
-		
-		<a href="#" class="btn btn-primary btn-md addLeder">Legg til leder</a>
-	</fieldset>
-
-
-	<fieldset>
-		<legend>Behov for ledere i {{overnatting.deltakere}}</legend>
-		<p class="lead">
-			Systemet har regnet ut at {{sove.system_deltakere}} deltakere skal sove i {{overnatting.deltakere}}.
-		</p>
-		<p>
-			Hvis noen deltakere ikke skal sove i {{sove.system_deltakere}} kan du spesifisere dette her, etter avtale med arrangøren.
-			<br />
-			Fylket vil motta faktura på deltakeravgift for alle {{sove.system_deltakere}} deltakere..
-		</p>
-		
-	
-		<div class="col-xs-8 col-sm-6 col-md-4">
-				<label for="sove_korrigert">Evt. kommentarer ang overnatting</label>
-				<textarea type="number" id="sove_korrigert" class="form-control">{{sove.kommentar}}</textarea>
-				<button type="button" id="sove_korriger" class="btn btn-success btn-md">Lagre</button>
-			</div>
-		</div>
-		
-		<p class="clearfix">&nbsp;</p>
-
-		<p class="lead">
-			Det er krav om minst 1 leder per 10 deltakere i {{overnatting.deltakere}} hver natt. 
-			Dvs <span id="num_ledere_deltakerovernatting"></span> ledere per natt.
-		</p>
-		
-		<div class="col-xs-12 col-md-6 col-md-offset-3">
-			<table class="table-condensed">
-				<thead>
-					<tr>
-						<th width="*%">Overnattingssted</th>
-						{% for dato in dager %}
-							<th class="overnattingsdager" id="{{dato.dag}}_{{dato.mnd}}" data-human="{{dato.timestamp|dato('D')}}" data-dag="{{dato.dag}}" data-mnd="{{dato.mnd}}" width="40">
-								{{dato.timestamp|dato('D')}}
-								<small>{{dato.dag}}.{{dato.mnd}}</small>
-							</th>
-						{% endfor %}
-					</tr>
-				</thead>
-				<tbody>
-				{% for nicename, sted in overnatting %}
-					<tr>
-						<td class="overnattingssted" id="{{nicename}}">{{sted}}</td>
-						{% for dato in dager %}
-							<td width="40" class="overnatting_{{nicename}}" data-human="{{dato.timestamp|dato('D')}}" data-dag="{{dato.dag}}" data-mnd="{{dato.mnd}}" align="center" id="fordeling_{{nicename}}_{{dato.dag}}_{{dato.mnd}}">0</td>
-						{% endfor %}
-					</tr>
-				{% endfor %}
-				</tbody>
-			</table>
-		</div>
-		
-		<div class="clearfix"></div>
-		
-		<div class="col-xs-12" id="ledere_advarsler"></div>
-	
-	</fieldset>
-
-	
+	{% embed "ledere_ledere.twig.html" %}{% endembed %}
 	<p class="clearfix">&nbsp;</p>
-	<fieldset>
-		<legend>{{ledermaltid.tittel}} {{ledermaltid.dag}}</legend>
-		<p>{{ledermaltid.sted}}</p>
-		
-		<div class="">
-			<div class="form-group col-xs-12 col-sm-8 col-md-6 col-lg-4">
-				<label for="kontroller_{{selector}}_type">Leder som deltar</label>
-				<select class="lederselect form-control" id="ledermaltid_1">
-					{% embed "js/ledere_maltid.twig.html" with {maltid_selected: middagsgjester.ukm} %}{% endembed %}
-				</select>
-				<p>Betalt av UKM Norge</p>
-			</div>
 
-			<div class="form-group col-xs-12 col-sm-8 col-md-6 col-lg-4">
-				<label for="kontroller_{{selector}}_type">Leder som deltar</label>
-				<select class="lederselect form-control" id="ledermaltid_2">
-					{% embed "js/ledere_maltid.twig.html" with {maltid_selected: middagsgjester.fylke1} %}{% endembed %}
-				</select>
-				<p>Betalt av fylket selv</p>
-			</div>
+	{% embed "ledere_overnatting.twig.html" %}{% endembed %}
+	<p class="clearfix">&nbsp;</p>
 
-			<div class="form-group col-xs-12 col-sm-8 col-md-6 col-lg-4">
-				<label for="kontroller_{{selector}}_type">Leder som deltar</label>
-				<select class="lederselect form-control" id="ledermaltid_3">
-					{% embed "js/ledere_maltid.twig.html" with {maltid_selected: middagsgjester.fylke2} %}{% endembed %}
-				</select>
-				<p>Betalt av fylket selv</p>
-			</div>
+	{% embed "ledere_maltid.twig.html" %}{% endembed %}
+	<p class="clearfix">&nbsp;</p>
 
-		<p>
-			<a href="#" class="btn btn-success" id="middagsgjester_save">Lagre {{ledermaltid.tittel}}</a>
-		</p>
-
-		</div>
-
-
-	</fieldset>
 </div>
 {% endblock %}

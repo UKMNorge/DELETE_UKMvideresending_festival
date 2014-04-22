@@ -1,0 +1,34 @@
+<fieldset>
+	<legend>{{ledermaltid.tittel}} {{ledermaltid.dag}}</legend>
+	<p>{{ledermaltid.sted}}</p>
+	
+	<div class="">
+		<div class="form-group col-xs-12 col-sm-8 col-md-6 col-lg-4">
+			<label for="kontroller_{{selector}}_type">Leder som deltar</label>
+			<select class="lederselect form-control" id="ledermaltid_1">
+				{% embed "js/ledere_maltid.twig.html" with {maltid_selected: middagsgjester.ukm} %}{% endembed %}
+			</select>
+			<p>Betalt av UKM Norge</p>
+		</div>
+
+		<div class="form-group col-xs-12 col-sm-8 col-md-6 col-lg-4">
+			<label for="kontroller_{{selector}}_type">Leder som deltar</label>
+			<select class="lederselect form-control" id="ledermaltid_2">
+				{% embed "js/ledere_maltid.twig.html" with {maltid_selected: middagsgjester.fylke1} %}{% endembed %}
+			</select>
+			<p>Betalt av fylket selv</p>
+		</div>
+
+		<div class="form-group col-xs-12 col-sm-8 col-md-6 col-lg-4">
+			<label for="kontroller_{{selector}}_type">Leder som deltar</label>
+			<select class="lederselect form-control" id="ledermaltid_3">
+				{% embed "js/ledere_maltid.twig.html" with {maltid_selected: middagsgjester.fylke2} %}{% endembed %}
+			</select>
+			<p>Betalt av fylket selv</p>
+		</div>
+
+		<p>
+			<a href="#" class="btn btn-success" id="middagsgjester_save">Lagre {{ledermaltid.tittel}}</a>
+		</p>
+	</div>
+</fieldset>
