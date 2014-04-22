@@ -123,6 +123,8 @@ foreach( $videresendte_innslag as $inn ) {
 			$videresendte['film_antall']++;
 
 			$personer = $i->personer();
+			
+			var_dump( $personer );
 			foreach( $personer as $pers )
 				$unike_personer['film'][ $pers['p_id'] ] = $pers;
 
