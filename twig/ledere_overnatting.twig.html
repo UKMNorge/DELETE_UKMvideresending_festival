@@ -3,19 +3,23 @@
 	<p class="lead">
 		Systemet har regnet ut at {{sove.system_deltakere}} deltakere skal sove i {{overnatting.deltakere}}.
 	</p>
-	<p>
-		Hvis noen deltakere ikke skal sove i {{sove.system_deltakere}} kan du spesifisere dette her, etter avtale med arrangøren.
-		<br />
-		Fylket vil motta faktura på deltakeravgift for alle {{sove.system_deltakere}} deltakere..
-	</p>
 	
-
-	<div class="col-xs-8 col-sm-6 col-md-4">
-		<label for="sove_korrigert">Evt. kommentarer ang overnatting</label>
-		<textarea type="number" id="sove_korrigert" class="form-control">{{sove.kommentar}}</textarea>
-		<button type="button" id="sove_korriger" class="btn btn-success btn-md">Lagre</button>
+	<div class="">
+		<div class="col-xs-12 col-sm-6">
+			<p>
+				Hvis noen deltakere ikke skal sove i {{overnatting.deltakere}} kan du spesifisere dette her, etter avtale med arrangøren.
+				<br />
+				Fylket vil motta faktura på deltakeravgift for alle {{sove.system_deltakere}} deltakere.
+			</p>
+		</div>
+	
+		<div class="col-xs-12 col-sm-6">
+			<label for="sove_korrigert">Evt. kommentarer ang overnatting</label>
+			<textarea type="number" id="sove_korrigert" class="form-control">{{sove.kommentar}}</textarea>
+			<button type="button" id="sove_korriger" class="btn btn-success btn-md">Lagre</button>
+		</div>
 	</div>
-	
+		
 	<p class="clearfix">&nbsp;</p>
 
 	<p class="lead">
@@ -23,6 +27,7 @@
 		Dvs <span id="num_ledere_deltakerovernatting"></span> ledere per natt.
 	</p>
 	
+
 	<div class="col-xs-12 col-md-6 col-md-offset-3">
 		<table class="table-condensed">
 			<thead>
@@ -51,6 +56,7 @@
 	
 	<div class="clearfix"></div>
 	
+
 	<div class="col-xs-12" id="ledere_advarsler"></div>
 
 </fieldset>
