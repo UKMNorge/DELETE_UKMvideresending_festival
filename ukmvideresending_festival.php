@@ -24,6 +24,7 @@ if(is_admin()) {
 }
 
 function UKMvideresending_festival_ajax() {
+	error_reporting( E_NONE );
 	require_once('controller/layout.controller.php');
 	require_once('ajax/'. $_POST['subaction'] .'.ajax.php');
 	die();
