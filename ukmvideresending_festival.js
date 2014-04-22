@@ -440,7 +440,7 @@ jQuery(document).on('click','.leder_delete', function(e){
 
 
 jQuery(document).on('rekalkuler_ledere_per_natt', function(){
-	 var ant = jQuery('#sove_korrigert').val(); 
+	 var ant = jQuery('#overnatting_deltakere').val(); 
 	 jQuery('#num_ledere_deltakerovernatting').html( Math.ceil(ant / 10) );
 });
 
