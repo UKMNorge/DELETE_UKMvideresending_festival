@@ -23,17 +23,17 @@ $tabs = array();
 $tabs[] = (object) array( 'link' 		=> 'oversikt',
 						  'header' 		=> 'Oversikt',
 						  'icon'		=> 'info-button-256',
-						  'description'	=> 'Kort oppsummering');
+						  'description'	=> 'Start på denne fanen');
 						  
 $tabs[] = (object) array( 'link' 		=> 'videresendte',
 						  'header' 		=> 'Videresendte',
 						  'icon'		=> 'people-256',
-						  'description'	=> 'Hvem skal videresendes');
+						  'description'	=> 'Velg deltakere her');
 						  
 $tabs[] = (object) array( 'link' 		=> 'media',
 						  'header' 		=> 'Media',
 						  'icon'		=> 'video-256',
-						  'description'	=> 'Last opp / endre');
+						  'description'	=> 'Bilder, film og playback');
 						  
 $tabs[] = (object) array( 'link' 		=> 'ledere',
 						  'header' 		=> 'Ledere',
@@ -43,7 +43,7 @@ $tabs[] = (object) array( 'link' 		=> 'ledere',
 $tabs[] = (object) array( 'link' 		=> 'reiseinfo',
 						  'header' 		=> 'Reiseinfo',
 						  'icon'		=> 'buss-256',
-						  'description'	=> 'Reise- og lederskjema');
+						  'description'	=> 'Reise og tilrettelegging');
 
 
 $TWIG['tabs'] = $tabs;
