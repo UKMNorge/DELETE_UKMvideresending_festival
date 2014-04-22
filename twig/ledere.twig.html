@@ -34,6 +34,22 @@
 		
 	</fieldset>
 	
+	
+	<fieldset>
+		<legend>Ledere</legend>
+		<p class="lead">Her registrerer du alle dine ledere, og hvor de sover når</p>
+		
+		<table class="table table-striped" id="ledere">
+			<tbody>
+			{% for leder in ledere %}
+				{% embed "js/ledere_leder.twig.html" %}{% endembed %}
+			{% endfor %}
+			</tbody>
+		</table>
+		
+		<a href="#" class="btn btn-primary btn-md addLeder">Legg til leder</a>
+	</fieldset>
+
 	<fieldset>
 		<legend>Behov for ledere i {{overnatting.deltakere}}</legend>
 		<p class="lead">
@@ -72,21 +88,6 @@
 		<div class="col-xs-12" id="ledere_advarsler"></div>
 
 		
-	</fieldset>
-	
-	<fieldset>
-		<legend>Ledere</legend>
-		<p class="lead">Her registrerer du alle dine ledere, og hvor de sover når</p>
-		
-		<table class="table table-striped" id="ledere">
-			<tbody>
-			{% for leder in ledere %}
-				{% embed "js/ledere_leder.twig.html" %}{% endembed %}
-			{% endfor %}
-			</tbody>
-		</table>
-		
-		<a href="#" class="btn btn-primary btn-md addLeder">Legg til leder</a>
 	</fieldset>
 	
 	
