@@ -17,6 +17,8 @@ if( $res && mysql_num_rows( $res ) > 0 ) {
 	$SQL = new SQLins('smartukm_videresending_ledere_middag', array('skjema_id' => $r['skjema_id']));
 } else {
 	$SQL = new SQLins('smartukm_videresending_ledere_middag');
+	$SQL->add('pl_to', $videresendtil->ID);
+	$SQL->add('pl_from', $m->g('pl_id'));
 }
 $SQL->add('ledermiddag_ukm', $_POST['gjest_ukm']);
 $SQL->add('ledermiddag_fylke1', $_POST['gjest_fylke1']);

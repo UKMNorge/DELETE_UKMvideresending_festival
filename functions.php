@@ -115,6 +115,7 @@ function netter( $videresendtil ) {
 	return $netter;
 }
 function middagsgjester( $videresendtil, $m ) { 
+	$middagsgjester = array('ukm'=>0,'fylke1'=>0,'fylke2'=>0);
 	$sql = new SQL("SELECT `ledermiddag_ukm`,
 							`ledermiddag_fylke1`,
 							`ledermiddag_fylke2`
