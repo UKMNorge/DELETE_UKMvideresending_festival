@@ -7,7 +7,7 @@
 	{% else %}
 		<tr class="alert alert-danger">
 			<td>
-				Du har for lite ledere i {{overnatting_deltakere}}
+				Du har for få ledere i {{overnatting_deltakere}}
 				{% for natt in ledere_for_lite %}
 					{{natt.human}} {{natt.dag}}.{{ loop.last ? '':', '}}
 				{% endfor %}

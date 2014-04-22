@@ -601,7 +601,7 @@ jQuery(document).on('click','#sove_korriger', function(){
 	jQuery(this).html('Lagrer...').addClass('btn-info').removeClass('btn-success');
 	var data = { action: 'UKMvideresending_festival_ajax',
 				subaction: 'leder_overnatting_spektrum',
-				antall: jQuery('#sove_korrigert').val()
+				kommentar: jQuery('#sove_korrigert').val()
 			};
 	jQuery.post(ajaxurl, data, function(response){
 		var data = jQuery.parseJSON( response );

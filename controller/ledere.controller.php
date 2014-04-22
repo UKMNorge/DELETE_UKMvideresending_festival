@@ -45,7 +45,8 @@ while( $r = mysql_fetch_assoc( $res ) ) {
 $TWIG['sove'] = new stdClass();
 $sql = new SQL("SELECT `systemet_overnatting_spektrumdeltakere`,
 						`avvik_overnatting_spektrumdeltakere`,
-						`overnatting_spektrumdeltakere`
+						`overnatting_spektrumdeltakere`,
+						`overnatting_kommentar`
 				FROM `smartukm_videresending_infoskjema`
 				WHERE `pl_id` = '#pl_to'
 				AND `pl_id_from` = '#pl_from'",
@@ -58,6 +59,7 @@ if( $res && mysql_num_rows( $res ) > 0 ) {
 	$r = mysql_fetch_assoc( $res );
 	$TWIG['sove']->system_deltakere = $r['systemet_overnatting_spektrumdeltakere'];
 	$TWIG['sove']->deltakere = $r['overnatting_spektrumdeltakere'];
+	$TWIG['sove']->kommentar = $r['overnatting_kommentar'];
 } else {
 	$TWIG['sove']->system_deltakere = 0;
 	$TWIG['sove']->deltakere = 0;

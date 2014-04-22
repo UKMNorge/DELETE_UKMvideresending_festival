@@ -7,35 +7,46 @@
 	Vennligst vent, laster inn...
 </div>
 <div class="col-xs-12 col-lg-10" id="ledere_content">
+	
+	<fieldset>
+		<legend>Ledere</legend>
+		<p class="lead">Her registrerer du alle dine ledere, og hvor de sover når</p>
+		
+		<table class="table table-striped" id="ledere">
+			<tbody>
+			{% for leder in ledere %}
+				{% embed "js/ledere_leder.twig.html" %}{% endembed %}
+			{% endfor %}
+			</tbody>
+		</table>
+		
+		<a href="#" class="btn btn-primary btn-md addLeder">Legg til leder</a>
+	</fieldset>
+
 
 	<fieldset>
-		<legend>Antall deltakere</legend>
-	
+		<legend>Behov for ledere i {{overnatting.deltakere}}</legend>
 		<p class="lead">
-			Systemet har regnet ut at <a href="#" id="hvaErUnike">{{sove.system_deltakere}} unike personer</a> skal sove i {{overnatting.deltakere}}.
+			Systemet har regnet ut at {{sove.system_deltakere}} deltakere skal sove i {{overnatting.deltakere}}.
 		</p>
 		<p>
-			Du kan korrigere antall deltakere her, men det skal da være fordi noen av deltakerne sover andre steder (hotell, privat e.l.) etter avtale med arrangøren.
+			Hvis noen deltakere ikke skal sove i {{sove.system_deltakere}} kan du spesifisere dette her, etter avtale med arrangøren.
 			<br />
-			Fylket vil motta faktura på deltakeravgift for alle {{sove.system_deltakere}} deltakere selv om du korrigerer antallet.
+			Fylket vil motta faktura på deltakeravgift for alle {{sove.system_deltakere}} deltakere..
 		</p>
-
+		
+		
+		
 		<div class="col-xs-8 col-sm-6 col-md-4">
-				<label for="sove_korrigert">Antall som faktisk skal sove i {{overnatting.deltakere}}</label>
-			<div class="input-group">
-				<input type="number" id="sove_korrigert" class="form-control" value="{{sove.deltakere}}">
-				<span class="input-group-btn">
-					<button type="button" id="sove_korriger" class="btn btn-success btn-md">Lagre</button>
-				</span>
+				<label for="sove_korrigert">Evt. kommentarer ang overnatting</label>
+				<textarea type="number" id="sove_korrigert" class="form-control">{{sove.kommentar}}</textarea>
+				<button type="button" id="sove_korriger" class="btn btn-success btn-md">Lagre</button>
 			</div>
 		</div>
 		
 		<p class="clearfix">&nbsp;</p>
 		
-	</fieldset>
-	
-	<fieldset>
-		<legend>Behov for ledere i {{overnatting.deltakere}}</legend>
+		
 		<p class="lead">
 			Det er krav om minst 1 leder per 10 deltakere i {{overnatting.deltakere}} hver natt. 
 			Dvs <span id="num_ledere_deltakerovernatting"></span> ledere per natt.
@@ -70,24 +81,9 @@
 		<div class="clearfix"></div>
 		
 		<div class="col-xs-12" id="ledere_advarsler"></div>
+	</fieldset>
 
-		
-	</fieldset>
-	
-	<fieldset>
-		<legend>Ledere</legend>
-		<p class="lead">Her registrerer du alle dine ledere, og hvor de sover når</p>
-		
-		<table class="table table-striped" id="ledere">
-			<tbody>
-			{% for leder in ledere %}
-				{% embed "js/ledere_leder.twig.html" %}{% endembed %}
-			{% endfor %}
-			</tbody>
-		</table>
-		
-		<a href="#" class="btn btn-primary btn-md addLeder">Legg til leder</a>
-	</fieldset>
+
 	
 	
 	<p class="clearfix">&nbsp;</p>
