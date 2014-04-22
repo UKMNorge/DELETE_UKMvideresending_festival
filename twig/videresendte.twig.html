@@ -32,8 +32,7 @@
 																	   'liste_navn': person.navn,
 																	   'liste_tittel': '',
 																	   'liste_videresendt': person.videresendt,
-																	   'liste_template': 'tittellos',
-																	   'videresending_apen': videresendtil.mottakelig} %}
+																	   'liste_template': 'tittellos'} %}
 							{% endembed %}
 						{% endfor %}
 					{% else %}
@@ -43,8 +42,7 @@
 																	   'liste_navn': innslag.navn,
 																	   'liste_tittel': tittel.navn,
 																	   'liste_videresendt': tittel.videresendt,
-																	   'liste_template': 'tittel',
-																	   'videresending_apen': videresendtil.mottakelig} %}
+																	   'liste_template': 'tittel'} %}
 							{% endembed %}
 						{% else %}
 							<tr class="">
