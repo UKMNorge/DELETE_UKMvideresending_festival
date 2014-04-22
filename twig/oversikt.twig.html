@@ -1,74 +1,73 @@
 {% extends "layout.twig.html" %}
 
 {% block content %}
-<fieldset class="UKMwidth">
-	<legend>Veiledning</legend>
-	<p>
-		For å fullføre videresendingen må du innom alle faner (videresendte, media osv) og fylle ut alle felt.
-	</p>
-</fieldset>
-
-<fieldset class="UKMwidth">
-	<legend>Frist</legend>
+	<fieldset class="UKMwidth">
+		<legend>Veiledning</legend>
+		<p>
+			For å fullføre videresendingen må du innom alle faner (videresendte, media osv) og fylle ut alle felt.
+			Start med å fylle ut disse:
+			{% embed "oversikt_statistikk.twig.html" %}{% endembed %}
+		</p>
+	</fieldset>
 	
-	<p>
-		<strong>Frist for å videresende innslag: {{videresendtil.frist|dato('d.m.Y H:i')}}</strong>
-	</p>
-	<p>Etter fristen kan du ajourføre media og detaljer på videresendingen, men det vil ikke være mulig å endre på hvilke innslag som er videresendt</p>
-	
-</fieldset>
-	
-<fieldset class="UKMwidth">
-	<legend>Kvoter</legend>
-	<p>
-		<strong>Les kvoter nøye!</strong>
-		Listen gir deg kun en oversikt. For full oversikt over kvotene for {{videresendtil.navn}}, <a href="javascript:alert('kommer snart!');" target="_blank">les info 1</a>
-	</p>
+	<fieldset class="UKMwidth">
+		<legend>Frist</legend>
 		
-	<table class="table">
-		<thead>
-			<tr>
-				<th></th>
-				<th>Du har videresendt</th>
-				<th>Kvoten er</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for kvote in kvoter %}
-				{% if kvote.id == 'scene_varighet' %}
-					<tr class="{% if videresendt.scene_varighet > kvote.verdi*60 %}alert alert-danger{% endif %}">
-						<th>{{kvote.tittel}}</th>
-						<td>{{videresendt.scene_tid}}</td>
-						<td>{{kvote.verdi}} {{kvote.enhet}}{{kvote.flertall}}</td>
-					</tr>
-				{% elseif kvote.id == 'film_varighet' %}
-					<tr class="{% if videresendt.film_varighet > kvote.verdi*60 %}alert alert-danger{% endif %}">
-						<th>{{kvote.tittel}}</th>
-						<td>{{videresendt.film_tid}}</td>
-						<td>{{kvote.verdi}} {{kvote.enhet}}{{kvote.flertall}}</td>
-					</tr>
-				{% else %}
-					<tr class="{% if videresendt[kvote.id] > kvote.verdi %}alert alert-danger{% endif %}">
-						<th>{{kvote.tittel}}</th>
-						<td>{{videresendt[kvote.id]}} {{kvote.enhet}}{{kvote.flertall}}</td>
-						<td>{{kvote.verdi}} {{kvote.enhet}}{{kvote.flertall}}</td>
-					</tr>
-				{% endif %}
-			{% endfor %}
-		</tbody>
-	</table>
+		<p>
+			<strong>Frist for å videresende innslag: {{videresendtil.frist|dato('d.m.Y H:i')}}</strong>
+		</p>
+		<p>Etter fristen kan du ajourføre media og detaljer på videresendingen, men det vil ikke være mulig å endre på hvilke innslag som er videresendt</p>
 	
-<fieldset class="UKMwidth">
-	<legend>Media</legend>
-	{% if mediaOK %}
-		<p class="lead">All nødvendig media er lastet opp. Husk å sjekke playback.</p>
-	{% else %}
-		<div class="alert alert-danger">
-		En eller flere media-filer mangler! Se media-fanen for detaljer og opplasting.
-		</div>
-	{% endif %}
-</fieldset>
-
-
-{% embed "oversikt_statistikk.twig.html" %}{% endembed %}
+	</fieldset>
+		
+	<fieldset class="UKMwidth">
+		<legend>Kvoter</legend>
+		<p>
+			<strong>Les kvoter nøye!</strong>
+			Listen gir deg kun en oversikt. For full oversikt over kvotene for {{videresendtil.navn}}, <a href="javascript:alert('kommer snart!');" target="_blank">les info 1</a>
+		</p>
+			
+		<table class="table">
+			<thead>
+				<tr>
+					<th></th>
+					<th>Du har videresendt</th>
+					<th>Kvoten er</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for kvote in kvoter %}
+					{% if kvote.id == 'scene_varighet' %}
+						<tr class="{% if videresendt.scene_varighet > kvote.verdi*60 %}alert alert-danger{% endif %}">
+							<th>{{kvote.tittel}}</th>
+							<td>{{videresendt.scene_tid}}</td>
+							<td>{{kvote.verdi}} {{kvote.enhet}}{{kvote.flertall}}</td>
+						</tr>
+					{% elseif kvote.id == 'film_varighet' %}
+						<tr class="{% if videresendt.film_varighet > kvote.verdi*60 %}alert alert-danger{% endif %}">
+							<th>{{kvote.tittel}}</th>
+							<td>{{videresendt.film_tid}}</td>
+							<td>{{kvote.verdi}} {{kvote.enhet}}{{kvote.flertall}}</td>
+						</tr>
+					{% else %}
+						<tr class="{% if videresendt[kvote.id] > kvote.verdi %}alert alert-danger{% endif %}">
+							<th>{{kvote.tittel}}</th>
+							<td>{{videresendt[kvote.id]}} {{kvote.enhet}}{{kvote.flertall}}</td>
+							<td>{{kvote.verdi}} {{kvote.enhet}}{{kvote.flertall}}</td>
+						</tr>
+					{% endif %}
+				{% endfor %}
+			</tbody>
+		</table>
+		
+	<fieldset class="UKMwidth">
+		<legend>Media</legend>
+		{% if mediaOK %}
+			<p class="lead">All nødvendig media er lastet opp. Husk å sjekke playback.</p>
+		{% else %}
+			<div class="alert alert-danger">
+			En eller flere media-filer mangler! Se media-fanen for detaljer og opplasting.
+			</div>
+		{% endif %}
+	</fieldset>
 {% endblock %}
