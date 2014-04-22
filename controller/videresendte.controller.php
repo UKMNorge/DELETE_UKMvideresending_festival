@@ -56,3 +56,5 @@ if(is_array($alle_innslag)) {
 	$TWIG['alle_innslag'][$innslag->type][] = $innslag;
 	}
 }
+
+ksort($TWIG['alle_innslag']);
