@@ -15,6 +15,7 @@ foreach( $videresendte as $inn ) {
 	$innslag = new stdClass();
 	$innslag->ID 		= $i->g('b_id');
 	$innslag->navn 		= $i->g('b_name');
+	$innslag->media		= new stdClass();
 
 	$related_media = $i->related_items();
 	
