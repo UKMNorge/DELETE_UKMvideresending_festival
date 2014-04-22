@@ -171,7 +171,7 @@ $videresendte['kunst_personer'] = sizeof( $unike_personer['kunst'] );
 $videresendte['film_personer'] = sizeof( $unike_personer['film'] );
 $videresendte['scene_personer'] = sizeof( $unike_personer['scene'] );
 
-$videresendte['total_personer'] = sizeof($unike_personer['tittellose']) + $videresendte['kunst_personer'] + $videresendte['film_personer'] + $videresendte['scene_personer']; 
+$videresendte['total_personer'] = sizeof($unike_personer['tittellose']) + sizeof( $unike_personer['kunst'] ) + sizeof( $unike_personer['film'] ) + sizeof( $unike_personer['scene'] );
 
 $videresendte['scene_tid'] = sec_to_min( $videresendte['scene_varighet']);
 $videresendte['film_tid'] = sec_to_min( $videresendte['film_varighet']);
@@ -205,7 +205,7 @@ $videresendte['total_ledere'] = $ledere->run('field','num_ledere');
 if( $videresendte['total_personer'] > 0 && $videresendte['total_ledere'] > 0)
 	$videresendte['total_deltakere_per_leder'] = ceil( $videresendte['total_personer'] / $videresendte['total_ledere'] );
 else 
-	$videresendte['total_deltakere_per_leder'] = 0;
+	$videresendte['total_deltakere_per_leder'] = $videresendte['total_personer'];
 
 $TWIG['videresendt'] = $videresendte;
 
