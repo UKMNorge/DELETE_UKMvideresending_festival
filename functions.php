@@ -147,9 +147,10 @@ function update_infoskjema_field( $pl_from, $pl_to, $field, $value ) {
 						'field' => $field
 					)
 				);
-	$res = $sql->run('field', $field );
+	$res = $sql->run();
 	
-	if( $res == $value )
+	$row = mysql_fetch_assoc( $res );
+	if( $row['field'] == $value )
 		return true;
 	
 	if( mysql_num_rows( $res ) == 0 ) {
