@@ -13,7 +13,7 @@ $alle_bilder = $related_items['image'];
 foreach( $alle_bilder as $b ) {
 	$bilde = new stdClass();
 	$bilde->ID = $b['rel_id'];
-	$bilde->baseUrl = 'http://'. $_SERVER['HTTP_HOST'].'/wp-content/uploads/sites/'. $b['blog_id'].'/';
+	$bilde->baseUrl = 'http://'. $_SERVER['HTTP_HOST'].'/wp-content/blogs.dir/'. $b['blog_id'].'/files/';
 	
 	if(isset( $b['post_meta']['sizes']['large'] ) ) {
 		$bilde->full = $b['post_meta']['sizes']['large']['file'];

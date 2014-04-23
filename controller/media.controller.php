@@ -120,7 +120,7 @@ function image_selected( $innslag, $tittel = false, $type = 'bilde' ) {
 		$src = $post_meta['file'];
 	}
 	
-	$src = 'http://'. $_SERVER['HTTP_HOST'].'/wp-content/uploads/sites/'. $bilde['blog_id'].'/' . $src;
+	$src = 'http://'. $_SERVER['HTTP_HOST'].'/wp-content/blogs.dir/'. $bilde['blog_id'].'/files/' . $src;
 
 	
 	$vb = new stdClass();
