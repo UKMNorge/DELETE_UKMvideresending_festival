@@ -163,6 +163,9 @@ class leder {
 		
 		$this->pl_to = $this->pl_id_to;
 		$this->pl_from = $this->pl_id_from;
+
+		$from = new monstring( $this->pl_from );
+		$this->kommer_fra = $from->g('pl_name');
 		
 		$this->netter();
 		
