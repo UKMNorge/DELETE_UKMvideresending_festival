@@ -12,9 +12,13 @@ $videresendtil->ID		= $vt->g('pl_id');
 $videresendtil->navn 	= $vt->g('pl_name');
 $videresendtil->frist 	= $vt->g('pl_deadline');
 $videresendtil->registrert = $vt->registered();
-$videresendtil->mottakelig = true;#$vt->subscribable();
+$videresendtil->mottakelig = $vt->subscribable();
 $videresendtil->pl_start	= $vt->g('pl_start');
 $videresendtil->pl_stop		= $vt->g('pl_stop');
+
+$current_user_id = get_current_user_id();
+if( $current_user_id == 1 ) 
+	$videresendtil->mottakelig = true;
 
 $TWIG['videresendtil'] 	= $videresendtil;
 

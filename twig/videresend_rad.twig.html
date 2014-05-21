@@ -1,6 +1,6 @@
 <tr class="videresend_item {{ liste_videresendt ? 'success' : '' }}" id="{{liste_ID_html}}" data-videresendt="{{ liste_videresendt ? 'true' : 'false' }}" data-template="{{ liste_template }}" data-id="{{liste_ID}}">
 	<td class="ikon">
-		{% if videresending.mottakelig or true %}
+		{% if videresendtil.mottakelig %}
 		<input type="checkbox" class="videresend" value="true" {{liste_videresendt ? 'checked="checked"' : ''}} />
 		{% else %}
 			<input type="checkbox" value="true" checked="checked" disabled="disabled" />
