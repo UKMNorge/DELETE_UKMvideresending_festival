@@ -57,4 +57,5 @@ if(is_array($alle_innslag)) {
 	}
 }
 
-ksort($TWIG['alle_innslag']);
+if( is_array( $TWIG['alle_innslag']))
+	ksort($TWIG['alle_innslag']);
