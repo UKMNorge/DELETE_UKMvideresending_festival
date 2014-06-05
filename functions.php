@@ -1,6 +1,6 @@
 <?php
 
-function image_selected( $innslag, $tittel = false, $type = 'bilde' ) {
+function image_selected( $innslag, $tittel = false, $type = 'bilde', $size='thumbnail' ) {
 	$valgtBilde = new SQL("SELECT *
 						   FROM `smartukm_videresending_media` AS `media`
 						   JOIN `ukmno_wp_related` ON (`ukmno_wp_related`.`rel_id` = `media`.`rel_id`)
@@ -16,9 +16,9 @@ function image_selected( $innslag, $tittel = false, $type = 'bilde' ) {
 	
 	// CALC IMAGE DATA
 	$bilde = $valgtBilde->run('array');
-
+	
 	$post_meta = unserialize( $bilde['post_meta'] );
-	if( isset( $post_meta['sizes']['thumbnail']['file'] ) ) {
+	if( $size == 'thumbnail' && isset( $post_meta['sizes']['thumbnail']['file'] ) ) {
 		$src = $post_meta['sizes']['thumbnail']['file'];
 	} else {
 		$src = $post_meta['file'];
