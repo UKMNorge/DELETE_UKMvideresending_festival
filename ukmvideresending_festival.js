@@ -107,8 +107,9 @@ jQuery(document).on('click', '#image_selector_select', function(){
 			var innslag = jQuery('#' + data.selector );
 			var image = jQuery('<img />').attr('src', data.image_thumb); 
 			var button = jQuery('<a />').attr('href','#').addClass('imageSelector btn btn-default btn-xs').html('Velg annet bilde');
+			var button2 = jQuery('<a />').attr('href','#').addClass('alertImageUpload btn btn-block btn-xs btn-default').html('Last opp bilde(r)');
 			var imageCont = innslag.find('td.imageSelect:not(.kunstner)');
-			imageCont.removeClass('alert-danger').addClass('alert-success').html( image ).append('<br />').append( button );
+			imageCont.removeClass('alert-danger').addClass('alert-success').html( image ).append('<br />').append( button ).append('<br />eller<br />').append( button2 );
 		}
 		
 		jQuery('#pageAlertContainer').slideUp().html( 'Vennligst vent..' );

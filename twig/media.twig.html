@@ -30,12 +30,20 @@
 					Hvilket bilde skal brukes?
 					<br />
 					<a href="#" class="imageSelector btn btn-block btn-default">Velg bilde</a>
+					<br />
+					eller
+					<br />
+					<a href="#" class="alertImageUpload btn btn-block btn-xs btn-default">Last opp bilde(r)</a>
 				</td>
 			{% else %}
 				<td class="imageSelect alert alert-success col-xs-2">
 					<img src="{{innslag.media.image.src}}" id="rel_{{innslag.media.image.ID}}" />
 					<br />
 					<a href="#" class="imageSelector btn btn-block btn-default  btn-xs">Velg annet bilde</a>
+					<br />
+					eller
+					<br />
+					<a href="#" class="alertImageUpload btn btn-block btn-xs btn-default">Last opp bilde(r)</a>
 				</td>
 			{% endif %}
 			
