@@ -65,7 +65,21 @@ if( $res && mysql_num_rows( $res ) > 0 ) {
 	$TWIG['sove']->deltakere = 0;
 }
 
-
+// Hovedledere natt
+$TWIG['nattledere'] = array();
+foreach( $TWIG['dager'] as $dag ) {
+	$TWIG['nattledere'][ $dag->dag .'_'. $dag->mnd ] = 'null';
+}
+$sql = new SQL("SELECT * FROM `smartukm_videresending_ledere_nattleder`
+				WHERE `pl_id_from` = '#plid'",
+				array('plid' => $m->get('pl_id') )
+			   );
+$res = $sql->run();
+if( $res ) {
+	while( $r = mysql_fetch_assoc( $res ) ) {
+		$TWIG['nattledere'][ $r['dato'] ] = $r['l_id'];
+	}
+}
 
 // LEDERMIDDAG
 $TWIG['middagsgjester'] = middagsgjester( $videresendtil, $m );

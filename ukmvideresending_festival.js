@@ -1,3 +1,5 @@
+var warn_ledere = null;
+var warn_hotelldogn = null;
 jQuery(document).ready(function(){
 	jQuery('.videresend_item').each(function(){
 		if( jQuery(this).attr('data-videresendt') == 'true' ) {
@@ -379,6 +381,7 @@ jQuery(document).on('click','button.leder_save', function(){
 			jQuery('#'+data.selector).find('.leder_save').html('Lagret!').removeClass('btn-info').addClass('btn-success');
 			jQuery(document).trigger('rekalkuler_overnatting');
 			jQuery(document).trigger('middagsgjester_save');
+			jQuery(document).trigger('leder_lagret');
 			setTimeout(function() {
 				//console.log('reset leder save button');
 				jQuery('button.leder_save').html('Lagre');
@@ -492,11 +495,25 @@ jQuery(document).on('rekalkuler_advarsel', function(e, ledere, hotelldogn){
 		}
 	});
 	
+	var warn_nattledere = 0;
+	//console.group('Nattledere advarsel');
+	for (var key in nattledere) {
+	  if (nattledere.hasOwnProperty(key)) {
+		  if( nattledere[key] == 0 || nattledere[key] == null) {
+			  warn_nattledere++;
+		  }
+	    //console.log(key + " -> " + nattledere[key]);
+	  }
+	}
+	//console.log('Warn: ' + warn_nattledere);
+	//console.groupEnd();
+	
 	var data = {'ledere': ledere,
 				'hotelldogn': hotelldogn,
 				'pris_hotelldogn': jQuery('#pris_hotelldogn').val(),
 				'ledere_for_lite': ledere_for_lite,
-				'overnatting_deltakere': jQuery('#overnatting_deltakere').val()
+				'overnatting_deltakere': jQuery('#overnatting_deltakere').val(),
+				'nattledere_for_lite': warn_nattledere
 				};
 	//console.log(data);
 	jQuery('#ledere_advarsler').html( twigJSlederestatus.render( data ) );
@@ -547,12 +564,38 @@ jQuery(document).on('rekalkuler_overnatting', function() {
 			var id = jQuery(this).attr('id');
 			var selector = 'input[name="leder_'+ leder.attr('data-id') +'_dato_'+ id +'"]:checked';
 			var sted = leder.find(selector).val();
-
 			if( sted != undefined ) {
 				fordeling[ sted ][ id ] ++;
 				if( sted == 'hotell' ) {
 					hotelldogn++;
 				}
+				// VALG AV HOVEDLEDER
+				var nattleder_selector = 'leder_'+ leder.attr('data-id') + '_natt_' + id;
+				//console.group('Nattleder '+ nattleder_selector);
+				if( sted == 'deltakere' ) {
+					//console.info('KAN');
+					var ledernavn = jQuery('#leder_'+ leder.attr('data-id') ).find('input.leder_navn').val();
+					if( ledernavn.length == 0 ) {
+						ledernavn = jQuery('#leder_'+ leder.attr('data-id') ).find('.leder_type').val() + 'leder uten navn';
+					}
+
+					if( jQuery('#' + nattleder_selector).length ) {
+						//console.log('Er i listen');
+						jQuery('#' + nattleder_selector).text(ledernavn);
+					} else {
+						//console.info('Legg til i listen');
+						jQuery('#nattleder_'+id).append('<option value="'+ leder.attr('data-id') +'" id="'+ nattleder_selector +'">'+ ledernavn +'</option>');
+					}
+					// Sett selected hvis vedkommende er lagret selected i databasen
+					if( parseInt( nattledere['natt_'+id] ) == parseInt( leder.attr('data-id')) ) {
+						jQuery( '#' + nattleder_selector ).attr('selected','selected');
+					}
+				} else {
+					//console.warn('Kan ikke - fjern fra listen');
+					jQuery('#'+ nattleder_selector ).remove();
+					//console.log( leder.attr('data-id') + ' kan ikke være hovedleder ' + id );
+				}
+				console.groupEnd();
 			} else {
 				ledere[ leder.attr('id') ]['mangler_overnatting'].push( jQuery(this).attr('data-human') +' '+ jQuery(this).attr('data-dag') +'.' );
 				sted = 'ikke valgt';
@@ -561,6 +604,8 @@ jQuery(document).on('rekalkuler_overnatting', function() {
 		});
 		//console.groupEnd();
 	});
+	
+	jQuery(document).trigger('lagre_nattleder');
 	//console.log('Opptelling fullført');
 	//console.groupEnd();
 	//console.warn( fordeling );
@@ -593,7 +638,8 @@ jQuery(document).on('rekalkuler_overnatting', function() {
 	//console.groupEnd();	
 
 	//console.groupEnd();
-	
+	warn_ledere = ledere;
+	warn_hotelldogn = hotelldogn;
 	jQuery(document).trigger('rekalkuler_advarsel', [ledere, hotelldogn]);
 });
 
@@ -691,4 +737,35 @@ jQuery(document).on('click', '#hvaErUnike', function(e){
 	e.preventDefault();
 	jQuery('#ledere_content').slideUp();
 	jQuery('#ledere_modal').html( twigJSalertunikepersoner.render() ).slideDown();
+});
+
+// NATTLEDERE
+jQuery(document).on('click', '#sove_nattledere', function(){
+	jQuery(document).trigger('lagre_nattleder');
+});
+
+jQuery(document).on('ready', function() {
+	jQuery(document).trigger('leder_lagret');
+});
+
+jQuery(document).on('lagre_nattleder', function() {
+	jQuery('#sove_nattledere').html('Lagrer...').addClass('btn-info').removeClass('btn-default');
+
+	var data = {
+		action: 'UKMvideresending_festival_ajax',
+		subaction: 'leder_nattleder_save', 
+	};
+	
+	jQuery('.nattleder').each(function() {
+		var key = jQuery(this).attr('id').replace('nattleder_','natt_');
+		nattledere[ key ] = jQuery(this).val();
+		data[ jQuery(this).attr('id') ] = jQuery(this).val();
+	});
+
+	jQuery.post(ajaxurl, data, function(response) {
+		jQuery('#sove_nattledere').html('Lagret!').addClass('btn-success').removeClass('btn-info');
+		jQuery(document).trigger('rekalkuler_advarsler', [warn_ledere, warn_hotelldogn]);
+		setTimeout(function(){jQuery('#sove_nattledere').html('Lagre hovedledere')},2000);
+	});
+
 });

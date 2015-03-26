@@ -27,9 +27,13 @@
 		</td>
 	</tr>
 	{% endfor %}
+	{% if nattledere_for_lite > 0 %}
+		<tr class="alert alert-danger">
+			<td>Du mangler ansvarlig leder i {{overnatting_deltakere}} {{ nattledere_for_lite == 1 ? ' én natt' : nattledere_for_lite~' netter'}}</td>
+		</tr>	
+	{% endif %}
 	
 	<tr class="alert alert-warning">
 		<td>Du bestiller nå {{hotelldogn}} hotelldøgn á kr. {{pris_hotelldogn}},- til totalt kr. {{pris_hotelldogn*hotelldogn}},-</td>
 	</tr>
-
 </div>

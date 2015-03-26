@@ -56,6 +56,41 @@
 	</div>
 	
 	<div class="clearfix"></div>
+
+	<h3>Ansvarlig leder i {{ overnatting.deltakere }}</h3>
+	<script type="text/javascript">
+		var nattledere = {
+		{% for dato, leder in nattledere %}
+			natt_{{dato}}: {{leder}},
+		{% endfor %}
+		};	
+	</script>
+	<p>Det må velges én ansvarlig leder per natt i {{ overnatting.deltakere }}, som vil være kontaktperson for UKM Norge, vakter o.l.</p>
+	<div class="col-xs-12 col-md-6 col-md-offset-3">
+		<table class="table-condensed col-xs-12">
+			<thead>
+				<tr>
+					<th width="col-xs-4">Natt</th>
+					<th class="col-xs-8">Leder</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for dato in dager %}
+					<tr>
+						<td width="40">
+							{{dato.timestamp|dato('D')}}
+							<small>{{dato.dag}}.{{dato.mnd}}</small>
+						</td>
+						<td>
+							<select class="nattleder" id="nattleder_{{dato.dag}}_{{dato.mnd}}" data-human="{{dato.timestamp|dato('D')}}" data-dag="{{dato.dag}}" data-mnd="{{dato.mnd}}">
+							</select>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		<button type="button" id="sove_nattledere" class="btn btn-success btn-md">Lagre ansvarlige ledere</button>
+	</div>
 	
 
 	<div class="col-xs-12" id="ledere_advarsler"></div>
