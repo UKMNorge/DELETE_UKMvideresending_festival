@@ -19,6 +19,15 @@
 		<p>Etter fristen kan du ajourføre media og detaljer på videresendingen, men det vil ikke være mulig å endre på hvilke innslag som er videresendt</p>
 	
 	</fieldset>
+
+	<fieldset class="UKMwidth">
+		<legend>Nominasjon</legend>
+		<p>
+			{% if "now"|date("Y") < 2017 %}<i class="label label-danger">Nytt i 2015</i> &nbsp;{% endif %}
+			Det må fylles ut ett nominasjonsskjema med kompetansekartlegging pr deltaker-kandidat, som må innsendes innen oppsatte frister.
+			<a href="?page=UKMvideresending_festival&lesmer=nominasjon">Les mer og last ned skjema</a>
+		</p>
+	</fieldset>
 		
 	<fieldset class="UKMwidth">
 		<legend>Kvoter</legend>
@@ -28,7 +37,16 @@
 		
 			<br>Av hensyn til kvaliteten på arrangementet vil vi ikke godta overskridelser av kvotene. Dette gjelder selv om et fylke skulle ha publisert videresendingen i media. Fylket vil i et slikt tilfelle måtte gi kontrabeskjed og skuffe de berørte, og vi vil på det sterkeste be dere unngå at en slik situasjon oppstår.<br>
 		</p>
-			
+
+		<p>
+			<strong>Miks-innslag</strong><br />
+			{% if "now"|date("Y") < 2017 %}<i class="label label-danger">Nytt i 2015</i> &nbsp;{% endif %}
+			Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod 
+			<a href="?page=UKMvideresending_festival&lesmer=mikskvote">Les mer</a>
+		</p>
+		
+		
+		
 		<table class="table">
 			<thead>
 				<tr>
@@ -43,19 +61,39 @@
 						<tr class="{% if videresendt.scene_varighet > kvote.verdi*60 %}alert alert-danger{% endif %}">
 							<th>{{kvote.tittel}}</th>
 							<td>{{videresendt.scene_tid}}</td>
-							<td>{{kvote.verdi}} {{kvote.enhet}}{{kvote.flertall}}</td>
+							<td>
+								{{kvote.verdi}} {{kvote.enhet}}{{kvote.flertall}}
+								{% if kvote.kommentar is defined and kvote.kommentar is not empty %}
+									<br /><small><em>{{ kvote.kommentar }}</em></small>
+								{% endif %}
+							</td>
 						</tr>
 					{% elseif kvote.id == 'film_varighet' %}
 						<tr class="{% if videresendt.film_varighet > kvote.verdi*60 %}alert alert-danger{% endif %}">
 							<th>{{kvote.tittel}}</th>
 							<td>{{videresendt.film_tid}}</td>
-							<td>{{kvote.verdi}} {{kvote.enhet}}{{kvote.flertall}}</td>
+							<td>
+									{{kvote.verdi}} {{kvote.enhet}}{{kvote.flertall}}
+								{% if kvote.kommentar is defined and kvote.kommentar is not empty %}
+									<br /><small><em>{{ kvote.kommentar }}</em></small>
+								{% endif %}
+							</td>
 						</tr>
 					{% else %}
-						<tr class="{% if videresendt[kvote.id] > kvote.verdi %}alert alert-danger{% endif %}">
+						<tr class="{% if videresendt[kvote.id] > kvote.verdi and kvote.verdi != 'nomineres' %}alert alert-danger{% endif %}">
 							<th>{{kvote.tittel}}</th>
 							<td>{{videresendt[kvote.id]}} {{kvote.enhet}}{{kvote.flertall}}</td>
-							<td>{{kvote.verdi}} {{kvote.enhet}}{{kvote.flertall}}</td>
+							<td>
+							{% if kvote.verdi == 'nomineres' %}
+								<strong>Nomineres</strong>
+							{% else %}
+								{{kvote.verdi}} {{kvote.enhet}}{{kvote.flertall}}
+							{% endif %}
+							
+							{% if kvote.kommentar is defined and kvote.kommentar is not empty %}
+								<br /><small><em>{{ kvote.kommentar }}</em></small>
+							{% endif %}
+							</td>
 						</tr>
 					{% endif %}
 				{% endfor %}

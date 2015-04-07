@@ -1,0 +1,30 @@
+{% extends "layout.twig.html" %}
+
+{% block content %}
+<div class="UKMwidth">
+	<a href="?page=UKMvideresending_festival">Tilbake til oversikten</a>
+	<h2>Nominasjon</h2>
+	<p class="lead">Nominasjon gjelder arrangører (UA) og UKM Media (tidl. nettredaksjon)</p>
+
+	<p>Unge arrangører og UKM Media-deltakere må i 2015 nomineres, og har egne nomineringsfrister! Deltakere som leverer et produkt (scene, litteratur, konferansier osv) videresendes som tidligere.
+	</p>
+	
+	<p>
+		Det må fylles ut ett nominasjonsskjema med kompetansekartlegging pr deltaker-kandidat, som må innsendes innen oppsatte frister. De som sender innen fristen vil bli prioritert, og er garantert et visst antall plasser. Fylker som leverer for sent risikerer at ungdommene ikke får plass
+	</p>
+	
+
+	<p class="alert alert-danger">
+		Ingen ungdommer kan loves plass før dere får en tilbakemelding fra UKM Norge på nominasjonen
+	</p>
+	
+	<h3>Frister</h3>
+	<p>
+		{{ frister|nl2br }}
+	</p>
+	
+	<h3>Last ned nominasjonsskjema</h3>
+	<p><a href="{{ skjema_ua }}">Last ned for arrangører</a></p>
+	<p><a href="{{ skjema_ukmmedia }}">Last ned for UKM Media</a></p>
+</div>
+{% endblock %}

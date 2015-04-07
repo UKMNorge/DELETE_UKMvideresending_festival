@@ -57,10 +57,9 @@ function UKMvideresending_festival() {
 	require_once('controller/layout.controller.php');
 	
 	$VIEW = isset( $_GET['action'] ) ? $_GET['action'] : 'oversikt';
-	
+	$TWIG['tab_active'] = $VIEW;
 	require_once('controller/'. $VIEW .'.controller.php');
 	
-	$TWIG['tab_active'] = $VIEW;
 	
 	echo TWIG($VIEW .'.twig.html', $TWIG, dirname(__FILE__), true);
 	echo TWIGjs( dirname(__FILE__) );
