@@ -62,7 +62,7 @@
 							<th>{{kvote.tittel}}</th>
 							<td>{{videresendt.scene_tid}}</td>
 							<td>
-								{{kvote.verdi}} {{kvote.enhet}}{{kvote.flertall}}
+								{{kvote.verdi}} {{kvote.enhet}}{{ kvote.verdi != 1 ? kvote.flertall : ''}}
 								{% if kvote.kommentar is defined and kvote.kommentar is not empty %}
 									<br /><small><em>{{ kvote.kommentar }}</em></small>
 								{% endif %}
@@ -73,7 +73,7 @@
 							<th>{{kvote.tittel}}</th>
 							<td>{{videresendt.film_tid}}</td>
 							<td>
-									{{kvote.verdi}} {{kvote.enhet}}{{kvote.flertall}}
+									{{kvote.verdi}} {{kvote.enhet}}{{ kvote.verdi != 1 ? kvote.flertall : ''}}
 								{% if kvote.kommentar is defined and kvote.kommentar is not empty %}
 									<br /><small><em>{{ kvote.kommentar }}</em></small>
 								{% endif %}
@@ -82,12 +82,12 @@
 					{% else %}
 						<tr class="{% if videresendt[kvote.id] > kvote.verdi and kvote.verdi != 'nomineres' %}alert alert-danger{% endif %}">
 							<th>{{kvote.tittel}}</th>
-							<td>{{videresendt[kvote.id]}} {{kvote.enhet}}{{kvote.flertall}}</td>
+							<td>{{videresendt[kvote.id]}} {{kvote.enhet}}{{ kvote.verdi != 1 ? kvote.flertall : ''}}</td>
 							<td>
 							{% if kvote.verdi == 'nomineres' %}
 								<strong>Nomineres</strong>
 							{% else %}
-								{{kvote.verdi}} {{kvote.enhet}}{{kvote.flertall}}
+								{{kvote.verdi}} {{kvote.enhet}}{{ kvote.verdi != 1 ? kvote.flertall : ''}}
 							{% endif %}
 							
 							{% if kvote.kommentar is defined and kvote.kommentar is not empty %}

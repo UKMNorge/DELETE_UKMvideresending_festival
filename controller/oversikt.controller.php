@@ -46,7 +46,7 @@ if( isset( $_GET['lesmer'] ) ) {
 										'tittel'	=> 'Antall filmer',
 										'enhet'		=>	'film',
 										'flertall'	=> 'er',
-										'kommentar' => '2 filmer hvis total varighet mindre enn 6 minutter'
+										'kommentar' => '2 filmer hvis total varighet er under 6 minutter'
 									);
 	
 	$kvote_param[]	= (object) array(	'id' 		=> 'film_varighet',
