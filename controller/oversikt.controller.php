@@ -216,6 +216,9 @@ if( isset( $_GET['lesmer'] ) ) {
 	update_infoskjema_field( $m->g('pl_id'), $videresendtil->ID, 'systemet_overnatting_spektrumdeltakere', $videresendte['total_personer']);
 	
 	require_once('oversikt_statistikk.controller.php');
+
+	$TWIG['info1'] = get_site_option('UKMFvideresending_info1');
+
 }
 
 
