@@ -513,7 +513,7 @@ jQuery(document).on('rekalkuler_advarsel', function(e, ledere, hotelldogn){
 					subaction: 'leder_overnatting_hotelldogn',
 					hotelldogn: hotelldogn
 				};
-	jQuery.post(ajaxurl, postdata, function(response){console.log(response)});
+	jQuery.post(ajaxurl, postdata, function(response){});
 	//
 	
 	var data = {'ledere': ledere,
