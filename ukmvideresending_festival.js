@@ -508,6 +508,14 @@ jQuery(document).on('rekalkuler_advarsel', function(e, ledere, hotelldogn){
 	//console.log('Warn: ' + warn_nattledere);
 	//console.groupEnd();
 	
+	// Lagre antall hotelldøgn
+	var postdata = {action: 'UKMvideresending_festival_ajax',
+					subaction: 'leder_overnatting_hotelldogn',
+					hotelldogn: hotelldogn
+				};
+	jQuery.post(ajaxurl, postdata, function(response){console.log(response)});
+	//
+	
 	var data = {'ledere': ledere,
 				'hotelldogn': hotelldogn,
 				'pris_hotelldogn': jQuery('#pris_hotelldogn').val(),
