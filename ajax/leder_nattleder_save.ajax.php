@@ -6,6 +6,8 @@ $pl_id = get_option('pl_id');
 $SQLdel = new SQLdel('smartukm_videresending_ledere_nattleder', array('pl_id_from' => $pl_id) );
 $SQLdel->run();
 
+error_log('NATTLEDER_SAVE: '. $SQLdel->debug());
+
 foreach( $_POST as $key => $val ) {
 	if( strpos( $key, 'nattleder_' ) !== false ) {
 		$SQL = new SQLins('smartukm_videresending_ledere_nattleder');
@@ -13,6 +15,7 @@ foreach( $_POST as $key => $val ) {
 		$SQL->add('dato', str_replace('nattleder_', '', $key ));
 		$SQL->add('pl_id_from', $pl_id);
 		$SQL->run();
+		error_log('NATTLEDER_SAVE: '. $SQL->debug());
 	}
 }
 $result = true;
