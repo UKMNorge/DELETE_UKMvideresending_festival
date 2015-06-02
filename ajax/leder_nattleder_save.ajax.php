@@ -7,7 +7,7 @@ $SQLdel = new SQLdel('smartukm_videresending_ledere_nattleder', array('pl_id_fro
 $SQLdel->run();
 
 ini_set("error_log", dirname( __FILE__ ).'/error_log');
-
+echo dirname( __FILE__ ).'/error_log';
 
 error_log('NATTLEDER_SAVE: '. $SQLdel->debug());
 
