@@ -217,7 +217,9 @@ if( isset( $_GET['lesmer'] ) ) {
 	
 	require_once('oversikt_statistikk.controller.php');
 
-	$TWIG['info1'] = get_site_option('UKMFvideresending_info1');
+	$season = ($month > 7) ? date('Y')+1 : date('Y');
+	$TWIG['info1'] = get_site_option('UKMFvideresending_info1_'.$season);
+	#$TWIG['info1'] = get_site_option('UKMFvideresending_info1');
 
 }
 

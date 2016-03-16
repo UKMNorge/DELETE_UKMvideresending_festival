@@ -3,5 +3,6 @@ $VIEW = 'oversikt_lesmer_nominasjon';
 
 $TWIG['frister'] = get_site_option('UKMFvideresending_nominasjon_frister');
 
-$TWIG['skjema_ua'] = get_site_option('UKMFvideresending_nominasjon_ua');
-$TWIG['skjema_ukmmedia'] = get_site_option('UKMFvideresending_nominasjon_ukmmedia');
+$season = ($month > 7) ? date('Y')+1 : date('Y');
+$TWIG['skjema_ua'] = get_site_option('UKMFvideresending_nominasjon_ua_'.$season);
+$TWIG['skjema_ukmmedia'] = get_site_option('UKMFvideresending_nominasjon_ukmmedia_'.$season);

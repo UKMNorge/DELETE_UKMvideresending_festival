@@ -19,6 +19,8 @@ if(is_admin()) {
 
 		add_action('wp_ajax_UKMvideresending_festival_ajax', 'UKMvideresending_festival_ajax');
 	}
+
+	add_filter( 'UKMWPNETWDASH_messages', 'UKMvideresending_check_documents');
 	
 	define('PLUGIN_DIR_PATH', dirname(__FILE__).'/');
 }
@@ -37,6 +39,50 @@ function UKMvideresending_festival_menu() {
 		UKM_add_menu_page('monstring', 'Videresending', 'Videresending', 'editor', 'UKMvideresending_festival', 'UKMvideresending_festival', 'http://ico.ukm.no/paper-airplane-20.png',20);
 		UKM_add_scripts_and_styles( 'UKMvideresending_festival', 'UKMvideresending_festival_script' );
 	}
+}
+
+function UKMvideresending_check_documents($MESSAGES) {
+	$month = date('n');
+	$season = ($month > 7) ? date('Y')+1 : date('Y');
+
+	$info1 = get_site_option('UKMFvideresending_info1_'.$season);
+	$ua_nom = get_site_option('UKMFvideresending_nominasjon_ua_'.$season); 
+	$media_nom = get_site_option('UKMFvideresending_nominasjon_ukmmedia_'.$season);
+
+	if ($month < 6) {
+		if( !$info1 || empty($info1) ) {
+			$MESSAGES[] = array(	'level' => 'alert-warning', 
+									'module' => 'UKMvideresending_festival', 
+									'header' => 'Info 1-dokumentet er ikke oppdatert fra i fjor!', 
+									'body' => 'Rett dette ved å legge inn rett dokument i Mønstringsmodulen.',
+									'link' => 'http://ukm.no/festivalen/wp-admin/admin.php?page=UKMMonstring' 
+								);
+			return $MESSAGES;
+		}	
+	}
+
+	### Nominasjonsskjema sjekkes i mars
+	if ($month < 6 && $month > 2) {
+		# UA
+		if( !$ua_nom || empty($ua_nom)) {
+			$MESSAGES[] = array(	'level' => 'alert-warning', 
+									'module' => 'UKMvideresending_festival', 
+									'header' => 'Nominasjons-dokumentet for UA er ikke oppdatert!', 
+									'body' => 'Rett dette ved å legge inn rett dokument i Mønstringsmodulen.',
+									'link' => 'http://ukm.no/festivalen/wp-admin/admin.php?page=UKMMonstring' 
+								);
+		}
+		# UKM Media
+		if( !$media_nom || empty($media_nom)) {
+			$MESSAGES[] = array(	'level' => 'alert-warning', 
+									'module' => 'UKMvideresending_festival', 
+									'header' => 'Nominasjons-dokumentet for UKM Media er ikke oppdatert!', 
+									'body' => 'Rett dette ved å legge inn rett dokument i Mønstringsmodulen.',
+									'link' => 'http://ukm.no/festivalen/wp-admin/admin.php?page=UKMMonstring' 
+								);
+		}
+	}
+	return $MESSAGES;
 }
 
 ## INCLUDE SCRIPTS
