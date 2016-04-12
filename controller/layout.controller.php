@@ -54,7 +54,7 @@ $TWIG['tabs'] = $tabs;
 
 $TWIG['m'] = $m;
 
-$TWIG['overnatting_pris_hotell']	= 895;
+$TWIG['overnatting_pris_hotell']	= (int) get_site_option('UKMFvideresending_hotelldogn_pris_'.get_option('season'));
 
 $TWIG['overnatting']['deltakere']	= 'Spektrum';
 $TWIG['overnatting']['hotell']		= 'Bakeriet Hotell';
@@ -65,3 +65,4 @@ $TWIG['ledermaltid']->tittel= 'Ledermiddag';
 $TWIG['ledermaltid']->sted	= 'Clarion Brattøra';
 $TWIG['ledermaltid']->dag	= 'Lørdag';
 $TWIG['ledermaltid']->tid	= 'kl xx:xx';
+$TWIG['ledermaltid']->pris	= (int) get_site_option('UKMFvideresending_ledermiddag_avgift_'.get_option('season'));

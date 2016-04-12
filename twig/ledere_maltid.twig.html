@@ -16,7 +16,7 @@
 			<select class="lederselect form-control" id="ledermaltid_2">
 				{% embed "js/ledere_maltid.twig.html" with {maltid_selected: middagsgjester.fylke1} %}{% endembed %}
 			</select>
-			<p>Betalt av fylket selv</p>
+			<p>Betalt av fylket selv (kr. {{ ledermaltid.pris }},-)</p>
 		</div>
 
 		<div class="form-group col-xs-12 col-sm-8 col-md-6 col-lg-4">
@@ -24,7 +24,7 @@
 			<select class="lederselect form-control" id="ledermaltid_3">
 				{% embed "js/ledere_maltid.twig.html" with {maltid_selected: middagsgjester.fylke2} %}{% endembed %}
 			</select>
-			<p>Betalt av fylket selv</p>
+			<p>Betalt av fylket selv (kr. {{ ledermaltid.pris }},-)</p>
 		</div>
 
 		<p>

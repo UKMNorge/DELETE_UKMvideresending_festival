@@ -1,19 +1,18 @@
 <?php
-
 if( isset( $_GET['lesmer'] ) ) {
 	require_once('oversikt_lesmer_'. $_GET['lesmer'] .'.controller.php');
 } else {
-		
+	$season = get_option('season');
 	// TOTAL
 	$kvote_param[]	= (object) array(	'id' 		=> 'total_personer',
-										'verdi'		=>	30,
+										'verdi'		=>	(int) get_site_option('UKMFvideresending_kvote_deltakere_'.$season),
 										'tittel'	=> 'Totalt antall deltakere',
 										'enhet'		=>	'person',
 										'flertall'	=> 'er'
 									);
 							
 	$kvote_param[]	= (object) array(	'id' 		=> 'total_ledere',
-										'verdi'		=>	3,
+										'verdi'		=>	(int) get_site_option('UKMFvideresending_kvote_ledere_'.$season),
 										'tittel'	=> 'Antall ledere',
 										'enhet'		=>	'person',
 										'flertall'	=> 'er'
