@@ -530,7 +530,7 @@ jQuery(document).on('rekalkuler_advarsel', function(e, ledere, hotelldogn){
 
 jQuery(document).on('rekalkuler_overnatting', function() {
 	//console.group('REKALKULER OVERNATTING');
-
+	console.log('Rekalkuler_overnatting');
 	//console.group('Reset');
 	var fordeling = {};
 	var ledere = {};
