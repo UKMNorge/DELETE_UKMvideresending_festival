@@ -749,6 +749,7 @@ jQuery(document).on('click', '#hvaErUnike', function(e){
 
 // NATTLEDERE
 jQuery(document).on('click', '#sove_nattledere', function(){
+	console.log('sove_nattledere pushed.');
 	jQuery(document).trigger('lagre_nattleder');
 });
 
