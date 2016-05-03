@@ -613,7 +613,9 @@ jQuery(document).on('rekalkuler_overnatting', function() {
 		//console.groupEnd();
 	});
 	
-	jQuery(document).trigger('lagre_nattleder');
+	// Fjernet denne 03.05 fordi den overskriver lagrede nattledere hver nye pageload.
+	//jQuery(document).trigger('lagre_nattleder');
+	
 	//console.log('Opptelling fullført');
 	//console.groupEnd();
 	//console.warn( fordeling );
