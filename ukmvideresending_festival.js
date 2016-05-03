@@ -757,6 +757,8 @@ jQuery(document).on('ready', function() {
 });
 
 jQuery(document).on('lagre_nattleder', function() {
+	
+	console.log('Lagrer nattledere.');
 	jQuery('#sove_nattledere').html('Lagrer...').addClass('btn-info').removeClass('btn-default');
 
 	var data = {
