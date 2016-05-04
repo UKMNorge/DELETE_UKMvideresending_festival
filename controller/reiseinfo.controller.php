@@ -60,7 +60,7 @@ if( isset( $_POST ) && sizeof( $_POST ) > 0 ) {
 
 	$res = $sql->run();
 		
-	if( !$res || $res == -1) {
+	if( false === $res || $res == -1) {
 		$TWIG['message'] = array( 	'success' => false,
 									'title' => 'En feil har oppstått!',
 									'body'	=> 'Det har dessverre oppstått en feil ved lagring, og skjemaet ble derfor ikke lagret. '
