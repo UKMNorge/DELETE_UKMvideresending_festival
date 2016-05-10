@@ -62,7 +62,7 @@ $TWIG['overnatting']['privat']		= 'Privat/annet';
 
 $TWIG['ledermaltid']	= new stdClass();
 $TWIG['ledermaltid']->tittel= 'Ledermiddag';
-$TWIG['ledermaltid']->sted	= 'Clarion Brattøra';
-$TWIG['ledermaltid']->dag	= 'Lørdag';
-$TWIG['ledermaltid']->tid	= 'kl xx:xx';
+$TWIG['ledermaltid']->sted	= get_site_option('UKMFvideresending_ledermiddag_sted'.get_option('season'));;
+$TWIG['ledermaltid']->dag	= get_site_option('UKMFvideresending_ledermiddag_dag'.get_option('season'));
+$TWIG['ledermaltid']->tid	= 'kl '.get_site_option('UKMFvideresending_ledermiddag_tid'.get_option('season'));
 $TWIG['ledermaltid']->pris	= (int) get_site_option('UKMFvideresending_ledermiddag_avgift_'.get_option('season'));
