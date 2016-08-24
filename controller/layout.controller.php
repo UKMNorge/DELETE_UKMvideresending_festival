@@ -38,17 +38,24 @@ $tabs[] = (object) array( 'link' 		=> 'media',
 						  'header' 		=> 'Media',
 						  'icon'		=> 'video-256',
 						  'description'	=> 'Bilder, film og playback');
-						  
-$tabs[] = (object) array( 'link' 		=> 'ledere',
-						  'header' 		=> 'Ledere',
-						  'icon'		=> 'user-business-256',
-						  'description'	=> 'Ledere og overnatting');
-						  
-$tabs[] = (object) array( 'link' 		=> 'reiseinfo',
-						  'header' 		=> 'Reiseinfo',
-						  'icon'		=> 'buss-256',
-						  'description'	=> 'Reise og tilrettelegging');
-
+if(get_option('site_type') == 'fylke') {
+	$tabs[] = (object) array( 'link' 		=> 'ledere',
+							  'header' 		=> 'Ledere',
+							  'icon'		=> 'user-business-256',
+							  'description'	=> 'Ledere og overnatting');
+							  
+	$tabs[] = (object) array( 'link' 		=> 'reiseinfo',
+							  'header' 		=> 'Reiseinfo',
+							  'icon'		=> 'buss-256',
+							  'description'	=> 'Reise og tilrettelegging');
+}
+elseif(get_option('site_type') == 'kommune') {
+	$tabs[] = (object) array( 'link'		=> 'ekstra',
+							  'header'		=> 'infoskjema',
+							  'icon'		=> 'chart-256',
+							  'description' => 'Info til fylkeskontakten'
+							);
+}
 
 $TWIG['tabs'] = $tabs;
 
