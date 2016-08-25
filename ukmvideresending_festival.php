@@ -94,6 +94,8 @@ function UKMvideresending_festival_script() {
 	wp_enqueue_style('WPbootstrap3_css');
 	wp_enqueue_style( 'UKMvideresending_festival_style', plugin_dir_url( __FILE__ ) .'ukmvideresending_festival.css');
 
+	wp_enqueue_script('UKMvideresending_base_script', plugin_dir_url( __FILE__ ) .'ukmvideresending_base.js');
+
 	if(get_option('site_type') == 'kommune') {
 		wp_enqueue_script('UKMvideresending_lokal_script', plugin_dir_url( __FILE__ ) .'ukmvideresending_lokal.js');
 	}
