@@ -1,4 +1,5 @@
 <?php
+
 require_once(PLUGIN_DIR_PATH . 'class/videresendingsskjema.class.php');
 
 $data = $_POST['skjema'];
@@ -18,9 +19,9 @@ foreach($data as $key => $value) {
 
 		$debug[] = array($str, $value);
 		if(count($str) > 2) {
-			$questions[$q_id]['answer'][$str[2]] = $value;
+			$questions[$q_id][$str[2]] = $value;
 		} else {
-			$questions[$q_id]['answer'] = $value;
+			$questions[$q_id] = $value;
 		}
     }
 }
@@ -28,14 +29,32 @@ foreach($data as $key => $value) {
 $res[] = $questions;
 $res[] = $debug;
 die(json_encode($res));*/
-$res = array();
+$results = array();
+#$i = 0;
+$numQ = 0;
 foreach ($questions as $q_id => $answer ) {
-	$res[] = $skjema->answerQuestion($q_id, $pl_id, $answer);
+	#if($i == 4) $debug = false;
+	#else $debug = true;
+	$res = $skjema->answerQuestion($q_id, $pl_id, $answer, $debug );
+	if(!is_numeric($res))
+		$results[] = $res->error();
+	$numQ++;
+	#if($i == 4) die(json_encode(array($answer, $questions)));
+	#$i++;
 }
 
-$message = new stdClass();
-$message->success = true;
-$message->title = 'Dine svar er lagret';
-$message->body = 'Svarene du oppga er lagret';
-
+if ( count($results) == 0 ) {
+	$message = new stdClass();
+	$message->success = true;
+	$message->title = 'Dine svar er lagret';
+	$message->body = 'Svarene du oppga er lagret.';
+}
+else {
+	$message = new stdClass();
+	$message->success = false;
+	$message->title = 'En feil oppstod!';
+	$message->body = 'Ett eller flere av svarene dine ble ikke lagret. Prøv igjen.';
+	$message->num = $numQ;
+	$message->results = $results;
+}
 die(json_encode($message));
