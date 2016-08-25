@@ -22,7 +22,12 @@ jQuery(document).ready(function() {
 		jQuery.post(ajaxurl, postdata, function(response) {
 			var data = jQuery.parseJSON( response );
 			console.log(data);
+			if(data.success) var success = 'success';
+			else var success = 'danger';
 			//jQuery("#UKM_content_wrapper").append()
+			jQuery("#messageHolder").html(
+				'<div class="alert alert-'+success+'">'+data.body+'</div>'
+				);
 		});
 
 	})
