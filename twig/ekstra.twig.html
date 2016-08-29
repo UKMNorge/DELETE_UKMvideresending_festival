@@ -19,6 +19,7 @@
 						{% elseif question.type == 'janei' %}
 							<li class="list-group-item">
 								<h4>{{ question.title }}</h4>
+								<p>{{ question.help }}</p>
 								<div class="radio">
 									<input type="radio" id="question_{{ question.id }}" name="question_{{ question.id }}" value="true" {{ question.value == 'true' ? 'checked' : '' }}>Ja
 								</div>
@@ -29,16 +30,19 @@
 						{% elseif question.type == 'korttekst' %}
 							<li class="list-group-item">
 								<h4>{{ question.title }}</h4>
+								<p>{{ question.help }}</p>
 								<input type="text" class="form-control" id="question_{{ question.id }}" name="question_{{ question.id }}" value="{{ question.value }}">
 							</li>
 						{% elseif question.type == 'langtekst' %}
 							<li class="list-group-item">
 								<h4>{{ question.title }}</h4>
+								<p>{{ question.help }}</p>
 								<textarea type="text" class="form-control" id="question_{{ question.id }}" name="question_{{ question.id }}">{{ question.value }}</textarea>
 							</li>
 						{% elseif question.type == 'kontakt' %}
 							<li class="list-group-item">
 								<h4>{{ question.title }}</h4>
+								<p>{{ question.help }}</p>
 								<div class="col-xs-12 col-sm-4">
 									<label for="question_{{ question.id }}_navn">Navn</label>
 									<input type="text" class="form-control" 

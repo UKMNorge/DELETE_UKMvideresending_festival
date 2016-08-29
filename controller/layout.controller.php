@@ -16,10 +16,13 @@ $videresendtil->mottakelig = $vt->subscribable();
 $videresendtil->pl_start	= $vt->g('pl_start');
 $videresendtil->pl_stop		= $vt->g('pl_stop');
 
+$videresendtil->infotekst = get_site_option('videresending_info_pl'.$videresendtil->ID);
+
 $current_user_id = get_current_user_id();
 if( $current_user_id == 1 ) 
 	$videresendtil->mottakelig = true;
 
+$TWIG['site_type'] = get_option('site_type');
 $TWIG['videresendtil'] 	= $videresendtil;
 
 $tabs = array();
@@ -38,7 +41,7 @@ $tabs[] = (object) array( 'link' 		=> 'media',
 						  'header' 		=> 'Media',
 						  'icon'		=> 'video-256',
 						  'description'	=> 'Bilder, film og playback');
-if(get_option('site_type') == 'fylke') {
+if($TWIG['site_type'] == 'fylke') {
 	$tabs[] = (object) array( 'link' 		=> 'ledere',
 							  'header' 		=> 'Ledere',
 							  'icon'		=> 'user-business-256',
