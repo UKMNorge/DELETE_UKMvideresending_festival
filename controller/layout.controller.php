@@ -11,7 +11,9 @@ $vt = $m->videresendtil(true);
 $videresendtil->ID		= $vt->g('pl_id');
 $videresendtil->navn 	= $vt->g('pl_name');
 $videresendtil->frist 	= $vt->g('pl_deadline');
+$videresendtil->frist2 	= $vt->g('pl_deadline2');
 $videresendtil->registrert = $vt->registered();
+$videresendtil->opened 	   = $vt->subscriptionOpened();
 $videresendtil->mottakelig = $vt->subscribable();
 $videresendtil->pl_start	= $vt->g('pl_start');
 $videresendtil->pl_stop		= $vt->g('pl_stop');
@@ -31,11 +33,15 @@ $tabs[] = (object) array( 'link' 		=> 'oversikt',
 						  'header' 		=> 'Oversikt',
 						  'icon'		=> 'info-button-256',
 						  'description'	=> 'Start på denne fanen');
-						  
-$tabs[] = (object) array( 'link' 		=> 'videresendte',
-						  'header' 		=> 'Videresendte',
-						  'icon'		=> 'people-256',
-						  'description'	=> 'Velg deltakere her');
+
+if ($videresendtil->opened) {				  
+	$tabs[] = (object) array( 'link' 		=> 'videresendte',
+							  'header' 		=> 'Videresendte',
+							  'icon'		=> 'people-256',
+							  'description'	=> 'Velg deltakere her');
+} else {
+
+}
 						  
 $tabs[] = (object) array( 'link' 		=> 'media',
 						  'header' 		=> 'Media',

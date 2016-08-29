@@ -12,7 +12,14 @@
 	
 	<fieldset class="UKMwidth">
 		<legend>Frist</legend>
-		
+		{% if not videresendtil.opened %}
+			<p>
+				<strong>Mønstringen har ikke åpnet for videresending enda, og du kan derfor ikke velge hvilke deltakere som sendes videre.</strong>
+			</p>
+			<p>
+				Mønstringen åpner for videresending {{ videresendtil.frist2|dato('d.m.Y H:i') }}. Hvis du mener dette er feil, ta kontakt med {{ site_type == 'kommune' ? 'fylkeskontakten' : 'UKM Support' }}.
+			</p>
+		{% endif %}
 		<p>
 			<strong>Frist for å videresende innslag: {{videresendtil.frist|dato('d.m.Y H:i')}}</strong>
 		</p>
