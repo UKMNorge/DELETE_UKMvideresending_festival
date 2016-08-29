@@ -35,7 +35,7 @@ function UKMvideresending_festival_ajax() {
 ## CREATE A MENU
 function UKMvideresending_festival_menu() {
 	global $UKMN;
-	if( get_option('site_type') == 'fylke' ) {
+	if( get_option('site_type') == 'fylke' || get_option('site_type') == 'kommune' ) {
 		UKM_add_menu_page('monstring', 'Videresending', 'Videresending', 'editor', 'UKMvideresending_festival', 'UKMvideresending_festival', 'http://ico.ukm.no/paper-airplane-20.png',20);
 		UKM_add_scripts_and_styles( 'UKMvideresending_festival', 'UKMvideresending_festival_script' );
 	}
@@ -93,7 +93,15 @@ function UKMvideresending_festival_script() {
 	wp_enqueue_script('WPbootstrap3_js');
 	wp_enqueue_style('WPbootstrap3_css');
 	wp_enqueue_style( 'UKMvideresending_festival_style', plugin_dir_url( __FILE__ ) .'ukmvideresending_festival.css');
-	wp_enqueue_script( 'UKMvideresending_festival_script', plugin_dir_url( __FILE__ ) .'ukmvideresending_festival.js');
+
+	wp_enqueue_script('UKMvideresending_base_script', plugin_dir_url( __FILE__ ) .'ukmvideresending_base.js');
+
+	if(get_option('site_type') == 'kommune') {
+		wp_enqueue_script('UKMvideresending_lokal_script', plugin_dir_url( __FILE__ ) .'ukmvideresending_lokal.js');
+	}
+	elseif(get_option('site_type') == 'fylke') {
+		wp_enqueue_script( 'UKMvideresending_festival_script', plugin_dir_url( __FILE__ ) .'ukmvideresending_festival.js');
+	}
 	
 }
 
