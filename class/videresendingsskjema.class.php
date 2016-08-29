@@ -13,8 +13,15 @@ class Videresendingsskjema {
 	}	
 
 	public function getQuestions() {
-		$sql = new SQL("SELECT * FROM `smartukm_videresending_fylke_sporsmal`
-						WHERE `f_id` = '#f_id'", array('f_id' => $this->f_id));
+		/*$sql = new SQL("SELECT * FROM `smartukm_videresending_fylke_sporsmal`
+						WHERE `f_id` = '#f_id'", array('f_id' => $this->f_id));*/
+
+		$sql = new SQL("SELECT * FROM `smartukm_videresending_fylke_sporsmal` AS `sporsmal`
+						LEFT JOIN `smartukm_videresending_fylke_svar` AS `svar`
+							   ON `svar`.`q_id` = `sporsmal`.`q_id`
+						WHERE `sporsmal`.`f_id` = '#f_id'
+						  AND `svar`.`pl_id` = '#pl_id'
+						GROUP BY `svar`.`q_id`",  array('f_id' => $this->f_id, 'pl_id' => $this->pl_id) );
 
 		$res = $sql->run();
 		$questions = array();
@@ -34,60 +41,31 @@ class Videresendingsskjema {
 		return $questions;
 	}
 
-	public function getQuestionAnswer($question) {
-		if(!$this->pl_id) {
-			return null;
-			#die('pl_id må være satt for at Videresendingsskjema skal kunne laste ut svar på spørsmål.');
-		}
-
-		$sql = new SQL("SELECT * FROM `smartukm_videresending_fylke_svar`
-						WHERE `q_id` = '#q_id' AND `pl_id` = '#pl_id'", 
-						array('q_id' => $question->id, 'pl_id' => $this->pl_id));
-		$res = $sql->run('array');
-
-		if ($question->type == 'kontakt') {
-			$str = explode('__||__', $res['answer']);
-			$answer = new stdClass();
-			$answer->navn = $str[0];
-			$answer->mobil = $str[1];
-			$answer->epost = $str[2];
-
-			$res['answer'] = $answer;
-		}
-
-		return $res['answer'];
-		#return 'Lang eller kort tekst eller noe';
-	}
-
-	/**
-	 * Test-method only, provides dummy data.
-	 *
-	 */
-	public function getQuestion($id) {
-		$q = new stdClass();
-		$q->id = $id;
-		$q->title = 'Spørsmålstittel'.$id; // TODO: DROPP ID
-		$q->type = 'kontakt'; // May be 'janei', 'korttekst', 'langtekst', 'kontakt', 'overskrift'. Mulig mer?
-		$q->help = 'Hjelpetekst til spørsmålet'; 
-		$q->order = $id; // Rekkefølgehjelper, for å sortere elementer.
-		$q->f_id = $this->f_id; // Fylke-ID - trengs denne?
-		$q->fylke = $this->fylke;
-		if($this->pl_id)
-			$q->value = $this->getQuestionAnswer($q);
-		return $q;
-	}
-
 	public function getQuestionFromData($data) {
 		$q = new stdClass();
 		$q->id = $data['q_id'];
-		$q->title = $data['q_title']; 
+		$q->title = utf8_encode($data['q_title']); 
 		$q->type = $data['q_type']; // May be 'janei', 'korttekst', 'langtekst', 'kontakt', 'overskrift'. Mulig mer?
-		$q->help = $data['q_help']; 
+		$q->help = utf8_encode($data['q_help']); 
 		$q->order = $data['order']; // Rekkefølgehjelper, for å sortere elementer.
 		$q->f_id = $data['f_id']; // Fylke-ID - trengs denne?
 		$q->fylke = $this->fylke;
-		$q->value = $this->getQuestionAnswer($q);
+
+		if ($q->type == 'kontakt') 
+			$q->value = $this->getKontakt($data['answer']);
+		else
+			$q->value = utf8_encode($data['answer']);
 		return $q;
+	}
+
+	public function getKontakt($str) {
+		$str = explode('__||__', $str);
+		$answer = new stdClass();
+		$answer->navn = utf8_encode($str[0]);
+		$answer->mobil = utf8_encode($str[1]);
+		$answer->epost = utf8_encode($str[2]);
+
+		return $answer;
 	}
 
 	public function answerQuestion($q_id, $pl_id, $answer, $debug = false) {
@@ -123,5 +101,23 @@ class Videresendingsskjema {
 			if ($sql->error())
 				return $sql; 
 		return $res;
+	}
+
+	/**
+	 * Test-method only, provides dummy data.
+	 *
+	 */
+	public function getQuestion($id) {
+		$q = new stdClass();
+		$q->id = $id;
+		$q->title = 'Spørsmålstittel'.$id; // TODO: DROPP ID
+		$q->type = 'kontakt'; // May be 'janei', 'korttekst', 'langtekst', 'kontakt', 'overskrift'. Mulig mer?
+		$q->help = 'Hjelpetekst til spørsmålet'; 
+		$q->order = $id; // Rekkefølgehjelper, for å sortere elementer.
+		$q->f_id = $this->f_id; // Fylke-ID - trengs denne?
+		$q->fylke = $this->fylke;
+		if($this->pl_id)
+			$q->value = $this->getQuestionAnswer($q);
+		return $q;
 	}
 }
