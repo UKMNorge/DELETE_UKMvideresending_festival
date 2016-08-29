@@ -36,7 +36,7 @@ function UKMvideresending_festival_ajax() {
 function UKMvideresending_festival_menu() {
 	global $UKMN;
 	if( get_option('site_type') == 'fylke' || get_option('site_type') == 'kommune' ) {
-		UKM_add_menu_page('monstring', 'Videresending', 'Videresending2', 'editor', 'UKMvideresending_festival', 'UKMvideresending_festival', 'http://ico.ukm.no/paper-airplane-20.png',20);
+		UKM_add_menu_page('monstring', 'Videresending', 'Videresending', 'editor', 'UKMvideresending_festival', 'UKMvideresending_festival', 'http://ico.ukm.no/paper-airplane-20.png',20);
 		UKM_add_scripts_and_styles( 'UKMvideresending_festival', 'UKMvideresending_festival_script' );
 	}
 }
