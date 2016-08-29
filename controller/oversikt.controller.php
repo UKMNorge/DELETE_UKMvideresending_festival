@@ -10,20 +10,22 @@ if( isset( $_GET['lesmer'] ) ) {
 										'enhet'		=>	'person',
 										'flertall'	=> 'er'
 									);
+	
+	if(get_option('site_type' == 'fylke')) {						
+		$kvote_param[]	= (object) array(	'id' 		=> 'total_ledere',
+											'verdi'		=>	(int) get_site_option('UKMFvideresending_kvote_ledere_'.$season),
+											'tittel'	=> 'Antall ledere',
+											'enhet'		=>	'person',
+											'flertall'	=> 'er'
+										);
 							
-	$kvote_param[]	= (object) array(	'id' 		=> 'total_ledere',
-										'verdi'		=>	(int) get_site_option('UKMFvideresending_kvote_ledere_'.$season),
-										'tittel'	=> 'Antall ledere',
-										'enhet'		=>	'person',
-										'flertall'	=> 'er'
-									);
-							
-	$kvote_param[]	= (object) array(	'id' 		=> 'total_deltakere_per_leder',
-										'verdi'		=>	10,
-										'tittel'	=> 'Antall deltakere per leder',
-										'enhet'		=>	'deltaker',
-										'flertall'	=> 'e'
-									);
+		$kvote_param[]	= (object) array(	'id' 		=> 'total_deltakere_per_leder',
+											'verdi'		=>	10,
+											'tittel'	=> 'Antall deltakere per leder',
+											'enhet'		=>	'deltaker',
+											'flertall'	=> 'e'
+										);
+	}
 	// SCENE
 	$kvote_param[]	= (object) array(	'id' 		=> 'scene_antall',
 										'verdi'		=>	5,
