@@ -30,7 +30,7 @@
 	{% if site_type == 'kommune' and videresendtil.infotekst %}
 		<fieldset class="UKMwidth">
 			<legend>Infotekst fra fylkeskontakten</legend>
-			{{ videresendtil.infotekst|raw }}
+			{{ videresendtil.infotekst|raw|nl2br }}
 		</fieldset>
 	{% endif %}
 
