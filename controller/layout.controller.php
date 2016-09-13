@@ -34,7 +34,7 @@ $tabs[] = (object) array( 'link' 		=> 'oversikt',
 						  'icon'		=> 'info-button-256',
 						  'description'	=> 'Start på denne fanen');
 
-if ($videresendtil->opened) {				  
+if ($videresendtil->opened || is_super_admin()) {				  
 	$tabs[] = (object) array( 'link' 		=> 'videresendte',
 							  'header' 		=> 'Videresendte',
 							  'icon'		=> 'people-256',
