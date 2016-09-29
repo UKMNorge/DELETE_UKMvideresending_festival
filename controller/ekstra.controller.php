@@ -9,5 +9,7 @@ $TWIG['videresendingsskjema'] = new Videresendingsskjema($vt->info['fylke_id'], 
 $TWIG['f_id'] = $vt->info['fylke_id'];
 $TWIG['pl_id'] = get_option('pl_id');
 #var_dump($TWIG['videresendingsskjema']);
-
+/*echo '<pre>';
+var_dump($TWIG['videresendingsskjema']->getQuestionsWithAnswers());
+echo '</pre>';*/
 #phpinfo();

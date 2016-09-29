@@ -2,8 +2,8 @@
 /* 
 Plugin Name: UKM Videresending festival
 Plugin URI: http://www.ukm-norge.no
-Description: Videresendingsfunksjoner fra fylkesmønstringer til UKM-Festivalen
-Author: UKM Norge / M Mandal 
+Description: Videresendingsfunksjoner for alle mønstringer.
+Author: UKM Norge / M Mandal / A Hustad
 Version: 1.0 
 Author URI: http://mariusmandal.no
 */
@@ -15,9 +15,9 @@ if(is_admin()) {
 
 	global $blog_id;
 	if($blog_id != 1) {
-		add_action('UKM_admin_menu', 'UKMvideresending_festival_menu');
-
+		add_action('UKM_admin_menu', 'UKMvideresending_festival_menu', 101);
 		add_action('wp_ajax_UKMvideresending_festival_ajax', 'UKMvideresending_festival_ajax');
+		add_action('wp_ajax_UKMvideresendingsskjema_preview', 'UKMVideresendingsskjema2_preview');
 	}
 
 	add_filter( 'UKMWPNETWDASH_messages', 'UKMvideresending_check_documents');
@@ -39,6 +39,24 @@ function UKMvideresending_festival_menu() {
 		UKM_add_menu_page('monstring', 'Videresending', 'Videresending', 'editor', 'UKMvideresending_festival', 'UKMvideresending_festival', 'http://ico.ukm.no/paper-airplane-20.png',20);
 		UKM_add_scripts_and_styles( 'UKMvideresending_festival', 'UKMvideresending_festival_script' );
 	}
+	
+	if(get_option('site_type') == 'fylke') {
+		// Legg videresendingsskjemaet som en submenu under Mønstring.
+		UKM_add_submenu_page('UKMMonstring', 'Videresendingsskjema', 'Lag skjema for videresending', 'editor', 'UKMvideresendingsskjema2', 'UKMvideresendingsskjema2');
+		UKM_add_scripts_and_styles( 'UKMvideresendingsskjema2', 'UKMvideresendingsskjema_script');
+	}
+}
+
+function UKMvideresendingsskjema2() {
+	$TWIGdata = array();
+	require_once(__DIR__.'/controller/videresendingsskjema.controller.php');
+	echo TWIG('videresendingsskjema.html.twig', $TWIGdata, dirname(__FILE__));
+}
+
+function UKMvideresendingsskjema_script() {
+	wp_enqueue_script('WPbootstrap3_js');
+	wp_enqueue_style('WPbootstrap3_css');
+	wp_enqueue_script('UKMVideresendingsskjema2_script', plugin_dir_url(__FILE__) . 'videresendingsskjema2.script.js');
 }
 
 function UKMvideresending_check_documents($MESSAGES) {
@@ -109,7 +127,7 @@ function UKMvideresending_festival_script() {
 function UKMvideresending_festival() {
 	$TWIG = array();
 	require_once('controller/layout.controller.php');
-	
+		
 	$VIEW = isset( $_GET['action'] ) ? $_GET['action'] : 'oversikt';
 	$TWIG['tab_active'] = $VIEW;
 	require_once('controller/'. $VIEW .'.controller.php');
@@ -117,4 +135,16 @@ function UKMvideresending_festival() {
 	
 	echo TWIG($VIEW .'.twig.html', $TWIG, dirname(__FILE__), true);
 	echo TWIGjs( dirname(__FILE__) );
+}
+
+function UKMVideresendingsskjema2_preview() {
+	$TWIG = array();
+	$m = new monstring_v2(get_option('pl_id'));
+	$vt = new stdClass();
+	$vt->info['fylke_id'] = $m->getFylke()->getId();
+	#var_dump($vt);
+	require_once('controller/ekstra.controller.php');
+	echo TWIG('infoskjema.twig.html', $TWIG, dirname(__FILE__), true);
+	#echo TWIGjs( dirname(__FILE__) );
+	die();
 }
