@@ -10,8 +10,15 @@ $media_ok = true;
 foreach( $videresendte as $inn ) {
 	$i = new innslag( $inn['b_id'] );
 	
-	if( $i->tittellos() )
+	// Hvis fylket videresender til festivalen skal også konferansierene ha media
+	if( get_option('site_type') == 'fylke' ) {
+		if( $i->tittellos() && $i->g('bt_id') != 4 ) {
+			continue;
+		}
+	// Lokalt til fylke skal ikke ha media på konferansierene
+	} elseif( $i->tittellos() ) {
 		continue;
+	}
 		
 	$innslag = new stdClass();
 	$innslag->ID 		= $i->g('b_id');
@@ -61,6 +68,23 @@ foreach( $videresendte as $inn ) {
 				}
 			}
 
+			break;
+		case 'smartukm_titles_other':
+			$sort = 'konferansier';
+			if( sizeof( $related_media['image'] ) == 0 ) {
+				$innslag->media->image = 'none_uploaded';
+				$media_ok = false;
+			} else {
+				$innslag->media->image = image_selected( $innslag );
+				if( $innslag->media->image == 'none_selected' ) {
+					$media_ok = false;
+				}
+			}
+			if( $i->har_playback() ) {
+				$innslag->playback = $i->playback();
+			} else {
+				$innslag->playback = false;
+			}
 			break;
 		default:
 			$sort = 'scene';
