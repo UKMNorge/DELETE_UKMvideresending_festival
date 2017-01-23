@@ -180,61 +180,63 @@
 		{% endfor %}
 	</table>
 	
-	<h3>Konferansier</h3>
-	<table class="table table-media">
-		<thead>
-			<tr>
-				<th>Innslag</th>
-				<th class="col-xs-2">Bilde</th>
-				<th class="col-xs-2">Playback</th>
+	{% if site_type == 'fylke' %}
+		<h3>Konferansier</h3>
+		<table class="table table-media">
+			<thead>
+				<tr>
+					<th>Innslag</th>
+					<th class="col-xs-2">Bilde</th>
+					<th class="col-xs-2">Playback</th>
+				</tr>
+			</thead>
+			{% for innslag in videresendte.konferansier %}
+			<tr data-bid="{{innslag.ID}}" data-tid="{{innslag.tittel.ID}}" id="bid_{{innslag.ID}}_tid_{{innslag.tittel.ID}}" data-navn="{{innslag.navn}}">
+				<td>{{innslag.navn}}</td>
+				{% if innslag.media.image == 'none_uploaded' %}
+					<td class="alert alert-danger col-xs-2">
+						Ingen bilder funnet
+						<br />
+						<a href="#" class="alertImageUpload btn btn-block btn-default">Last opp bilde(r)</a>
+					</td>
+				{% elseif innslag.media.image == 'none_selected' %}
+					<td class="imageSelect alert alert-danger col-xs-2">
+						Hvilket bilde skal brukes?
+						<br />
+						<a href="#" class="imageSelector btn btn-block btn-default">Velg bilde</a>
+						<br />
+						eller
+						<br />
+						<a href="#" class="alertImageUpload btn btn-block btn-xs btn-default">Last opp bilde(r)</a>
+					</td>
+				{% else %}
+					<td class="imageSelect alert alert-success col-xs-2">
+						<img src="{{innslag.media.image.src}}" id="rel_{{innslag.media.image.ID}}" />
+						<br />
+						<a href="#" class="imageSelector btn btn-block btn-default  btn-xs">Velg annet bilde</a>
+						<br />
+						eller
+						<br />
+						<a href="#" class="alertImageUpload btn btn-block btn-xs btn-default">Last opp bilde(r)</a>
+					</td>
+				{% endif %}
+				{% if not innslag.playback %}
+					<td class="alert alert-warning col-xs-2">
+						Ikke lastet opp playback
+						<br />
+						<a href="#" class="alertPlayback btn btn-block btn-default">Info</a>
+					</td>
+				{% else %}
+					<td class="alert alert-success col-xs-2">
+						Playback lastet opp
+						<br />
+						<a href="#" class="playbackCheck btn btn-block btn-default">Vis fil(er)</a>
+					</td>		
+				{% endif %}
 			</tr>
-		</thead>
-		{% for innslag in videresendte.konferansier %}
-		<tr data-bid="{{innslag.ID}}" data-tid="{{innslag.tittel.ID}}" id="bid_{{innslag.ID}}_tid_{{innslag.tittel.ID}}" data-navn="{{innslag.navn}}">
-			<td>{{innslag.navn}}</td>
-			{% if innslag.media.image == 'none_uploaded' %}
-				<td class="alert alert-danger col-xs-2">
-					Ingen bilder funnet
-					<br />
-					<a href="#" class="alertImageUpload btn btn-block btn-default">Last opp bilde(r)</a>
-				</td>
-			{% elseif innslag.media.image == 'none_selected' %}
-				<td class="imageSelect alert alert-danger col-xs-2">
-					Hvilket bilde skal brukes?
-					<br />
-					<a href="#" class="imageSelector btn btn-block btn-default">Velg bilde</a>
-					<br />
-					eller
-					<br />
-					<a href="#" class="alertImageUpload btn btn-block btn-xs btn-default">Last opp bilde(r)</a>
-				</td>
-			{% else %}
-				<td class="imageSelect alert alert-success col-xs-2">
-					<img src="{{innslag.media.image.src}}" id="rel_{{innslag.media.image.ID}}" />
-					<br />
-					<a href="#" class="imageSelector btn btn-block btn-default  btn-xs">Velg annet bilde</a>
-					<br />
-					eller
-					<br />
-					<a href="#" class="alertImageUpload btn btn-block btn-xs btn-default">Last opp bilde(r)</a>
-				</td>
-			{% endif %}
-			{% if not innslag.playback %}
-				<td class="alert alert-warning col-xs-2">
-					Ikke lastet opp playback
-					<br />
-					<a href="#" class="alertPlayback btn btn-block btn-default">Info</a>
-				</td>
-			{% else %}
-				<td class="alert alert-success col-xs-2">
-					Playback lastet opp
-					<br />
-					<a href="#" class="playbackCheck btn btn-block btn-default">Vis fil(er)</a>
-				</td>		
-			{% endif %}
-		</tr>
-		{% endfor %}
-	</table>
+			{% endfor %}
+		</table>
+	{% endif %}
 	
 </div>
 {% endblock %}

@@ -119,3 +119,5 @@ foreach( $videresendte as $inn ) {
 }
 
 update_option('UKMvideresending_festival_mediaOK', $media_ok );
+
+$TWIG['site_type'] = get_option('site_type');
