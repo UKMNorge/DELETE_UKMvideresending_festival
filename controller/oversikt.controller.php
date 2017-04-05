@@ -97,7 +97,7 @@ if( isset( $_GET['lesmer'] ) ) {
 									);
 	
 	$kvote_param[]	= (object) array(	'id' 		=> 'konferansier_antall',
-										'verdi'		=>	1,
+										'verdi'		=>	'nomineres',
 										'tittel'	=> 'Antall konferansierer',
 										'enhet'		=>	'person',
 										'flertall'	=> 'er'
