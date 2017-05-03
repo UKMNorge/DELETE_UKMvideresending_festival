@@ -72,8 +72,8 @@ $TWIG['m'] = $m;
 
 $TWIG['overnatting_pris_hotell']	= (int) get_site_option('UKMFvideresending_hotelldogn_pris_'.get_option('season'));
 
-$TWIG['overnatting']['deltakere']	= 'Spektrum';
-$TWIG['overnatting']['hotell']		= 'Bakeriet Hotell';
+$TWIG['overnatting']['deltakere']	= 'Deltakerlandsbyen';
+$TWIG['overnatting']['hotell']		= 'Lederhotellet';
 $TWIG['overnatting']['privat']		= 'Privat/annet';
 
 $TWIG['ledermaltid']	= new stdClass();
