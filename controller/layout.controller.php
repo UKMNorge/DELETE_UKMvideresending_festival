@@ -21,7 +21,8 @@ $videresendtil->pl_stop		= $vt->g('pl_stop');
 $videresendtil->infotekst = stripslashes(get_site_option('videresending_info_pl'.$videresendtil->ID));
 
 $current_user_id = get_current_user_id();
-if( $current_user_id == 1 ) 
+#if( $current_user_id == 1 ) 
+if( is_super_admin() )
 	$videresendtil->mottakelig = true;
 
 $TWIG['site_type'] = get_option('site_type');
