@@ -24,7 +24,7 @@ function image_selected( $innslag, $tittel = false, $type = 'bilde', $size='thum
 		$src = $post_meta['file'];
 	}
 	
-	$src = 'http://'. $_SERVER['HTTP_HOST'].'/wp-content/blogs.dir/'. $bilde['blog_id'].'/files/' . $src;
+	$src = 'https://'. $_SERVER['HTTP_HOST'].'/wp-content/blogs.dir/'. $bilde['blog_id'].'/files/' . $src;
 
 	
 	$vb = new stdClass();

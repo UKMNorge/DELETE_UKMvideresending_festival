@@ -36,7 +36,7 @@ function UKMvideresending_festival_ajax() {
 function UKMvideresending_festival_menu() {
 	global $UKMN;
 	if( get_option('site_type') == 'fylke' || get_option('site_type') == 'kommune' ) {
-		UKM_add_menu_page('monstring', 'Videresending', 'Videresending', 'editor', 'UKMvideresending_festival', 'UKMvideresending_festival', 'http://ico.ukm.no/paper-airplane-20.png',20);
+		UKM_add_menu_page('monstring', 'Videresending', 'Videresending', 'editor', 'UKMvideresending_festival', 'UKMvideresending_festival', '//ico.ukm.no/paper-airplane-20.png',20);
 		UKM_add_scripts_and_styles( 'UKMvideresending_festival', 'UKMvideresending_festival_script' );
 	}
 	
@@ -73,7 +73,7 @@ function UKMvideresending_check_documents($MESSAGES) {
 									'module' => 'UKMvideresending_festival', 
 									'header' => 'Info 1-dokumentet er ikke oppdatert fra i fjor!', 
 									'body' => 'Rett dette ved å legge inn rett dokument i Mønstringsmodulen.',
-									'link' => 'http://ukm.no/festivalen/wp-admin/admin.php?page=UKMMonstring' 
+									'link' => '//ukm.no/festivalen/wp-admin/admin.php?page=UKMMonstring' 
 								);
 			return $MESSAGES;
 		}	
@@ -87,7 +87,7 @@ function UKMvideresending_check_documents($MESSAGES) {
 									'module' => 'UKMvideresending_festival', 
 									'header' => 'Nominasjons-dokumentet for UA er ikke oppdatert!', 
 									'body' => 'Rett dette ved å legge inn rett dokument i Mønstringsmodulen.',
-									'link' => 'http://ukm.no/festivalen/wp-admin/admin.php?page=UKMMonstring' 
+									'link' => '//ukm.no/festivalen/wp-admin/admin.php?page=UKMMonstring' 
 								);
 		}
 		# UKM Media
@@ -96,7 +96,7 @@ function UKMvideresending_check_documents($MESSAGES) {
 									'module' => 'UKMvideresending_festival', 
 									'header' => 'Nominasjons-dokumentet for UKM Media er ikke oppdatert!', 
 									'body' => 'Rett dette ved å legge inn rett dokument i Mønstringsmodulen.',
-									'link' => 'http://ukm.no/festivalen/wp-admin/admin.php?page=UKMMonstring' 
+									'link' => '//ukm.no/festivalen/wp-admin/admin.php?page=UKMMonstring' 
 								);
 		}
 	}
