@@ -25,8 +25,6 @@ jQuery(document).on('click', '.nominasjon-sms-purring', function(e) {
 
 
 jQuery(document).on('change', 'input.nominasjonstatus', function(){
-	console.log( jQuery( this ).is(':checked') );
-	
 	data = {
 		action: 'UKMnominasjon_toggleStatus',
 		innslag: jQuery(this).parents('li.nominert-header').attr('data-id'),
@@ -36,4 +34,34 @@ jQuery(document).on('change', 'input.nominasjonstatus', function(){
 	jQuery.post(ajaxurl, data, function(response ) {
 		//console.log(response);
 	});
+});
+
+
+jQuery(document).on('click', 'input.filopplasting-ja', function() {
+	jQuery(document).trigger('nominasjon:konferansier:url:hide', [jQuery(this).parents('li.nominert-header').attr('data-id')]);
+});
+jQuery(document).on('click', 'input.filopplasting-nei', function() {
+	jQuery(document).trigger('nominasjon:konferansier:url:show', [jQuery(this).parents('li.nominert-header').attr('data-id')]);
+});
+
+
+// TODO: sjekk at denne funker
+jQuery(document).ready(function() {
+	jQuery('input.filopplasting-ja').each(function(){
+		if( jQuery(this).is(':checked') ) {
+			jQuery(document).trigger('nominasjon:konferansier:url:hide');
+		} else {
+			jQuery(document).trigger('nominasjon:konferansier:url:show');
+		}
+	});
+})
+
+jQuery(document).on('nominasjon:konferansier:url:hide', function(e, id){
+//	console.log('HIDE', id, e);
+	jQuery('li#nominert-header-'+ id +' .filopplasting-url').parents('div.form-group').slideUp();
+});
+
+jQuery(document).on('nominasjon:konferansier:url:show', function(e, id){
+//	console.log('SHOW', id, e);
+	jQuery('li#nominert-header-'+ id +' .filopplasting-url').parents('div.form-group').slideDown();
 });
