@@ -11,7 +11,7 @@
 	
 	<div class="UKM_tabs UKM_tabs_5">
 		{% for tab in tabs %}
-		<a href="?page=UKMvideresending_festival&action={{tab.link}}" {{ tab_active == tab.link ? 'class="active"' : ''}}>
+		<a href="?page={{tab.page}}&action={{tab.link}}" {{ tab_active == tab.link ? 'class="active"' : ''}}>
 			<div>
 				<span class="tab_header">{{tab.header}}</span>
 				<img src="//ico.ukm.no/{{tab.icon}}.png" width="25"  border="0" /><br />
