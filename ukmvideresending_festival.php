@@ -18,6 +18,7 @@ if(is_admin()) {
 		add_action('UKM_admin_menu', 'UKMvideresending_festival_menu', 101);
 		add_action('wp_ajax_UKMvideresending_festival_ajax', 'UKMvideresending_festival_ajax');
 		add_action('wp_ajax_UKMvideresendingsskjema_preview', 'UKMVideresendingsskjema2_preview');
+		add_action('wp_ajax_UKMnominasjon_toggleStatus', 'UKMnominasjon_ajax');
 	}
 
 	add_filter( 'UKMWPNETWDASH_messages', 'UKMvideresending_check_documents');
@@ -158,6 +159,11 @@ function UKMnominasjon() {
 	require_once('controller/nominasjon/'. $VIEW .'.controller.php');
 	
 	echo TWIG('nominasjon/'. $VIEW .'.html.twig', $TWIG, dirname(__FILE__), true);
+}
+
+function UKMnominasjon_ajax() {
+	require_once('controller/nominasjon/ajax.controller.php');
+	die('false');
 }
 
 function UKMVideresendingsskjema2_preview() {
