@@ -49,9 +49,9 @@ jQuery(document).on('click', 'input.filopplasting-nei', function() {
 jQuery(document).ready(function() {
 	jQuery('input.filopplasting-ja').each(function(){
 		if( jQuery(this).is(':checked') ) {
-			jQuery(document).trigger('nominasjon:konferansier:url:hide');
+			jQuery(document).trigger('nominasjon:konferansier:url:hide', [jQuery(this).parents('li.nominert-header').attr('data-id')]);
 		} else {
-			jQuery(document).trigger('nominasjon:konferansier:url:show');
+			jQuery(document).trigger('nominasjon:konferansier:url:show', [jQuery(this).parents('li.nominert-header').attr('data-id')]);
 		}
 	});
 })

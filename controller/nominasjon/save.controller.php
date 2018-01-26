@@ -20,9 +20,22 @@ $nominasjon = write_nominasjon::create(
 	$nominert->getType()->getKey()	// Type nominasjon
 );
 
-$nominasjon->setSamarbeid( utf8_encode( $_POST['samarbeid'] ) );
-$nominasjon->setErfaring( utf8_encode( $_POST['erfaring'] ) );
-write_nominasjon::saveMedia( $nominasjon );
+switch( $nominert->getType()->getKey() ) {
+	case 'media':
+		$nominasjon->setSamarbeid( utf8_encode( $_POST['samarbeid'] ) );
+		$nominasjon->setErfaring( utf8_encode( $_POST['erfaring'] ) );
+		write_nominasjon::saveMedia( $nominasjon );
+		break;
+		
+	case 'konferansier':
+		$nominasjon->setHvorfor( utf8_encode( $_POST['hvorfor'] ) );
+		$nominasjon->setBeskrivelse( utf8_encode( $_POST['beskrivelse'] ) );
+		$nominasjon->setFilPlassering( $_POST['filopplasting'] );
+		$nominasjon->setFilUrl( $_POST['url'] );
+		write_nominasjon::saveKonferansier( $nominasjon );
+		break;
+
+}
 
 $voksen = write_nominasjon::createVoksen( $nominasjon->getId() );
 $voksen->setNavn( utf8_encode( $_POST['voksen-navn'] ) );
