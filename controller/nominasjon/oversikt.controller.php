@@ -17,10 +17,10 @@ $TWIG['nominasjonstyper'] = [
 $monstring = new monstring_v2( get_option('pl_id') );
 
 foreach( $monstring->getInnslag()->getAll() as $innslag ) {
+	// Vis kun arrangører, media og konferansierer i listen
 	if( !in_array( $innslag->getType()->getId(), [4,5,8] ) ) {
 		continue;
 	}
-
 	$TWIG['innslag'][ $innslag->getType()->getKey() ][] = $innslag;
 }
 

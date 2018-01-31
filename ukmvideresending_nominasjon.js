@@ -65,3 +65,18 @@ jQuery(document).on('nominasjon:konferansier:url:show', function(e, id){
 //	console.log('SHOW', id, e);
 	jQuery('li#nominert-header-'+ id +' .filopplasting-url').parents('div.form-group').slideDown();
 });
+
+
+jQuery(document).on('click', '.tekniker-vis', function(){
+	var skjema = jQuery(this).parents('.egenvurdering');
+	jQuery(this).hide();
+	skjema.find('.tekniker-skjul').show();
+	skjema.find('.tekniker-svar').slideDown();
+});
+
+jQuery(document).on('click', '.tekniker-skjul', function(){
+	var skjema = jQuery(this).parents('.egenvurdering');
+	jQuery(this).hide();
+	skjema.find('.tekniker-vis').show();
+	skjema.find('.tekniker-svar').slideUp();
+});

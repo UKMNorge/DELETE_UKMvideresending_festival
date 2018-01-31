@@ -34,7 +34,13 @@ switch( $nominert->getType()->getKey() ) {
 		$nominasjon->setFilUrl( $_POST['url'] );
 		write_nominasjon::saveKonferansier( $nominasjon );
 		break;
-
+		
+	case 'arrangor':
+		$nominasjon->setVoksenErfaring( utf8_encode( $_POST['voksen-erfaring'] ) );
+		$nominasjon->setVoksenSamarbeid( utf8_encode( $_POST['voksen-samarbeid'] ) );
+		$nominasjon->setVoksenAnnet( utf8_encode( $_POST['voksen-annet'] ) );
+		write_nominasjon::saveArrangor( $nominasjon );
+		break;
 }
 
 $voksen = write_nominasjon::createVoksen( $nominasjon->getId() );
