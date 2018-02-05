@@ -283,6 +283,9 @@ function videresend_person( ID, IDselector ) {
 		}
 		person.find('input.videresend_person').attr('disabled', false);
 		person.find('.person_navn').html( person.find('.person_navn').attr('data-navn') );
+		jQuery('.'+ data.personSelector).prop('checked', true);
+		jQuery('.'+ data.personSelector).parents('tr.person').addClass('success');
+
 	});
 }
 
@@ -307,6 +310,8 @@ function avmeld_person( ID, IDselector ) {
 		}
 		person.find('input.videresend_person').attr('disabled', false);
 		person.find('.person_navn').html( person.find('.person_navn').attr('data-navn') );
+		jQuery('.'+ data.personSelector).prop('checked', false);
+		jQuery('.'+ data.personSelector).parents('tr.person').removeClass('success');
 	});
 }
 function handleVideresendToggle( response ) {

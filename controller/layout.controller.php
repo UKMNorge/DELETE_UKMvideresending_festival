@@ -31,36 +31,49 @@ $TWIG['videresendtil'] 	= $videresendtil;
 $tabs = array();
 
 $tabs[] = (object) array( 'link' 		=> 'oversikt',
+						  'page' 			=> 'UKMvideresending_festival',
 						  'header' 		=> 'Oversikt',
 						  'icon'		=> 'info-button-256',
 						  'description'	=> 'Start på denne fanen');
 
 if ($videresendtil->opened || is_super_admin()) {				  
 	$tabs[] = (object) array( 'link' 		=> 'videresendte',
+							  'page' 			=> 'UKMvideresending_festival',
 							  'header' 		=> 'Videresendte',
 							  'icon'		=> 'people-256',
 							  'description'	=> 'Velg deltakere her');
-} else {
-
+}
+if( get_option('site_type') == 'fylke' ) {
+	$tabs[] = (object) array(
+		'link'	 		=> 'nominasjon',
+		'page' 			=> 'UKMnominasjon',
+		'header' 		=> 'Nominasjon',
+		'icon'			=> 'user-business-256',
+		'description'	=> 'Endre nominasjoner'
+	);
 }
 						  
 $tabs[] = (object) array( 'link' 		=> 'media',
+						  'page' 		=> 'UKMvideresending_festival',
 						  'header' 		=> 'Media',
 						  'icon'		=> 'video-256',
 						  'description'	=> 'Bilder, film og playback');
 if($TWIG['site_type'] == 'fylke') {
 	$tabs[] = (object) array( 'link' 		=> 'ledere',
+							  'page'		=> 'UKMvideresending_festival',
 							  'header' 		=> 'Ledere',
 							  'icon'		=> 'user-business-256',
 							  'description'	=> 'Ledere og overnatting');
 							  
 	$tabs[] = (object) array( 'link' 		=> 'reiseinfo',
+							  'page'		=> 'UKMvideresending_festival',
 							  'header' 		=> 'Reiseinfo',
 							  'icon'		=> 'buss-256',
 							  'description'	=> 'Reise og tilrettelegging');
 }
 elseif(get_option('site_type') == 'kommune') {
 	$tabs[] = (object) array( 'link'		=> 'ekstra',
+							  'page'		=> 'UKMvideresending_festival',
 							  'header'		=> 'infoskjema',
 							  'icon'		=> 'chart-256',
 							  'description' => 'Info til fylkeskontakten'
