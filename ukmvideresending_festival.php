@@ -153,7 +153,8 @@ function UKMvideresending_festival() {
 function UKMnominasjon() {
 	$TWIG = array();
 	require_once('controller/layout.controller.php');
-
+	echo TWIG('nominasjon/snart.html.twig', $TWIG, dirname(__FILE__), true);
+return;
 	$VIEW = isset( $_GET['action'] ) && $_GET['action'] != 'nominasjon' ? $_GET['action'] : 'oversikt';
 	$TWIG['tab_active'] = 'nominasjon';
 	require_once('controller/nominasjon/'. $VIEW .'.controller.php');
