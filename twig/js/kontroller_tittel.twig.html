@@ -85,12 +85,12 @@
 			</thead>
 
 			{% for p in personer %}
-			<tr class="person {% if tittel.personer[ p.ID ] and not tittellos %}success{% endif %}" id="{{selector}}_person_{{p.ID}}" data-id="{{selectorID}}|person:{{p.ID}}">
+			<tr class="person {% if p.videresendt and not tittellos %}success{% endif %}" id="{{selector}}_person_{{p.ID}}" data-id="{{selectorID}}|person:{{p.ID}}">
 				<td>
 					{% if alle_personer %}
 					<input type="checkbox" checked="checked" disabled="disabled" />
 					{% else %}
-					<input type="checkbox" {% if tittel.personer[ p.ID ] %}checked="checked"{% endif %} {% if videresendtil.mottakelig == false %}disabled="disabled"{% endif %} class="videresend_person" />
+					<input type="checkbox" {% if p.videresendt %}checked="checked"{% endif %} {% if videresendtil.mottakelig == false %}disabled="disabled"{% endif %} class="videresend_person person-{{ p.ID }}" />
 					{% endif %}
 				</td>
 				<th class="person_navn" data-navn="{{p.navn}}">{{p.navn}}</th>
