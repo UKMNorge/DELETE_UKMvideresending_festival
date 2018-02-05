@@ -33,6 +33,6 @@ $data->selector = $_POST['selector'];
 
 rekalkuler_videresendte_personer($m->g('pl_id'), $videresendtil->ID);
 
-$data->personSelector = 'person-'. $ID['person'];
+$data->personSelector = 'person-'. $ID['person'].'-i-'.$ID['innslag'];
 
 die(json_encode($data));
