@@ -10,19 +10,20 @@ foreach( $whoami as $iam ) {
 
 require_once('UKM/write_innslag.class.php');
 require_once('UKM/write_person.class.php');
-require_once('UKM/write_monstring.class.php');
+require_once('UKM/monstring.class.php');
 require_once('UKM/logger.class.php');
 
 global $current_user;
 get_currentuserinfo();  
 UKMlogger::setID( 'wordpress', $current_user->ID, get_option('pl_id') );
 
-$monstring = new write_monstring( $videresendtil->ID );
-$person = new write_person( $ID['person'] );
-$innslag = new write_innslag( $ID['innslag'] );
+$monstring = new monstring_v2( $videresendtil->ID );
+$innslag = $monstring->getInnslag()->get( $ID['innslag'] );
+$person = $innslag->getPersoner()->get( $ID['person'] );
 
 try {
-	$innslag->getPersoner()->fjern( $person, $monstring );
+	$innslag->getPersoner()->fjern( $person );
+	write_person::fjern( $person );
 	$data->success = true;
 } catch( Exception $e ) {
 	$data->success = false;
