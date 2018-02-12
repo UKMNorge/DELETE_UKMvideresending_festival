@@ -153,13 +153,9 @@ function UKMvideresending_festival() {
 function UKMnominasjon() {
 	$TWIG = array();
 	require_once('controller/layout.controller.php');
-	echo TWIG('nominasjon/snart.html.twig', $TWIG, dirname(__FILE__), true);
-return;
-	$VIEW = isset( $_GET['action'] ) && $_GET['action'] != 'nominasjon' ? $_GET['action'] : 'oversikt';
 	$TWIG['tab_active'] = 'nominasjon';
-	require_once('controller/nominasjon/'. $VIEW .'.controller.php');
-	
-	echo TWIG('nominasjon/'. $VIEW .'.html.twig', $TWIG, dirname(__FILE__), true);
+	echo TWIG('nominasjon/snart.html.twig', $TWIG, dirname(__FILE__), true);
+	return;
 }
 
 function UKMnominasjon_ajax() {
@@ -173,8 +169,8 @@ function UKMVideresendingsskjema2_preview() {
 	$vt = new stdClass();
 	$vt->info['fylke_id'] = $m->getFylke()->getId();
 	#var_dump($vt);
-	require_once('controller/ekstra.controller.php');
-	echo TWIG('infoskjema.twig.html', $TWIG, dirname(__FILE__), true);
+	require_once('controller/skjema.controller.php');
+	echo TWIG('skjema_innhold.html.twig', $TWIG, dirname(__FILE__), true);
 	#echo TWIGjs( dirname(__FILE__) );
 	die();
 }

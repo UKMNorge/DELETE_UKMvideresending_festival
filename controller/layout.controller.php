@@ -1,87 +1,43 @@
 <?php
 require_once('UKM/monstring.class.php');
 
+// Informasjon om mønstringen vi kommer fra
 $m = new monstring( get_option('pl_id') );
 $m->season = $m->g('season');
 $m->pl_start 	= $m->g('pl_start');
 $m->pl_stop		= $m->g('pl_stop');
+$m->type		= $m->get('pl_type');
 
+// Informasjon om mønstringen vi videresender til
 $videresendtil = new stdClass();
 $vt = $m->videresendtil(true);
-$videresendtil->ID		= $vt->g('pl_id');
-$videresendtil->navn 	= $vt->g('pl_name');
-$videresendtil->frist 	= $vt->g('pl_deadline');
-$videresendtil->frist2 	= $vt->g('pl_deadline2');
-$videresendtil->registrert = $vt->registered();
-$videresendtil->opened 	   = $vt->subscriptionOpened();
-$videresendtil->mottakelig = $vt->subscribable();
+$videresendtil->ID			= $vt->g('pl_id');
+$videresendtil->navn 		= $vt->g('pl_name');
+$videresendtil->frist	 	= $vt->g('pl_deadline');
+$videresendtil->frist2 		= $vt->g('pl_deadline2');
+$videresendtil->registrert	= $vt->registered();
+$videresendtil->opened		= $vt->subscriptionOpened();
+$videresendtil->mottakelig	= $vt->subscribable();
 $videresendtil->pl_start	= $vt->g('pl_start');
 $videresendtil->pl_stop		= $vt->g('pl_stop');
-
 $videresendtil->infotekst = stripslashes(get_site_option('videresending_info_pl'.$videresendtil->ID));
 
+// Info om brukeren, og overstyring av videresending hvis superadmin
 $current_user_id = get_current_user_id();
-#if( $current_user_id == 1 ) 
-if( is_super_admin() )
+if( is_super_admin() ) {
 	$videresendtil->mottakelig = true;
+}
 
 $TWIG['site_type'] = get_option('site_type');
 $TWIG['videresendtil'] 	= $videresendtil;
 
-$tabs = array();
+// Informasjon om statistikk er mottatt eller ikke
+require_once('statistikk.controller.php');
 
-$tabs[] = (object) array( 'link' 		=> 'oversikt',
-						  'page' 			=> 'UKMvideresending_festival',
-						  'header' 		=> 'Oversikt',
-						  'icon'		=> 'info-button-256',
-						  'description'	=> 'Start på denne fanen');
+// Informasjon om fylket har videresendingsskjema eller ikke
+require_once('skjema.controller.php');
 
-if ($videresendtil->opened || is_super_admin()) {				  
-	$tabs[] = (object) array( 'link' 		=> 'videresendte',
-							  'page' 			=> 'UKMvideresending_festival',
-							  'header' 		=> 'Videresendte',
-							  'icon'		=> 'people-256',
-							  'description'	=> 'Velg deltakere her');
-}
-if( get_option('site_type') == 'fylke' ) {
-	$tabs[] = (object) array(
-		'link'	 		=> 'nominasjon',
-		'page' 			=> 'UKMnominasjon',
-		'header' 		=> 'Nominasjon',
-		'icon'			=> 'user-business-256',
-		'description'	=> 'Endre nominasjoner'
-	);
-}
-						  
-$tabs[] = (object) array( 'link' 		=> 'media',
-						  'page' 		=> 'UKMvideresending_festival',
-						  'header' 		=> 'Media',
-						  'icon'		=> 'video-256',
-						  'description'	=> 'Bilder, film og playback');
-if($TWIG['site_type'] == 'fylke') {
-	$tabs[] = (object) array( 'link' 		=> 'ledere',
-							  'page'		=> 'UKMvideresending_festival',
-							  'header' 		=> 'Ledere',
-							  'icon'		=> 'user-business-256',
-							  'description'	=> 'Ledere og overnatting');
-							  
-	$tabs[] = (object) array( 'link' 		=> 'reiseinfo',
-							  'page'		=> 'UKMvideresending_festival',
-							  'header' 		=> 'Reiseinfo',
-							  'icon'		=> 'buss-256',
-							  'description'	=> 'Reise og tilrettelegging');
-}
-elseif(get_option('site_type') == 'kommune') {
-	$tabs[] = (object) array( 'link'		=> 'ekstra',
-							  'page'		=> 'UKMvideresending_festival',
-							  'header'		=> 'infoskjema',
-							  'icon'		=> 'chart-256',
-							  'description' => 'Info til fylkeskontakten'
-							);
-}
-
-$TWIG['tabs'] = $tabs;
-
+$TWIG['page'] = $_GET['page'];
 $TWIG['m'] = $m;
 
 $TWIG['overnatting_pris_hotell']	= (int) get_site_option('UKMFvideresending_hotelldogn_pris_'.get_option('season'));

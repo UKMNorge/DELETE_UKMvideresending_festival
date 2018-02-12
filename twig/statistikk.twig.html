@@ -1,0 +1,10 @@
+{% extends "layout.html.twig" %}
+
+{% block content %}
+	<h3>Statistikk</h3>
+	
+	<p class="lead">
+		Trenger du å endre dette senere, har vi gjemt det nederst på "oversikt"-fanen
+	</p>
+	{% embed "statistikk_skjema.html.twig" %}{% endembed %}
+{% endblock %}
