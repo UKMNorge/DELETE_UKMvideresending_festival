@@ -1,156 +1,67 @@
-{% extends "layout.twig.html" %}
+{% extends "layout.html.twig" %}
 
 {% block content %}
-	<fieldset class="UKMwidth">
-		<legend>Veiledning</legend>
-		<p>
-			For å fullføre videresendingen må du innom alle faner (videresendte, media osv) og fylle ut alle felt.
-			Start med å fylle ut disse:
-			{% embed "oversikt_statistikk.twig.html" %}{% endembed %}
-		</p>
-	</fieldset>
+	<style>
+		img {
+			max-width: 70vw !important;
+			max-height: 70vh !important;
+		}
+	</style>
 	
-	<fieldset class="UKMwidth">
-		<legend>Frist</legend>
-		{% if not videresendtil.opened %}
-			<p>
-				<strong>Mønstringen har ikke åpnet for videresending enda, og du kan derfor ikke velge hvilke deltakere som sendes videre.</strong>
-			</p>
-			<p>
-				Mønstringen åpner for videresending {{ videresendtil.frist2|dato('d.m.Y H:i') }}. Hvis du mener dette er feil, ta kontakt med {{ site_type == 'kommune' ? 'fylkeskontakten' : 'UKM Support' }}.
-			</p>
-		{% endif %}
-		<p>
-			<strong>Frist for å videresende innslag: {{videresendtil.frist|dato('d.m.Y H:i')}}</strong>
+	<div style="width: 95%;">
+		<h3>
+			Du kan videresende fra 
+				<label class="label label-success">{{ videresendtil.frist2|dato('j.M') ~' kl. '~ videresendtil.frist2|dato('H:i') }}</label>
+				 til 
+				<label class="label label-danger">{{ videresendtil.frist|dato('j.M') ~' kl. '~ videresendtil.frist|dato('H:i') }}</label>
+		</h3>
+		<p class="lead">
+			For å fullføre videresendingen må du innom alle faner (videresendte, media osv) og fylle ut alle felt. 
+			Etter fristen kan du ajourføre media og detaljer på videresendingen, 
+			men det vil ikke være mulig å endre på hvilke innslag som er videresendt.
 		</p>
-		<p>Etter fristen kan du ajourføre media og detaljer på videresendingen, men det vil ikke være mulig å endre på hvilke innslag som er videresendt</p>
 	
-	</fieldset>
-
-	{% if site_type == 'kommune' and videresendtil.infotekst %}
-		<fieldset class="UKMwidth">
-			<legend>Infotekst fra fylkeskontakten</legend>
+		{% if site_type == 'kommune' and videresendtil.infotekst %}
+			<h3>Informasjon fra fylkeskontakten</h3>
 			{{ videresendtil.infotekst|raw|nl2br }}
-		</fieldset>
-	{% endif %}
-
-	{% if site_type == 'fylke' %}
-		<fieldset class="UKMwidth">
-			<legend>Nominasjon</legend>
-			<p>
-				{% if "now"|date("Y") < 2017 %}<i class="label label-danger">Nytt i 2015</i> &nbsp;{% endif %}
-				Unge arrangører og UKM Media-deltakere må nomineres. Det må fylles ut ett nominasjonsskjema med kompetansekartlegging pr deltaker-kandidat, som må innsendes innen oppsatte frister.
-				
-				<br />
-				<br />
-				{% if "now"|date("Y") < 2019 %}<i class="label label-danger">Nytt i 2017</i> &nbsp;{% endif %}<br />
-				<strong>Konferansierer må også nomineres fra 2017.</strong>
-				<br />
-				<br />
-				<a href="?page=UKMvideresending_festival&lesmer=nominasjon">Les mer og last ned skjema</a>
-			</p>
-			<p>
-			
-			</p>
-		</fieldset>
-	{% endif %}
-
-	{% if site_type == 'fylke' %}
-		<fieldset class="UKMwidth">
-			<legend>Kvoter</legend>
-			<div class="well pull-right">
-				<p align="center">
-					<a href="{{ info1 }}">
-						<img src="//grafikk.ukm.no/festivalen/info1ikon.png" width="60" /><br />Last ned info 1
-					</a>
-			</p>
-			</div>
-			<p>
-				<strong>Les kvotene nøye!</strong>
-				Listen nedenfor gir deg kun en oversikt. For alle detaljer om kvotene for {{videresendtil.navn}}, <a href="{{ info1 }}" target="_blank">les info 1</a>
-			
-				<br>Av hensyn til kvaliteten på arrangementet vil vi ikke godta overskridelser av kvotene. Dette gjelder selv om et fylke skulle ha publisert videresendingen i media. Fylket vil i et slikt tilfelle måtte gi kontrabeskjed og skuffe de berørte, og vi vil på det sterkeste be dere unngå at en slik situasjon oppstår.<br>
-			</p>
-			<p>&nbsp;</p>
-			<p>
-				<strong>Miks-innslag</strong><br />
-				{% if "now"|date("Y") < 2017 %}<i class="label label-danger">Nytt i 2015</i> &nbsp;{% endif %}
-				Mulighet for å lage en miks av 2-4 innslag fra fylkesmønstringen. Gir utvidet scenekvote.
-				<a href="?page=UKMvideresending_festival&lesmer=mikskvote">Les mer</a>
-			</p>
-		</fieldset>
-	{% endif %}
-		
-	<fieldset class="UKMwidth">	
-		<table class="table">
-			<thead>
-				<tr>
-					<th></th>
-					<th>Du har videresendt</th>
-					{% if site_type == 'fylke' %}
-						<th>Kvoten er</th>
-					{% endif %}
-				</tr>
-			</thead>
-			<tbody>
-				{% for kvote in kvoter %}
-					{% if kvote.id == 'scene_varighet' %}
-						<tr class="{% if videresendt.scene_varighet > kvote.verdi*60 %}alert alert-danger{% endif %}">
-							<th>{{kvote.tittel}}</th>
-							<td>{{videresendt.scene_tid}}</td>
-							{% if site_type == 'fylke' %}
-								<td>
-									{{kvote.verdi}} {{kvote.enhet}}{{ kvote.verdi != 1 ? kvote.flertall : ''}}
-									{% if kvote.kommentar is defined and kvote.kommentar is not empty %}
-										<br /><small><em>{{ kvote.kommentar }}</em></small>
-									{% endif %}
-								</td>
-							{% endif %}
-						</tr>
-					{% elseif kvote.id == 'film_varighet' %}
-						<tr class="{% if videresendt.film_varighet > kvote.verdi*60 %}alert alert-danger{% endif %}">
-							<th>{{kvote.tittel}}</th>
-							<td>{{videresendt.film_tid}}</td>
-							{% if site_type == 'fylke' %}
-								<td>
-										{{kvote.verdi}} {{kvote.enhet}}{{ kvote.verdi != 1 ? kvote.flertall : ''}}
-									{% if kvote.kommentar is defined and kvote.kommentar is not empty %}
-										<br /><small><em>{{ kvote.kommentar }}</em></small>
-									{% endif %}
-								</td>
-							{% endif %}
-						</tr>
-					{% else %}
-						<tr class="{% if videresendt[kvote.id] > kvote.verdi and kvote.verdi != 'nomineres' %}alert alert-danger{% endif %}">
-							<th>{{kvote.tittel}}</th>
-							<td>{{videresendt[kvote.id]}} {{kvote.enhet}}{{ kvote.verdi != 1 ? kvote.flertall : ''}}</td>
-							{% if site_type == 'fylke' %}
-								<td>
-								{% if kvote.verdi == 'nomineres' %}
-									<strong>Nomineres</strong>
-								{% else %}
-									{{kvote.verdi}} {{kvote.enhet}}{{ kvote.verdi != 1 ? kvote.flertall : ''}}
-								{% endif %}
-								
-								{% if kvote.kommentar is defined and kvote.kommentar is not empty %}
-									<br /><small><em>{{ kvote.kommentar }}</em></small>
-								{% endif %}
-								</td>
-							{% endif %}
-						</tr>
-					{% endif %}
-				{% endfor %}
-			</tbody>
-		</table>
-		
-	<fieldset class="UKMwidth">
-		<legend>Media</legend>
-		{% if mediaOK %}
-			<p class="lead">All nødvendig media er lastet opp. Husk å sjekke playback.</p>
-		{% else %}
-			<div class="alert alert-danger">
-			En eller flere media-filer mangler! Se media-fanen for detaljer og opplasting.
-			</div>
 		{% endif %}
-	</fieldset>
+	
+		{% if site_type == 'fylke' %}
+			<h3>
+				Nominasjon
+				<small>
+					{% if "now"|date("Y") < 2019 %}<i class="label label-danger">Nytt i 2018</i> &nbsp;{% endif %}
+				</small>
+			</h3>
+			<p>
+				<a href="?page=UKMnominasjon">All nominasjon skjer elektronisk</a>.
+			</p>
+	
+			<p>
+				Unge arrangører, konferansierer og UKM Media-deltakere må nomineres, og skal ikke videresendes i systemet før deltakelse er bekreftet av UKM Norge.
+				<br />
+				Det må fylles ut nominasjonsskjema. For unge arrangører og UKM Media må også deltakeren selv fylle ut et skjema.
+			</p>
+
+			<h3>Kvoter</h3>
+			<p>
+				<strong>
+					Kvotene beskrives i 
+					<a href="{{ info1 }}" target="_blank">informasjonsbrev 1</a>. 
+					Les disse nøye!
+				</strong>
+			</p>
+			
+			<p>
+				Av hensyn til kvaliteten på arrangementet vil vi ikke godta overskridelser av kvotene. 
+				Dette gjelder selv om et fylke skulle ha publisert videresendingen i media. 
+				<br />
+				Fylket vil i et slikt tilfelle måtte gi kontrabeskjed og skuffe de berørte, og vi vil på det sterkeste be dere unngå at en slik situasjon oppstår.
+			</p>
+
+			<p>
+				<a href="?page=UKMvideresending_festival&action=oppsummering">Oppsummeringen</a> gir deg en rask oversikt over kvotene i forhold til din videresending.
+			</p>
+		{% endif %}
+	</div>
 {% endblock %}

@@ -1,0 +1,123 @@
+<h2>Videresending til {{videresendtil.navn}}</h2>
+
+{% if not videresendtil.registrert %}
+	<p>Mønstringen er ikke registrert, og videresending er derfor ikke mulig. Ta kontakt med arrangøren</p>
+{% else %}
+	<div class="clearfix"></div>
+	
+	<div class="UKM_tabs UKM_tabs_5">
+		<a href="?page=UKMvideresending_festival&action=oversikt" {{ tab_active == 'oversikt' ? 'class="active"' : ''}}>
+			<div>
+				<span class="tab_header">Informasjon</span>
+				<img src="//ico.ukm.no/info-button-32.png" width="25"  border="0" /><br />
+				<span class="tab_description">Info om videresendingen</span>
+			</div>
+		</a>
+		
+		{# VIS STATISTIKK-FANE I STEDET FOR DE ANDRE INNTIL STATISTIKK ER OPPGITT #}
+		{% if not statistikk.registrert %}
+			<a href="?page=UKMvideresending_festival&action=statistikk" {{ tab_active == 'statistikk' ? 'class="active"' : ''}}>
+				<div>
+					<span class="tab_header">Statistikk</span>
+					<img src="//ico.ukm.no/abacus-32.png" width="25"  border="0" /><br />
+					<span class="tab_description">Før du kan videresende</span>
+				</div>
+			</a>
+		{# STATISTIKK ER REGISTRERT #}
+		{% else %}
+			
+			
+			{# NOMINASJONER #}
+			{% if site_type == 'fylke' %}
+				<a href="?page=UKMnominasjon&action=nominasjon" {{ tab_active == 'nominasjon' ? 'class="active"' : ''}}>
+					<div>
+						<span class="tab_header">Nominasjon</span>
+						<img src="//ico.ukm.no/user-business-32.png" width="25"  border="0" /><br />
+						<span class="tab_description">Endre nominasjoner</span>
+					</div>
+				</a>
+			{% endif %}
+
+			{# SELVE VIDERESENDINGEN #}
+			{% if videresendtil.opened %} 
+				<a href="?page=UKMvideresending_festival&action=videresendte" {{ tab_active == 'videresendte' ? 'class="active"' : ''}}>
+					<div>
+						<span class="tab_header">Videresendte</span>
+						<img src="//ico.ukm.no/people-32.png" width="25"  border="0" /><br />
+						<span class="tab_description">Velg deltakere</span>
+					</div>
+				</a>
+			{% endif %}
+
+
+			{# MEDIA #}
+			<a href="?page=UKMvideresending_festival&action=media" {{ tab_active == 'media' ? 'class="active"' : ''}}>
+				<div>
+					<span class="tab_header">Media</span>
+					<img src="//ico.ukm.no/video-32.png" width="25"  border="0" /><br />
+					<span class="tab_description">Bilder, film og playback</span>
+				</div>
+			</a>
+
+			{# FYLKETS VIDERESENDINGSSKJEMA #}
+			{% if site_type == 'kommune' and videresendingsskjema.har %}
+				<a href="?page=UKMvideresending_festival&action=skjema" {{ tab_active == 'skjema' ? 'class="active"' : ''}}>
+					<div>
+						<span class="tab_header">Infoskjema</span>
+						<img src="//ico.ukm.no/chart-32.png" width="25"  border="0" /><br />
+						<span class="tab_description">Info til fylkeskontakten</span>
+					</div>
+				</a>
+			{% endif %}
+
+			{% if site_type == 'fylke' %}
+				<a href="?page=UKMvideresending_festival&action=ledere" {{ tab_active == 'ledere' ? 'class="active"' : ''}}>
+					<div>
+						<span class="tab_header">Ledere</span>
+						<img src="//ico.ukm.no/user-business-32.png" width="25"  border="0" /><br />
+						<span class="tab_description">Ledere og overnatting</span>
+					</div>
+				</a>
+
+				<a href="?page=UKMvideresending_festival&action=reiseinfo" {{ tab_active == 'reiseinfo' ? 'class="active"' : ''}}>
+					<div>
+						<span class="tab_header">Reiseinfo</span>
+						<img src="//ico.ukm.no/buss-32.png" width="25"  border="0" /><br />
+						<span class="tab_description">Reise og tilrettelegging</span>
+					</div>
+				</a>
+			{% endif %}
+			
+			<a href="?page=UKMvideresending_festival&action=oppsummering" {{ tab_active == 'oppsummering' ? 'class="active"' : ''}}>
+				<div>
+					<span class="tab_header">Oppsummering</span>
+					<img src="//ico.ukm.no/clipboard-32.png" width="25"  border="0" /><br />
+					<span class="tab_description">Status kvote og statistikk</span>
+				</div>
+			</a>
+
+		{% endif %}
+		
+		
+		
+	</div>
+	
+	<div class="UKM_tabs_desc">
+		<span></span>
+	</div>
+	<div class="UKM_content_wrapper">
+		{% if message is defined %}
+			<div class="alert alert-{{message.success ? 'success':'danger'}} col-xs-12 col-md-10">
+				{% if message.title is defined %}
+				<strong>{{message.title}}</strong><br />
+				{% endif %}
+				{{message.body}}
+			</div>
+			<div class="clearfix"></div>
+		{% endif %}
+	
+		{% block content %}
+		{% endblock %}
+		<div class="clearfix"></div>
+	</div>
+{% endif %}

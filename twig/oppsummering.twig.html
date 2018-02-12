@@ -1,0 +1,80 @@
+{% extends "layout.html.twig" %}
+
+
+{% block content %}
+	<div style="width:95%">
+		<h3>Videresending</h3>
+		<table class="table">
+			<thead>
+				<tr>
+					<th></th>
+					<th>Du har videresendt</th>
+					{% if site_type == 'fylke' %}
+						<th>Kvoten er</th>
+					{% endif %}
+				</tr>
+			</thead>
+			<tbody>
+				{% for kvote in kvoter %}
+					{% if kvote.id == 'scene_varighet' %}
+						<tr class="{% if site_type == fylke and videresendt.scene_varighet > kvote.verdi*60 %}alert alert-danger{% endif %}">
+							<th>{{kvote.tittel}}</th>
+							<td>{{videresendt.scene_tid}}</td>
+							{% if site_type == 'fylke' %}
+								<td>
+									{{kvote.verdi}} {{kvote.enhet}}{{ kvote.verdi != 1 ? kvote.flertall : ''}}
+									{% if kvote.kommentar is defined and kvote.kommentar is not empty %}
+										<br /><small><em>{{ kvote.kommentar }}</em></small>
+									{% endif %}
+								</td>
+							{% endif %}
+						</tr>
+					{% elseif kvote.id == 'film_varighet' %}
+						<tr class="{% if site_type == fylke and videresendt.film_varighet > kvote.verdi*60 %}alert alert-danger{% endif %}">
+							<th>{{kvote.tittel}}</th>
+							<td>{{videresendt.film_tid}}</td>
+							{% if site_type == 'fylke' %}
+								<td>
+										{{kvote.verdi}} {{kvote.enhet}}{{ kvote.verdi != 1 ? kvote.flertall : ''}}
+									{% if kvote.kommentar is defined and kvote.kommentar is not empty %}
+										<br /><small><em>{{ kvote.kommentar }}</em></small>
+									{% endif %}
+								</td>
+							{% endif %}
+						</tr>
+					{% else %}
+						<tr class="{% if site_type == fylke and videresendt[kvote.id] > kvote.verdi and kvote.verdi != 'nomineres' %}alert alert-danger{% endif %}">
+							<th>{{kvote.tittel}}</th>
+							<td>{{videresendt[kvote.id]}} {{kvote.enhet}}{{ kvote.verdi != 1 ? kvote.flertall : ''}}</td>
+							{% if site_type == 'fylke' %}
+								<td>
+								{% if kvote.verdi == 'nomineres' %}
+									<strong>Nomineres</strong>
+								{% else %}
+									{{kvote.verdi}} {{kvote.enhet}}{{ kvote.verdi != 1 ? kvote.flertall : ''}}
+								{% endif %}
+								
+								{% if kvote.kommentar is defined and kvote.kommentar is not empty %}
+									<br /><small><em>{{ kvote.kommentar }}</em></small>
+								{% endif %}
+								</td>
+							{% endif %}
+						</tr>
+					{% endif %}
+				{% endfor %}
+			</tbody>
+		</table>
+		
+		<h3>Media og playback-filer</h3>
+		{% if mediaOK %}
+			<p class="lead">All nødvendig media er lastet opp. <a href="?page=UKMvideresending_festival&action=media">Husk å sjekke playback</a>.</p>
+		{% else %}
+			<div class="alert alert-danger">
+			En eller flere media-filer mangler! Se <a href="?page=UKMvideresending_festival&action=media">media-fanen for detaljer og opplasting</a>.
+			</div>
+		{% endif %}
+	
+		<h3>Statistikk</h3>
+		{% embed "statistikk_skjema.html.twig" %}{% endembed %}
+	</div>
+{% endblock %}
