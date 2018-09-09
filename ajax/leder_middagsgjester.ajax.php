@@ -13,7 +13,7 @@ $sql = new SQL("SELECT `skjema_id`
 			);
 $res = $sql->run();
 if( $res && mysql_num_rows( $res ) > 0 ) {
-	$r = mysql_fetch_assoc( $res );
+	$r = SQL::fetch( $res );
 	$SQL = new SQLins('smartukm_videresending_ledere_middag', array('skjema_id' => $r['skjema_id']));
 } else {
 	$SQL = new SQLins('smartukm_videresending_ledere_middag');
@@ -41,7 +41,7 @@ $ledere = new SQL("SELECT `l_id`
 				);
 $res = $ledere->run();
 
-while( $r = mysql_fetch_assoc( $res ) ) {
+while( $r = SQL::fetch( $res ) ) {
 	$data->ledere[] = new leder( $r['l_id'] );
 }
 
