@@ -37,7 +37,7 @@ $ledere = new SQL("SELECT `l_id`
 				);
 $res = $ledere->run();
 
-while( $r = mysql_fetch_assoc( $res ) ) {
+while( $r = SQL::fetch( $res ) ) {
 	$TWIG['ledere'][] = new leder( $r['l_id'] );
 }
 
@@ -56,7 +56,7 @@ $sql = new SQL("SELECT `systemet_overnatting_spektrumdeltakere`,
 			);
 $res = $sql->run();
 if( $res && mysql_num_rows( $res ) > 0 ) {
-	$r = mysql_fetch_assoc( $res );
+	$r = SQL::fetch( $res );
 	$TWIG['sove']->system_deltakere = $r['systemet_overnatting_spektrumdeltakere'];
 	$TWIG['sove']->deltakere = $r['overnatting_spektrumdeltakere'];
 	$TWIG['sove']->kommentar = $r['overnatting_kommentar'];
@@ -76,7 +76,7 @@ $sql = new SQL("SELECT * FROM `smartukm_videresending_ledere_nattleder`
 			   );
 $res = $sql->run();
 if( $res ) {
-	while( $r = mysql_fetch_assoc( $res ) ) {
+	while( $r = SQL::fetch( $res ) ) {
 		$TWIG['nattledere'][ $r['dato'] ] = $r['l_id'];
 	}
 }

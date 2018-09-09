@@ -163,7 +163,7 @@ function middagsgjester( $videresendtil, $m ) {
 	$res = $sql->run();
 	
 	if( $res && mysql_num_rows( $res ) > 0 ) {
-		$r = mysql_fetch_assoc( $res );
+		$r = SQL::fetch( $res );
 		$middagsgjester['ukm'] = $r['ledermiddag_ukm'];
 		$middagsgjester['fylke1'] = $r['ledermiddag_fylke1'];
 		$middagsgjester['fylke2'] = $r['ledermiddag_fylke2'];
@@ -183,7 +183,7 @@ function update_infoskjema_field( $pl_from, $pl_to, $field, $value ) {
 				);
 	$res = $sql->run();
 	
-	$row = mysql_fetch_assoc( $res );
+	$row = SQL::fetch( $res );
 	if( $row['field'] == $value )
 		return true;
 	
